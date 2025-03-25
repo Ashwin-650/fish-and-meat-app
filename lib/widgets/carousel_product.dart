@@ -17,7 +17,7 @@ class _CarouselProductState extends State<CarouselProduct> {
   final List<Map<String, dynamic>> _productImages = [
     {
       'image':
-          'https://media.istockphoto.com/id/520490716/photo/seafood-on-ice.jpg?s=612x612&w=0&k=20&c=snyxGY26viNQ6BWqW-ez4U7tAO65Z_tmAFPMobiZ9Q4=',
+          'https://assets.tendercuts.in/product/S/F/2fb65cc2-d0c6-4a44-ba7e-337eb2bc72ca.jpg',
       'title': 'Fresh Salmon',
     },
     {
