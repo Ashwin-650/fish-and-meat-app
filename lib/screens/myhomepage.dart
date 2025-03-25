@@ -17,7 +17,7 @@ class _MyhomepageState extends State<Myhomepage> {
   int currentIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
-    const SearchScreen(),
+    SearchScreen(),
     const CartScreen(),
     const OrdersScreen(),
     const ProfileScreen()
