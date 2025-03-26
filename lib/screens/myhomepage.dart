@@ -1,5 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/razorpay/razorpay_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/cart_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/orders_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/profile_screen.dart';
@@ -19,7 +20,7 @@ class _MyhomepageState extends State<Myhomepage> {
   final List<Widget> _pages = [
     const HomeScreen(),
     const SearchScreen(),
-    const ProductDetailPage(),
+    const CartScreen(),
     const OrdersScreen(),
     const ProfileScreen()
   ];

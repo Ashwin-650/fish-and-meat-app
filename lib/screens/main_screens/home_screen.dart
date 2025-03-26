@@ -20,6 +20,12 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.w700,
             fontsize: 24,
             fontfamily: Appfonts.appFontFamily),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications),
+          )
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

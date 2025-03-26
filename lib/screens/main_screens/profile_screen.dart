@@ -63,21 +63,13 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  TextButton(
-                    style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                        minimumSize:
-                            const WidgetStatePropertyAll(Size(200, 50)),
-                        backgroundColor:
-                            WidgetStatePropertyAll(Appcolor.bottomBarColor)),
-                    onPressed: () {
-                      const VendorButton();
-                    },
-                    child: 'Be a Vendor'.extenTextStyle(
-                        fontsize: 20,
-                        fontfamily: Appfonts.appFontFamily,
-                        color: Colors.white),
+                  Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.green.shade200),
+                    child: VendorButton(),
                   ),
                   //
                   //
