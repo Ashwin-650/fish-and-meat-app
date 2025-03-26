@@ -27,8 +27,8 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   int _quantity = 1;
-  final double _rating = 1.5; // Example rating
-  final double _price = 99; // Product price
+  final double _rating = 1.5;
+  final double _price = 99;
 
   void _incrementQuantity() {
     setState(() {
@@ -61,13 +61,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Product Image
                 Center(
                   child: Container(
                     height: 280,
                     width: 300,
                     decoration: BoxDecoration(
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: NetworkImage(
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV-6ak-V8AD7NrLiEnY9oJhMy0SdWzBkIOiw&s'),
                             fit: BoxFit.cover),
@@ -75,8 +74,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Product Description and Price
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,8 +111,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Rating Display
                 Row(
                   children: [
                     const Text(
@@ -153,8 +148,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Quantity Selector
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -187,8 +180,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Total Price
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -208,26 +199,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Add to Cart Button
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add to cart functionality
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Added to cart!')),
                       );
                     },
+                    style: ButtonStyle(
+                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                        minimumSize:
+                            const WidgetStatePropertyAll(Size(300, 60)),
+                        backgroundColor:
+                            WidgetStatePropertyAll(Appcolor.bottomBarColor)),
                     child: 'Add to Cart'.extenTextStyle(
                         fontfamily: Appfonts.appFontFamily,
                         fontsize: 20,
                         color: Colors.white),
-                    style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                        minimumSize: WidgetStatePropertyAll(Size(300, 60)),
-                        backgroundColor:
-                            WidgetStatePropertyAll(Appcolor.bottomBarColor)),
                   ),
                 ),
               ],
