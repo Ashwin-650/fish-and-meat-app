@@ -1,5 +1,7 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/widgets/home_screen_widgets/vendor_button.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_2.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
@@ -56,11 +58,29 @@ class ProfileScreen extends StatelessWidget {
                               fontsize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              textAlign: TextAlign.center)
+                              textAlign: TextAlign.center),
                         ],
                       ),
                     ),
                   ),
+                  TextButton(
+                    style: ButtonStyle(
+                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                        minimumSize:
+                            const WidgetStatePropertyAll(Size(200, 50)),
+                        backgroundColor:
+                            WidgetStatePropertyAll(Appcolor.bottomBarColor)),
+                    onPressed: () {
+                      const VendorButton();
+                    },
+                    child: 'Be a Vendor'.extenTextStyle(
+                        fontsize: 20,
+                        fontfamily: Appfonts.appFontFamily,
+                        color: Colors.white),
+                  ),
+                  //
+                  //
                   const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: ProfileContainerWidget()),
