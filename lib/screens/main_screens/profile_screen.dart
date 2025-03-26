@@ -1,8 +1,8 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/widgets/profile_container_2.dart';
-import 'package:fish_and_meat_app/widgets/profile_container_3.dart';
-import 'package:fish_and_meat_app/widgets/profile_container_widget.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_2.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {

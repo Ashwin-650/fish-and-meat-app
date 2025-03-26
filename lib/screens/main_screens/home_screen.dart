@@ -1,11 +1,11 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/widgets/carousel_product.dart';
-import 'package:fish_and_meat_app/widgets/category_grid.dart';
-import 'package:fish_and_meat_app/widgets/meat_grid.dart';
-import 'package:fish_and_meat_app/widgets/top_selling.dart';
-import 'package:fish_and_meat_app/widgets/vendor_button.dart';
+import 'package:fish_and_meat_app/widgets/home_screen_widgets/carousel_product.dart';
+import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart';
+import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
+import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
+import 'package:fish_and_meat_app/widgets/home_screen_widgets/vendor_button.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.w700,
             fontsize: 24,
             fontfamily: Appfonts.appFontFamily),
-        actions: [VendorButton()],
+        actions: const [VendorButton()],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

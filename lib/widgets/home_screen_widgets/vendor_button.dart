@@ -3,7 +3,6 @@ import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor_signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class VendorButton extends StatelessWidget {
   const VendorButton({super.key});

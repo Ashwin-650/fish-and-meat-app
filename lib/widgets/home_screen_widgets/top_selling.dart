@@ -51,7 +51,7 @@ class TopSelling extends StatelessWidget {
               top: 10,
               right: 10,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white70,
                   shape: BoxShape.circle,
                 ),

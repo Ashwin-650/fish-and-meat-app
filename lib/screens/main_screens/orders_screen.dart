@@ -1,6 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/widgets/orders_list_tile.dart';
+import 'package:fish_and_meat_app/widgets/order_screen_widgets/orders_list_tile.dart';
 import 'package:flutter/material.dart';
 
 class OrdersScreen extends StatelessWidget {
