@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/cart_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,27 +16,29 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   // Sample data
   final List<ProductDetails> _cartItems = [
-    ProductDetails(
-      id: '1',
-      name: 'Organic Avocado',
-      price: 4.99,
-      imageUrl: 'assets/avocado.jpg',
-      quantity: 2,
-    ),
-    ProductDetails(
-      id: '2',
-      name: 'Fresh Strawberries',
-      price: 3.49,
-      imageUrl: 'assets/strawberry.jpg',
-      quantity: 1,
-    ),
-    ProductDetails(
-      id: '3',
-      name: 'Whole Grain Bread',
-      price: 2.99,
-      imageUrl: 'assets/bread.jpg',
-      quantity: 1,
-    ),
+//..........error to be resolved.....
+
+    // ProductDetails(
+    //   id: '1',
+    //   name: 'Organic Avocado',
+    //   price: 4.99,
+    //   imageUrl: 'assets/avocado.jpg',
+    //   quantity: 2,
+    // ),
+    // ProductDetails(
+    //   id: '2',
+    //   name: 'Fresh Strawberries',
+    //   price: 3.49,
+    //   imageUrl: 'assets/strawberry.jpg',
+    //   quantity: 1,
+    // ),
+    // ProductDetails(
+    //   id: '3',
+    //   name: 'Whole Grain Bread',
+    //   price: 2.99,
+    //   imageUrl: 'assets/bread.jpg',
+    //   quantity: 1,
+    // ),
   ];
 
   String _selectedLocation = 'Home';
@@ -65,25 +68,28 @@ class _CartScreenState extends State<CartScreen> {
   ];
 
   // Calculate subtotal
-  double get _subtotal {
-    return _cartItems.fold(
-        0, (sum, item) => sum + (item.price * item.quantity));
-  }
 
-  // Calculate delivery fee
-  double get _deliveryFee {
-    return _subtotal > 30 ? 0.0 : 4.99;
-  }
+//....error _subtotal....
 
-  // Calculate taxes
-  double get _tax {
-    return _subtotal * 0.08; // 8% tax
-  }
+  // double get _subtotal {
+  //   return _cartItems.fold(
+  //       0, (sum, item) => sum + (item.price * item.quantity));
+  // }
 
-  // Calculate total
-  double get _total {
-    return _subtotal + _deliveryFee + _tax - _discount;
-  }
+  // // Calculate delivery fee
+  // double get _deliveryFee {
+  //   return _subtotal > 30 ? 0.0 : 4.99;
+  // }
+
+  // // Calculate taxes
+  // double get _tax {
+  //   return _subtotal * 0.08; // 8% tax
+  // }
+
+  // // Calculate total
+  // double get _total {
+  //   return _subtotal + _deliveryFee + _tax - _discount;
+  // }
 
   void _showLocationBottomSheet() {
     showModalBottomSheet(
@@ -392,7 +398,10 @@ class _CartScreenState extends State<CartScreen> {
     if (_couponCode.toUpperCase() == 'SAVE10') {
       setState(() {
         _couponApplied = true;
-        _discount = _subtotal * 0.1; // 10% discount
+
+//.....error
+
+        // _discount = _subtotal * 0.1; // 10% discount
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Coupon applied successfully!'),
@@ -428,7 +437,8 @@ class _CartScreenState extends State<CartScreen> {
       });
     } else {
       setState(() {
-        item.quantity = newQuantity;
+//.....error
+        // item.quantity = newQuantity;
       });
     }
   }
@@ -442,10 +452,9 @@ class _CartScreenState extends State<CartScreen> {
         title: const Text(
           'CART',
           style: TextStyle(
-            color: Colors.teal,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
+              color: Colors.black,
+              fontSize: 26,
+              fontFamily: Appfonts.appFontFamily),
         ),
         actions: [
           InkWell(
@@ -797,8 +806,9 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Subtotal'),
-                                    Text('\$${_subtotal.toStringAsFixed(2)}'),
+                                    //...error _text
+                                    // const Text('Subtotal'),
+                                    // Text('\$${_subtotal.toStringAsFixed(2)}'),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -806,13 +816,14 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Delivery Fee'),
-                                    _deliveryFee > 0
-                                        ? Text(
-                                            '\$${_deliveryFee.toStringAsFixed(2)}')
-                                        : const Text('FREE',
-                                            style:
-                                                TextStyle(color: Colors.green)),
+                                    //......error  _deliveryFee
+                                    // const Text('Delivery Fee'),
+                                    // _deliveryFee > 0
+                                    //     ? Text(
+                                    //         '\$${_deliveryFee.toStringAsFixed(2)}')
+                                    //     : const Text('FREE',
+                                    //         style:
+                                    //             TextStyle(color: Colors.green)),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -820,8 +831,9 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Tax'),
-                                    Text('\$${_tax.toStringAsFixed(2)}'),
+                                    //.....error   _tax
+                                    // const Text('Tax'),
+                                    // Text('\$${_tax.toStringAsFixed(2)}'),
                                   ],
                                 ),
                                 if (_couponApplied) ...[
@@ -854,14 +866,16 @@ class _CartScreenState extends State<CartScreen> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    Text(
-                                      '\$${_total.toStringAsFixed(2)}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        color: Colors.teal,
-                                      ),
-                                    ),
+
+                                    //.....error _total
+                                    // Text(
+                                    //   '\$${_total.toStringAsFixed(2)}',
+                                    //   style: const TextStyle(
+                                    //     fontWeight: FontWeight.bold,
+                                    //     fontSize: 18,
+                                    //     color: Colors.teal,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ],

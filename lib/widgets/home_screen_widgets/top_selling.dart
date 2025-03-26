@@ -52,11 +52,11 @@ class TopSelling extends StatelessWidget {
               right: 10,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white70,
-                  shape: BoxShape.circle,
-                ),
+                    color: Colors.white70,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: IconButton(
-                  icon: const Icon(Icons.add, color: Colors.black),
+                  icon: const Icon(size: 30, Icons.add, color: Colors.black),
                   onPressed: onAddPressed,
                   constraints: const BoxConstraints(
                     minHeight: 36,

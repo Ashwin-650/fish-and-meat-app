@@ -2,6 +2,7 @@ import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/onboard_pages/onboard_page1.dart';
 import 'package:fish_and_meat_app/onboard_pages/onboard_page2.dart';
 import 'package:fish_and_meat_app/onboard_pages/onboard_page3.dart';
+import 'package:fish_and_meat_app/screens/main_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                 onLastPage
                     ? GestureDetector(
                         onTap: () {
-                          Get.off(() => const Myhomepage());
+                          Get.off(() => const AuthScreen());
                         },
                         child: 'Start'.extenTextStyle(
                           fontsize: 24,

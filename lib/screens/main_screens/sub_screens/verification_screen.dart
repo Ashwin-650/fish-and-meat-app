@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:fish_and_meat_app/screens/main_screens/home_screen.dart';
+import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
@@ -90,7 +91,7 @@ class VerificationScreenState extends State<VerificationScreen> {
         Map<String, dynamic> jsonData = json.decode(response.body);
         String token = jsonData["token"];
         SharedPreferencesServices.setValue("login_token", token);
-        Get.offAll(const HomeScreen());
+        Get.offAll(const Myhomepage());
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
