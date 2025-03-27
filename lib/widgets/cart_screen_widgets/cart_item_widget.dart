@@ -72,28 +72,28 @@ class CartItemWidget extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(
-                      Icons.remove,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => updateQuantityFunction(
-                        item, item.availability.length - 1),
-                  ),
-                  Text(
-                    '${item.availability.length}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                      icon: const Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {}
+                      // updateQuantityFunction(item, item.quantity - 1),
+                      ),
+                  // Text(
+                  //   '${item.quantity}',
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                   IconButton(
-                    icon: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => updateQuantityFunction(
-                        item, item.availability.length + 1),
-                  ),
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {}
+                      // updateQuantityFunction(item, item.quantity + 1),
+                      ),
                 ],
               ),
             ),

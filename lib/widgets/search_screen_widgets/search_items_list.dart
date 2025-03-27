@@ -83,9 +83,8 @@ class _SearchItemsListState extends State<SearchItemsList> {
                         isSuggestionVisible = false;
                       }
                     });
-                    //final token = await SharedPreferencesServices.getValue(Globals.apiToken, "");
-                    const String token =
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2RkMTk3NzUxYWMzNjk0ZjBlOTBiMTUiLCJpYXQiOjE3NDI3ODg1MTF9.9cjInuukCizoGc5GMBOacV8RpenNRJ62ajwvmRCeZPw";
+                    final token = await SharedPreferencesServices.getValue(
+                        Globals.apiToken, "");
                     if (token != "" && textEditingController.text.isNotEmpty) {
                       final response = await ApiService.getProducts(
                           token: token, query: textEditingController.text);

@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/cart_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -370,7 +371,10 @@ class _CartScreenState extends State<CartScreen> {
     if (_couponCode.toUpperCase() == 'SAVE10') {
       setState(() {
         _couponApplied = true;
-        _discount = _subtotal * 0.1; // 10% discount
+
+//.....error
+
+        // _discount = _subtotal * 0.1; // 10% discount
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Coupon applied successfully!'),
@@ -420,10 +424,9 @@ class _CartScreenState extends State<CartScreen> {
         title: const Text(
           'CART',
           style: TextStyle(
-            color: Colors.teal,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
+              color: Colors.black,
+              fontSize: 26,
+              fontFamily: Appfonts.appFontFamily),
         ),
         actions: [
           InkWell(
@@ -775,8 +778,9 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Subtotal'),
-                                    Text('\$${_subtotal.toStringAsFixed(2)}'),
+                                    //...error _text
+                                    // const Text('Subtotal'),
+                                    // Text('\$${_subtotal.toStringAsFixed(2)}'),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -784,13 +788,14 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Delivery Fee'),
-                                    _deliveryFee > 0
-                                        ? Text(
-                                            '\$${_deliveryFee.toStringAsFixed(2)}')
-                                        : const Text('FREE',
-                                            style:
-                                                TextStyle(color: Colors.green)),
+                                    //......error  _deliveryFee
+                                    // const Text('Delivery Fee'),
+                                    // _deliveryFee > 0
+                                    //     ? Text(
+                                    //         '\$${_deliveryFee.toStringAsFixed(2)}')
+                                    //     : const Text('FREE',
+                                    //         style:
+                                    //             TextStyle(color: Colors.green)),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -798,8 +803,9 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Tax'),
-                                    Text('\$${_tax.toStringAsFixed(2)}'),
+                                    //.....error   _tax
+                                    // const Text('Tax'),
+                                    // Text('\$${_tax.toStringAsFixed(2)}'),
                                   ],
                                 ),
                                 if (_couponApplied) ...[
@@ -832,14 +838,16 @@ class _CartScreenState extends State<CartScreen> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    Text(
-                                      '\$${_total.toStringAsFixed(2)}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        color: Colors.teal,
-                                      ),
-                                    ),
+
+                                    //.....error _total
+                                    // Text(
+                                    //   '\$${_total.toStringAsFixed(2)}',
+                                    //   style: const TextStyle(
+                                    //     fontWeight: FontWeight.bold,
+                                    //     fontSize: 18,
+                                    //     color: Colors.teal,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ],
