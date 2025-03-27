@@ -1,5 +1,7 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/screens/main_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/screens/onboard_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -18,8 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    checkToken();
-    getToLogin();
+    Future.delayed(const Duration(seconds: 3), checkToken);
+    //getToLogin();
   }
 
   @override
@@ -44,12 +46,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> checkToken() async {
-    final token = await SharedPreferencesServices.getValue("login_token", '');
+    final token =
+        await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
     if (token != null && token.isNotEmpty) {
-      Get.off(() => Myhomepage());
+      Get.off(() => const Myhomepage());
     } else {
-      Get.off(() => LoginPage());
+      Get.off(() => const AuthScreen());
     }
   }
 }

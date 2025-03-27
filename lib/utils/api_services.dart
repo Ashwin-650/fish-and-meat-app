@@ -114,4 +114,28 @@ class ApiService {
       return error;
     }
   }
+
+  static Future<dynamic> fcmTokenToServer({
+    required String token,
+    required String fcmToken,
+  }) async {
+    try {
+      Map<String, String> body = {
+        'fcmToken': fcmToken,
+      };
+
+      final response = await http.put(
+        Uri.parse('${Globals.baseUrl}/updatefcm'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+        body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
 }
