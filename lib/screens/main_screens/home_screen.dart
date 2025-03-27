@@ -1,14 +1,45 @@
+import 'dart:convert';
+
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/carousel_product.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<ProductDetails> items = [];
+  @override
+  void initState() {
+    super.initState();
+    tests();
+  }
+
+  tests() async {
+    final response =
+        await ApiService.getProducts(token: await Globals.loginToken);
+    if (response != null && response.statusCode == 200) {
+      setState(() {
+        items = (json.decode(response.body) as List)
+            .map((productJson) => ProductDetails.fromJson(productJson))
+            .toList();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +83,30 @@ class HomeScreen extends StatelessWidget {
                 height: 180,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: items.length,
                   itemBuilder: (context, index) {
-                    return const TopSelling(
-                        photo:
-                            'https://trulocal.imgix.net/shared/media/blog/152/image.jpg?h=700&fit=max&auto=format,compress',
-                        text: 'Beef Boneless');
+                    return TopSelling(
+                      photo: "${Globals.imagePath}\\${items[index].image}",
+                      text: items[index].title,
+                      onAddPressed: () async {
+                        final response = await ApiService.addToCart(
+                          token: await Globals.loginToken,
+                          item: items[index],
+                        );
+                        if (response != null &&
+                            (response.statusCode == 200 ||
+                                response.statusCode == 201)) {
+                          print(response);
+                        }
+                        Get.showSnackbar(
+                          const GetSnackBar(
+                            message: "Added to cart",
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
               ),

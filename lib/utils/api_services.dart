@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -93,6 +94,30 @@ class ApiService {
     }
   }
 
+  static Future<dynamic> fcmTokenToServer({
+    required String token,
+    required String fcmToken,
+  }) async {
+    try {
+      Map<String, String> body = {
+        'fcmToken': fcmToken,
+      };
+
+      final response = await http.put(
+        Uri.parse('${Globals.baseUrl}/updatefcm'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+        body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static Future<dynamic> getProducts({
     required String token,
     String query = "",
@@ -115,22 +140,47 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> fcmTokenToServer({
+  static Future<dynamic> addToCart({
     required String token,
-    required String fcmToken,
+    required ProductDetails item,
   }) async {
     try {
-      Map<String, String> body = {
-        'fcmToken': fcmToken,
+      Map<String, dynamic> body = {
+        'productId': item.id,
+        'title': item.title,
+        'description': item.description,
+        'price': item.price,
+        'image': item.image,
+        'rating': item.rating,
+        'availability': "${item.availability}",
+        'category': item.category,
       };
 
-      final response = await http.put(
-        Uri.parse('${Globals.baseUrl}/updatefcm'),
+      final response = await http.post(
+        Uri.parse('${Globals.baseUrl}/addtocart'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
         },
         body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> getFromCart({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/productfromcart'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
       );
 
       return response;
