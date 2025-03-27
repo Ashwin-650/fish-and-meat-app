@@ -38,7 +38,7 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.name,
+                    item.title,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -54,7 +54,7 @@ class CartItemWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Subtotal: \$${(item.price * item.quantity).toStringAsFixed(2)}',
+                    'Subtotal: \$${(item.price * item.availability.length).toStringAsFixed(2)}',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,
@@ -76,11 +76,11 @@ class CartItemWidget extends StatelessWidget {
                       Icons.remove,
                       color: Colors.white,
                     ),
-                    onPressed: () =>
-                        updateQuantityFunction(item, item.quantity - 1),
+                    onPressed: () => updateQuantityFunction(
+                        item, item.availability.length - 1),
                   ),
                   Text(
-                    '${item.quantity}',
+                    '${item.availability.length}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -91,8 +91,8 @@ class CartItemWidget extends StatelessWidget {
                       Icons.add,
                       color: Colors.white,
                     ),
-                    onPressed: () =>
-                        updateQuantityFunction(item, item.quantity + 1),
+                    onPressed: () => updateQuantityFunction(
+                        item, item.availability.length + 1),
                   ),
                 ],
               ),

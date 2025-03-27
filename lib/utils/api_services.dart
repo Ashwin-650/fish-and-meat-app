@@ -1,9 +1,8 @@
 import 'dart:convert';
+import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "http://192.168.1.61:3000";
-
   ApiService();
 
   static Future<dynamic> registerAccount(
@@ -16,7 +15,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('$baseUrl/reg'),
+        Uri.parse('${Globals.baseUrl}/reg'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -38,7 +37,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('$baseUrl/log'),
+        Uri.parse('${Globals.baseUrl}/log'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,7 +58,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('$baseUrl/verifyotp'),
+        Uri.parse('${Globals.baseUrl}/verifyotp'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -81,7 +80,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('$baseUrl/resendotp'),
+        Uri.parse('${Globals.baseUrl}/resendotp'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -103,7 +102,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse(
-            '$baseUrl/allproducts?searchkey=$query&price=$price&category=$category'),
+            '${Globals.baseUrl}/allproducts?searchkey=$query&price=$price&category=$category'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'

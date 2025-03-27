@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -89,7 +90,7 @@ class VerificationScreenState extends State<VerificationScreen> {
       if (response != null && response.statusCode == 200) {
         Map<String, dynamic> jsonData = json.decode(response.body);
         String token = jsonData["token"];
-        SharedPreferencesServices.setValue("login_token", token);
+        SharedPreferencesServices.setValue(Globals.apiToken, token);
         Get.offAll(const HomeScreen());
       }
     } else {

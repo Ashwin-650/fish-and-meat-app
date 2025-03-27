@@ -14,29 +14,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   // Sample data
-  final List<ProductDetails> _cartItems = [
-    ProductDetails(
-      id: '1',
-      name: 'Organic Avocado',
-      price: 4.99,
-      imageUrl: 'assets/avocado.jpg',
-      quantity: 2,
-    ),
-    ProductDetails(
-      id: '2',
-      name: 'Fresh Strawberries',
-      price: 3.49,
-      imageUrl: 'assets/strawberry.jpg',
-      quantity: 1,
-    ),
-    ProductDetails(
-      id: '3',
-      name: 'Whole Grain Bread',
-      price: 2.99,
-      imageUrl: 'assets/bread.jpg',
-      quantity: 1,
-    ),
-  ];
+  final List<ProductDetails> _cartItems = [];
 
   String _selectedLocation = 'Home';
   String _selectedAddress = '123 Main St, Apt 4B, New York, NY 10001';
@@ -67,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
   // Calculate subtotal
   double get _subtotal {
     return _cartItems.fold(
-        0, (sum, item) => sum + (item.price * item.quantity));
+        0, (sum, item) => sum + (item.price * item.availability.length));
   }
 
   // Calculate delivery fee
@@ -428,7 +406,7 @@ class _CartScreenState extends State<CartScreen> {
       });
     } else {
       setState(() {
-        item.quantity = newQuantity;
+        item.availability.length = newQuantity;
       });
     }
   }
