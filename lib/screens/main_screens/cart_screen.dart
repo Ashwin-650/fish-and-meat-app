@@ -15,31 +15,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   // Sample data
-  final List<ProductDetails> _cartItems = [
-//..........error to be resolved.....
-
-    // ProductDetails(
-    //   id: '1',
-    //   name: 'Organic Avocado',
-    //   price: 4.99,
-    //   imageUrl: 'assets/avocado.jpg',
-    //   quantity: 2,
-    // ),
-    // ProductDetails(
-    //   id: '2',
-    //   name: 'Fresh Strawberries',
-    //   price: 3.49,
-    //   imageUrl: 'assets/strawberry.jpg',
-    //   quantity: 1,
-    // ),
-    // ProductDetails(
-    //   id: '3',
-    //   name: 'Whole Grain Bread',
-    //   price: 2.99,
-    //   imageUrl: 'assets/bread.jpg',
-    //   quantity: 1,
-    // ),
-  ];
+  final List<ProductDetails> _cartItems = [];
 
   String _selectedLocation = 'Home';
   String _selectedAddress = '123 Main St, Apt 4B, New York, NY 10001';
@@ -68,28 +44,25 @@ class _CartScreenState extends State<CartScreen> {
   ];
 
   // Calculate subtotal
+  double get _subtotal {
+    return _cartItems.fold(
+        0, (sum, item) => sum + (item.price * item.availability.length));
+  }
 
-//....error _subtotal....
+  // Calculate delivery fee
+  double get _deliveryFee {
+    return _subtotal > 30 ? 0.0 : 4.99;
+  }
 
-  // double get _subtotal {
-  //   return _cartItems.fold(
-  //       0, (sum, item) => sum + (item.price * item.quantity));
-  // }
+  // Calculate taxes
+  double get _tax {
+    return _subtotal * 0.08; // 8% tax
+  }
 
-  // // Calculate delivery fee
-  // double get _deliveryFee {
-  //   return _subtotal > 30 ? 0.0 : 4.99;
-  // }
-
-  // // Calculate taxes
-  // double get _tax {
-  //   return _subtotal * 0.08; // 8% tax
-  // }
-
-  // // Calculate total
-  // double get _total {
-  //   return _subtotal + _deliveryFee + _tax - _discount;
-  // }
+  // Calculate total
+  double get _total {
+    return _subtotal + _deliveryFee + _tax - _discount;
+  }
 
   void _showLocationBottomSheet() {
     showModalBottomSheet(
@@ -437,8 +410,7 @@ class _CartScreenState extends State<CartScreen> {
       });
     } else {
       setState(() {
-//.....error
-        // item.quantity = newQuantity;
+        item.availability.length = newQuantity;
       });
     }
   }

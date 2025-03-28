@@ -53,16 +53,13 @@ class CartItemWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-
-//error to fix c
-
-                  // Text(
-                  //   'Subtotal: \$${(item.price * item.quantity).toStringAsFixed(2)}',
-                  //   style: TextStyle(
-                  //     color: Colors.grey[600],
-                  //     fontSize: 12,
-                  //   ),
-                  // ),
+                  Text(
+                    'Subtotal: \$${(item.price * item.availability.length).toStringAsFixed(2)}',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ),
             ),

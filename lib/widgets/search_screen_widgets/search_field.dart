@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/widgets/search_screen_widgets/search_items_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,9 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTap: () {
+        Get.to(const SearchItemsList(), transition: Transition.downToUp);
+      },
       controller: _searchEditingController,
       style: const TextStyle(
         fontSize: 20,
