@@ -1,10 +1,8 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/screens/main_screens/auth_screen.dart';
-import 'package:fish_and_meat_app/screens/onboard_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
-import 'package:fish_and_meat_app/widgets/auth_screen_widgets/login_page.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/vendor_button.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_2.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
@@ -72,8 +70,8 @@ class ProfileScreen extends StatelessWidget {
                   width: 200,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.green.shade200),
-                  child: VendorButton(),
+                      color: Colors.green.shade400),
+                  child: const VendorButton(),
                 ),
                 //
                 //
@@ -91,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10))),
                       backgroundColor:
                           WidgetStatePropertyAll(Colors.red.shade800),
-                      minimumSize: WidgetStatePropertyAll(Size(200, 50))),
+                      minimumSize: const WidgetStatePropertyAll(Size(200, 50))),
                   onPressed: () {
                     logOut();
                   },

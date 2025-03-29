@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +22,8 @@ class ProfileContainerWidget extends StatelessWidget {
                   Icons.favorite_border_outlined,
                   size: 36,
                 ),
-                title: 'WishList'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'WishList'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -37,8 +38,8 @@ class ProfileContainerWidget extends StatelessWidget {
                   Icons.monetization_on,
                   size: 36,
                 ),
-                title: 'Refer & Earn'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'Refer & Earn'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -53,8 +54,8 @@ class ProfileContainerWidget extends StatelessWidget {
                   Icons.payment,
                   size: 36,
                 ),
-                title: 'Saved Payment Options'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'Saved Payment Options'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -69,8 +70,8 @@ class ProfileContainerWidget extends StatelessWidget {
                   Icons.location_on_rounded,
                   size: 36,
                 ),
-                title: 'My Addresses'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'My Addresses'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),

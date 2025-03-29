@@ -188,4 +188,38 @@ class ApiService {
       return error;
     }
   }
+
+  static Future<dynamic> postVendorData({
+    required String pan,
+    required String adhaar,
+    required String shopName,
+    required String gstNumber,
+    required String location,
+    required String idProof,
+  }) async {
+    final url = Uri.parse('${Globals.baseUrl}/vendorApplication');
+
+    final Map<String, dynamic> data = {
+      'pan': pan,
+      'adhaar': adhaar,
+      'shopName': shopName,
+      'gstNumber': gstNumber,
+      'location': location,
+      'idProof': idProof,
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
 }

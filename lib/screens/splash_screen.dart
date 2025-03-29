@@ -1,11 +1,10 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/screens/main_screens/auth_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/screens/onboard_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
-import 'package:fish_and_meat_app/widgets/auth_screen_widgets/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,14 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), checkToken);
-    //getToLogin();
+    getToLogin();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               // color: Color(0xffd2ebf0),
               color: Appcolor.backgroundColor),
           child: Center(

@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             color: Colors.teal.withAlpha(50),
             borderRadius: BorderRadius.circular(20.0),
@@ -64,13 +64,13 @@ class CustomTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   isDense: true,
                   prefixIcon: isNumber
-                      ? Text(
+                      ? const Text(
                           "  +91 ",
                           style: TextStyle(fontSize: 16),
                         )
                       : null,
                   prefixIconConstraints:
-                      BoxConstraints(minWidth: 0, minHeight: 25),
+                      const BoxConstraints(minWidth: 0, minHeight: 25),
                   hintText: hint,
                   hintStyle: const TextStyle(
                     color: Color(0xFFAAAAAA),
@@ -87,21 +87,21 @@ class CustomTextField extends StatelessWidget {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.teal,
                       width: 1,
                     ),
                   ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.red,
                       width: 1,
                     ),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.red,
                       width: 1,
                     ),

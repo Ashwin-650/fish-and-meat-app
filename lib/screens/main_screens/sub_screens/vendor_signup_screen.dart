@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,17 +20,28 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers for text fields
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _gstController = TextEditingController();
 
   final TextEditingController _panController = TextEditingController();
   final TextEditingController _adhaarController = TextEditingController();
   final TextEditingController _shopNameController = TextEditingController();
   final TextEditingController _shopLocationController = TextEditingController();
 
+  File? _selectedFile;
+
+  Future<void> _pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      setState(() {
+        _selectedFile = File(result.files.single.path!);
+      });
+    }
+  }
+
   @override
   void dispose() {
     // Dispose controllers to prevent memory leaks
-    _nameController.dispose();
+    _gstController.dispose();
 
     _panController.dispose();
     _adhaarController.dispose();
@@ -55,28 +71,31 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
               children: [
                 // Name Field
                 TextFormField(
-                  controller: _nameController,
+                  controller: _gstController,
                   decoration: const InputDecoration(
                     fillColor: Colors.white38,
                     filled: true,
-                    labelText: 'Full Name',
+                    labelText: 'GST Number',
                     labelStyle: TextStyle(fontFamily: Appfonts.appFontFamily),
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Icon(Icons.numbers),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your full name';
+                      return 'Please enter your GST number';
+                    }
+                    // GST number format validation (15 characters)
+                    if (!RegExp(
+                            r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$')
+                        .hasMatch(value)) {
+                      return 'Please enter a valid GST number';
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
-
-                // Phone Number Field
-
-                // Email Field
 
                 // PAN Number Field
                 TextFormField(
@@ -175,6 +194,26 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
                 ),
                 const SizedBox(height: 24),
 
+                ElevatedButton.icon(
+                  onPressed: _pickFile,
+                  icon: const Icon(
+                    Icons.upload_file,
+                    color: Colors.white,
+                  ),
+                  label: 'Upload Verification Document'
+                      .extenTextStyle(color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black54,
+                  ),
+                ),
+                if (_selectedFile != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text('Selected File: ${_selectedFile!.path}'),
+                  ),
+
+                const SizedBox(height: 24),
+
                 // Submit Button
                 ElevatedButton(
                   onPressed: _submitForm,
@@ -197,22 +236,39 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
     );
   }
 
-  void _submitForm() {
-    // Validate returns true if the form is valid, or false otherwise.
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // If the form is valid, display a snackbar or process the data
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Processing Data')),
       );
 
-      // Here you would typically send the data to a backend service
-      // For now, we'll just print the values
-      print('Name: ${_nameController.text}');
+      // Convert file to base64 if available
+      String idProofBase64 = '';
+      if (_selectedFile != null) {
+        final bytes = await _selectedFile!.readAsBytes();
+        idProofBase64 = base64Encode(bytes);
+      }
 
-      print('PAN: ${_panController.text}');
-      print('Adhaar: ${_adhaarController.text}');
-      print('Shop Name: ${_shopNameController.text}');
-      print('Shop Location: ${_shopLocationController.text}');
+      final response = await ApiService.postVendorData(
+        pan: _panController.text,
+        adhaar: _adhaarController.text,
+        shopName: _shopNameController.text,
+        gstNumber: _gstController.text,
+        location: _shopLocationController.text,
+        idProof: idProofBase64,
+      );
+
+      if (response != null && response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Vendor registration successful')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  'Failed to register vendor: ${response.body ?? 'Unknown error'}')),
+        );
+      }
     }
   }
 }

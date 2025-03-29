@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,8 @@ class ProfileContainer2 extends StatelessWidget {
                 Icons.file_copy,
                 size: 36,
               ),
-              title: 'Terms & Condition'
-                  .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+              title: 'Terms & Condition'.extenTextStyle(
+                  fontfamily: Appfonts.appFontFamily, fontsize: 22),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
           ),
@@ -35,8 +36,8 @@ class ProfileContainer2 extends StatelessWidget {
                 Icons.private_connectivity,
                 size: 36,
               ),
-              title: 'Privacy Policy'
-                  .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+              title: 'Privacy Policy'.extenTextStyle(
+                  fontfamily: Appfonts.appFontFamily, fontsize: 22),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
           ),
@@ -51,8 +52,8 @@ class ProfileContainer2 extends StatelessWidget {
                 Icons.account_circle,
                 size: 36,
               ),
-              title: 'Profile Details'
-                  .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+              title: 'Profile Details'.extenTextStyle(
+                  fontfamily: Appfonts.appFontFamily, fontsize: 22),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
           ),

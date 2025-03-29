@@ -1,11 +1,9 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
-import 'package:fish_and_meat_app/razorpay/razorpay_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/cart_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/home_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/orders_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/profile_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/search_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/sub_screens/product_details.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/home_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/orders_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/profile_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/home_screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class Myhomepage extends StatefulWidget {

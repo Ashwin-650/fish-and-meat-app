@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,8 @@ class ProfileContainer3 extends StatelessWidget {
                   Icons.info,
                   size: 36,
                 ),
-                title: 'About Us'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'About Us'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -35,8 +36,8 @@ class ProfileContainer3 extends StatelessWidget {
                   Icons.chat,
                   size: 36,
                 ),
-                title: 'FAQs'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'FAQs'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -51,8 +52,8 @@ class ProfileContainer3 extends StatelessWidget {
                   Icons.people_outline_outlined,
                   size: 36,
                 ),
-                title: 'Contact Us'
-                    .extenTextStyle(fontWeight: FontWeight.bold, fontsize: 22),
+                title: 'Contact Us'.extenTextStyle(
+                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),

@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SocialButton(iconText: 'G'),
+                    SocialButton(iconText: 'G'),
                     SizedBox(width: 15),
                     SocialButton(iconText: 'f'),
                     SizedBox(width: 15),

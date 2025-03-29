@@ -22,7 +22,7 @@ class _CartScreenState extends State<CartScreen> {
   String _mobileNumber = '+1 (555) 123-4567';
   String _couponCode = '';
   bool _couponApplied = false;
-  double _discount = 0.0;
+  final double _discount = 0.0;
   DateTime _deliveryDate = DateTime.now().add(const Duration(days: 1));
   String _selectedTimeSlot = '10:00 AM - 12:00 PM';
   String _selectedPaymentMethod = 'Credit Card';
@@ -774,7 +774,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 12),
-                                Row(
+                                const Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -784,7 +784,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                Row(
+                                const Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -799,7 +799,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                Row(
+                                const Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -827,11 +827,11 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ],
                                 const Divider(height: 24),
-                                Row(
+                                const Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Total',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,

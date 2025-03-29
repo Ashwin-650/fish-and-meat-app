@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/screens/main_screens/home_screen.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/firebase_services.dart';

@@ -13,7 +13,6 @@ class _CarouselProductState extends State<CarouselProduct> {
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
-  // Sample product images - replace these with your actual assets or network images
   final List<Map<String, dynamic>> _productImages = [
     {
       'image':
@@ -27,7 +26,7 @@ class _CarouselProductState extends State<CarouselProduct> {
     },
     {
       'image':
-          'https://trulocal.imgix.net/shared/media/blog/152/image.jpg?h=700&fit=max&auto=format,compress',
+          'https://assets.tendercuts.in/product/S/F/2fb65cc2-d0c6-4a44-ba7e-337eb2bc72ca.jpg',
       'title': 'Grass-fed Beef',
     },
     {
@@ -66,7 +65,6 @@ class _CarouselProductState extends State<CarouselProduct> {
                     borderRadius: BorderRadius.circular(12),
                     child: Stack(
                       children: [
-                        // Replace Image.asset with Image.network if using network images
                         Image.network(
                           item['image'],
                           fit: BoxFit.cover,

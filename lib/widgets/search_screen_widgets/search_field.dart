@@ -12,7 +12,9 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onTap: () {
-        Get.to(const SearchItemsList(), transition: Transition.downToUp);
+        Get.to(
+          const SearchItemsList(),
+        );
       },
       controller: _searchEditingController,
       style: const TextStyle(

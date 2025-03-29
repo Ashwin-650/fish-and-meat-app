@@ -29,12 +29,12 @@ class VendorButton extends StatelessWidget {
                     ),
                     'Be a Vendor'.extenTextStyle(
                         fontsize: 34,
-                        color: Appcolor.appbargroundColor,
+                        color: Colors.green.shade200,
                         fontWeight: FontWeight.bold),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Container(
-                        height: 300,
+                        height: 200,
                         decoration: BoxDecoration(
                             image: const DecorationImage(
                                 image: NetworkImage(
@@ -43,21 +43,25 @@ class VendorButton extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Get.to(() => const VendorSignUpScreen());
-                      },
-                      style: ButtonStyle(
-                          minimumSize:
-                              const WidgetStatePropertyAll(Size(200, 50)),
-                          backgroundColor: WidgetStatePropertyAll(
-                              Appcolor.appbargroundColor),
-                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)))),
-                      child: 'Sign Up'.extenTextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontsize: 16),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Get.to(() => const VendorSignUpScreen());
+                        },
+                        style: ButtonStyle(
+                            minimumSize:
+                                const WidgetStatePropertyAll(Size(200, 50)),
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.green.shade400),
+                            shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)))),
+                        child: 'Sign Up'.extenTextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontsize: 16),
+                      ),
                     )
                   ],
                 ),
