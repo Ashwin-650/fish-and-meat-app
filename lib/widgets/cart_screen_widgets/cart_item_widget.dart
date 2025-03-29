@@ -85,20 +85,20 @@ class CartItemWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                       onPressed: () async {
-                        // final token = await Globals.loginToken;
-                        // final response = await ApiService.removeFromCart(
-                        //     token: token, id: item.id);
-                        // if (response != null && response.statusCode == 200) {
-                        //   final response =
-                        //       await ApiService.getFromCart(token: token);
-                        //   final CartItemsListController
-                        //       cartItemsListController = Get.find();
-                        //   cartItemsListController.setItems(
-                        //       (json.decode(response.body) as List)
-                        //           .map((productJson) =>
-                        //               CartProduct.fromMap(productJson))
-                        //           .toList());
-                        // }
+                        final token = await Globals.loginToken;
+                        final response = await ApiService.removeFromCart(
+                            token: token, id: item.id);
+                        if (response != null && response.statusCode == 200) {
+                          final response =
+                              await ApiService.getFromCart(token: token);
+                          final CartItemsListController
+                              cartItemsListController = Get.find();
+                          cartItemsListController.setItems(
+                              (json.decode(response.body) as List)
+                                  .map((productJson) =>
+                                      CartProduct.fromMap(productJson))
+                                  .toList());
+                        }
                       }),
                   Text(
                     '${item.quantity}',
