@@ -1,11 +1,15 @@
+import 'dart:convert';
+
+import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final ProductDetails item;
-  final Function updateQuantityFunction;
-  const CartItemWidget(
-      {super.key, required this.item, required this.updateQuantityFunction});
+  final CartProduct item;
+  const CartItemWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +29,14 @@ class CartItemWidget extends StatelessWidget {
               width: 80,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: const Center(
-                child: Icon(Icons.image, size: 40, color: Colors.grey),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image(
+                  image: NetworkImage("${Globals.imagePath}\\${item.image}"),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -76,24 +84,35 @@ class CartItemWidget extends StatelessWidget {
                         Icons.remove,
                         color: Colors.white,
                       ),
-                      onPressed: () {}
-                      // updateQuantityFunction(item, item.quantity - 1),
-                      ),
-                  // Text(
-                  //   '${item.quantity}',
-                  //   style: const TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
+                      onPressed: () async {
+                        final token = await Globals.loginToken;
+                        final response = await ApiService.removeFromCart(
+                            token: token, id: item.id);
+                        if (response != null && response.statusCode == 200) {
+                          final response =
+                              await ApiService.getFromCart(token: token);
+                          final CartItemsListController
+                              cartItemsListController = Get.find();
+                          cartItemsListController.setItems(
+                              (json.decode(response.body) as List)
+                                  .map((productJson) =>
+                                      CartProduct.fromMap(productJson))
+                                  .toList());
+                        }
+                      }),
+                  Text(
+                    '${item.quantity}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                   IconButton(
                       icon: const Icon(
                         Icons.add,
                         color: Colors.white,
                       ),
-                      onPressed: () {}
-                      // updateQuantityFunction(item, item.quantity + 1),
-                      ),
+                      onPressed: () {}),
                 ],
               ),
             ),

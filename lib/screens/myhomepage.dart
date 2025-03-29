@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/razorpay/razorpay_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/cart_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/orders_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/profile_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/search_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/sub_screens/product_details.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Myhomepage extends StatefulWidget {
   const Myhomepage({super.key});
@@ -16,10 +22,12 @@ class Myhomepage extends StatefulWidget {
 }
 
 class _MyhomepageState extends State<Myhomepage> {
+  final CartItemsListController cartItemsListController =
+      Get.put(CartItemsListController());
   int currentIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
-    const SearchScreen(),
+    SearchScreen(),
     const CartScreen(),
     const OrdersScreen(),
     const ProfileScreen()
@@ -39,10 +47,22 @@ class _MyhomepageState extends State<Myhomepage> {
           selectedItemColor: Colors.black45,
           unselectedItemColor: Colors.white,
           currentIndex: currentIndex,
-          onTap: (value) {
+          onTap: (value) async {
             setState(() {
               currentIndex = value;
             });
+
+            // if the cart is selected which is index 2 (yet), we update the cart items.
+            if (value == 2) {
+              final response =
+                  await ApiService.getFromCart(token: await Globals.loginToken);
+              if (response != null && response.statusCode == 200) {
+                cartItemsListController.setItems(
+                    (json.decode(response.body) as List)
+                        .map((productJson) => CartProduct.fromMap(productJson))
+                        .toList());
+              }
+            }
           },
           items: const [
             BottomNavigationBarItem(

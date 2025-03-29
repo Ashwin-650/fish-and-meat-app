@@ -188,4 +188,23 @@ class ApiService {
       return error;
     }
   }
+
+  static Future<dynamic> removeFromCart({
+    required String token,
+    required String id,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/decrecart/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
 }
