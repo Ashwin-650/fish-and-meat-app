@@ -8,6 +8,8 @@ plugins {
 android {
     namespace = "com.example.fish_and_meat_app"
     compileSdk = 35
+    compileSdk = flutter.compileSdkVersion
+    //ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
 
     compileOptions {
