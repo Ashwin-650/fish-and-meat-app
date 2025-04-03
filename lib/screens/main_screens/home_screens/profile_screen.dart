@@ -3,15 +3,66 @@ import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
-import 'package:fish_and_meat_app/widgets/home_screen_widgets/vendor_button.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/approval_reach_button.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/vendor_button.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_2.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool hasVendorData = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkVendorData();
+  }
+
+  Future<void> _checkVendorData() async {
+    String gstNumber =
+        await SharedPreferencesServices.getValue('gst_number', '') ?? '';
+    String shopName =
+        await SharedPreferencesServices.getValue('shop_name', '') ?? '';
+    String location =
+        await SharedPreferencesServices.getValue('shop_location', '') ?? '';
+    String pan =
+        await SharedPreferencesServices.getValue('pan_number', '') ?? '';
+    String adhaar =
+        await SharedPreferencesServices.getValue('adhaar_number', '') ?? '';
+
+    // Debugging prints
+    print("GST Number: $gstNumber");
+    print("Shop Name: $shopName");
+    print("Location: $location");
+    print("PAN: $pan");
+    print("Adhaar: $adhaar");
+
+    bool vendorDataCheck = gstNumber.isNotEmpty &&
+        shopName.isNotEmpty &&
+        location.isNotEmpty &&
+        pan.isNotEmpty &&
+        adhaar.isNotEmpty;
+
+    print("Vendor Data Status Before SetState: $vendorDataCheck");
+
+    if (mounted) {
+      setState(() {
+        hasVendorData = vendorDataCheck;
+      });
+    }
+
+    print("Vendor Data Status After SetState: $hasVendorData");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +116,25 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.green.shade400),
-                  child: const VendorButton(),
-                ),
-                //
-                //
+                Visibility(
+                    visible: true,
+                    child: hasVendorData
+                        ? Container(
+                            height: 40,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green.shade400),
+                            child: const ApprovalReachButton(),
+                          )
+                        : Container(
+                            height: 40,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green.shade400),
+                            child: const VendorButton(),
+                          )),
                 const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: ProfileContainerWidget()),
@@ -82,7 +142,6 @@ class ProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10.0), child: ProfileContainer2()),
                 const Padding(
                     padding: EdgeInsets.all(10.0), child: ProfileContainer3()),
-
                 TextButton(
                   style: ButtonStyle(
                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
@@ -111,6 +170,13 @@ Future<void> logOut() async {
   await SharedPreferencesServices.deleteKey(
     "login_token",
   );
+
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('gst_number');
+  await prefs.remove('pan_number');
+  await prefs.remove('adhaar_number');
+  await prefs.remove('shop_name');
+  await prefs.remove('shop_location');
 
   Get.offAll(() => const AuthScreen());
 }

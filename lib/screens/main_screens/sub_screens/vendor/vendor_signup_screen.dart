@@ -1,13 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/models/vendor_signup_form_data.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_approval_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
+import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VendorSignUpScreen extends StatefulWidget {
   const VendorSignUpScreen({super.key});
@@ -219,7 +224,7 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
                   onPressed: _submitForm,
                   style: ButtonStyle(
                       backgroundColor:
-                          WidgetStatePropertyAll(Appcolor.appbargroundColor),
+                          WidgetStatePropertyAll(Colors.green.shade400),
                       minimumSize: const WidgetStatePropertyAll(Size(150, 60)),
                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)))),
@@ -236,29 +241,62 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
     );
   }
 
+  Future<void> storeSignUpData() async {
+    await SharedPreferencesServices.setValue('gst_number', _gstController.text);
+    await SharedPreferencesServices.setValue('pan_number', _panController.text);
+    await SharedPreferencesServices.setValue(
+        'adhaar_number', _adhaarController.text);
+    await SharedPreferencesServices.setValue(
+        'shop_name', _shopNameController.text);
+    await SharedPreferencesServices.setValue(
+        'shop_location', _shopLocationController.text);
+
+    // Store the file path if a file is selected
+    if (_selectedFile != null) {
+      await SharedPreferencesServices.setValue(
+          'uploaded_file_path', _selectedFile!.path);
+    }
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Processing Data')),
       );
 
-      // Convert file to base64 if available
-      String idProofBase64 = '';
-      if (_selectedFile != null) {
-        final bytes = await _selectedFile!.readAsBytes();
-        idProofBase64 = base64Encode(bytes);
+      VendorSignUpFormData vendorData = VendorSignUpFormData(
+        gstNumber: _gstController.text,
+        panNumber: _panController.text,
+        adhaarNumber: _adhaarController.text,
+        shopName: _shopNameController.text,
+        shopLocation: _shopLocationController.text,
+        image: _selectedFile!,
+      );
+
+      String? token =
+          await SharedPreferencesServices.getValue(Globals.apiToken, '');
+
+      if (token == null || token.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Authentication token not found')),
+        );
+        return;
       }
 
       final response = await ApiService.postVendorData(
-        pan: _panController.text,
-        adhaar: _adhaarController.text,
-        shopName: _shopNameController.text,
-        gstNumber: _gstController.text,
-        location: _shopLocationController.text,
-        idProof: idProofBase64,
+        token: token,
+        pan: vendorData.panNumber,
+        adhaar: vendorData.adhaarNumber,
+        shopName: vendorData.shopName,
+        gstNumber: vendorData.gstNumber,
+        location: vendorData.shopLocation,
+        image: _selectedFile!,
       );
 
       if (response != null && response.statusCode == 200) {
+        // Call the method to store data in SharedPreferences
+        await storeSignUpData();
+        Get.off(() => const VendorApprovalScreen());
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Vendor registration successful')),
         );
