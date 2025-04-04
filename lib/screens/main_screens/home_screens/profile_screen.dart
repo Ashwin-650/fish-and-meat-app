@@ -10,7 +10,6 @@ import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_contain
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,7 +24,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _checkVendorData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkVendorData();
+    });
   }
 
   Future<void> _checkVendorData() async {
@@ -40,28 +41,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String adhaar =
         await SharedPreferencesServices.getValue('adhaar_number', '') ?? '';
 
-    // Debugging prints
-    print("GST Number: $gstNumber");
-    print("Shop Name: $shopName");
-    print("Location: $location");
-    print("PAN: $pan");
-    print("Adhaar: $adhaar");
-
     bool vendorDataCheck = gstNumber.isNotEmpty &&
         shopName.isNotEmpty &&
         location.isNotEmpty &&
         pan.isNotEmpty &&
         adhaar.isNotEmpty;
 
-    print("Vendor Data Status Before SetState: $vendorDataCheck");
-
     if (mounted) {
       setState(() {
         hasVendorData = vendorDataCheck;
       });
     }
-
-    print("Vendor Data Status After SetState: $hasVendorData");
   }
 
   @override
@@ -170,13 +160,6 @@ Future<void> logOut() async {
   await SharedPreferencesServices.deleteKey(
     "login_token",
   );
-
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.remove('gst_number');
-  await prefs.remove('pan_number');
-  await prefs.remove('adhaar_number');
-  await prefs.remove('shop_name');
-  await prefs.remove('shop_location');
 
   Get.offAll(() => const AuthScreen());
 }

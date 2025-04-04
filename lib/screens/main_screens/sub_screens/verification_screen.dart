@@ -85,28 +85,50 @@ class VerificationScreenState extends State<VerificationScreen> {
   void _verifyOTP() async {
     String otp = _controllers.map((controller) => controller.text).join();
 
-    if (otp.length == 6) {
-      var response = await ApiService.verifyOTP(email, otp);
-      if (response != null && response.statusCode == 200) {
-        Map<String, dynamic> jsonData = json.decode(response.body);
-        String token = jsonData["token"];
-        SharedPreferencesServices.setValue("login_token", token);
-        FirebaseServices firebaseServices = FirebaseServices();
-        firebaseServices.initializeFirebase();
-        final fcmToken = await firebaseServices.getToken();
-        if (fcmToken != null) {
-          final response = await ApiService.fcmTokenToServer(
-              token: token, fcmToken: fcmToken);
-          if (response != null && response.statusCode == 200) {
-            print(response.body);
-          }
-        }
-        Get.offAll(const Myhomepage());
-      }
-    } else {
+    if (otp.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please enter all 6 digits'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    try {
+      var response = await ApiService.verifyOTP(email, otp);
+      print('rep: ${response.body}');
+      if (response != null && response.statusCode == 200) {
+        Map<String, dynamic> jsonData = json.decode(response.body);
+
+        final token = jsonData["data"]["token"];
+
+        await SharedPreferencesServices.setValue("login_token", token);
+
+        FirebaseServices firebaseServices = FirebaseServices();
+        await firebaseServices.initializeFirebase();
+
+        final fcmToken = await firebaseServices.getToken();
+        if (fcmToken != null) {
+          final fcmResponse = await ApiService.fcmTokenToServer(
+            token: token,
+            fcmToken: fcmToken,
+          );
+
+          if (fcmResponse != null && fcmResponse.statusCode == 200) {
+            print('✅ FCM token registered successfully');
+          } else {
+            print('⚠️ Failed to register FCM token');
+          }
+        }
+
+        Get.offAll(const Myhomepage());
+      }
+    } catch (error) {
+      print('❌ OTP verification error: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Verification failed: $error'),
           backgroundColor: Colors.red,
         ),
       );

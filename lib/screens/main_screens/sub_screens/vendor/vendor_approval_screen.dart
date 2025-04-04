@@ -1,5 +1,4 @@
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/screens/main_screens/home_screens/profile_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_mode.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';

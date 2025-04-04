@@ -1,18 +1,19 @@
 import 'dart:convert';
-import 'dart:io';
-
+import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
+import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Product {
   final String id;
   final String title;
   final String? description;
-  final String imagePath; // Change File to String (URL or local path)
+  final String imagePath;
   final double price;
   final String availableLocations;
   final String category;
@@ -33,16 +34,16 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      imagePath: json['imageUrl'] ?? '',
-      price: (json['price'] ?? 0).toDouble(),
-      availableLocations: json['availableLocations'] ?? '',
-      category: json['category'] ?? '',
-      offerPrice:
-          json['offerPrice'] != null ? (json['offerPrice']).toDouble() : null,
-      stock: json['stock'] ?? 0,
+      id: json['id']?.toString() ?? '', // Ensuring ID is always a string
+      title: json['title']?.toString() ?? '',
+      description: json['description']?.toString(),
+      imagePath: json['image']?.toString() ?? '',
+      price: (json['price'] is num) ? (json['price'] as num).toDouble() : 0.0,
+      category: json['category']?.toString() ?? '',
+      offerPrice: (json['offerPrice'] is num)
+          ? (json['offerPrice'] as num).toDouble()
+          : null,
+      stock: json['stock'] is int ? json['stock'] : 0, availableLocations: '',
     );
   }
 }
@@ -65,31 +66,31 @@ class _VendorModeState extends State<VendorMode> {
   }
 
   Future<void> _fetchProducts() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('auth_token'); // Get token from storage
+    String? token = await SharedPreferencesServices.getValue(
+        Globals.apiToken, ''); // Get token from storage
 
     if (token == null) {
-      print("Error: No token found.");
+      // print("Error: No token found.");
       setState(() => isLoading = false);
       return;
     }
 
     try {
-      final response = await ApiService.getFromVendor(token: token);
+      final http.Response response =
+          await ApiService.getFromVendor(token: token);
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body)['data'];
+        final List<dynamic> data = jsonDecode(response.body);
 
         setState(() {
           products = data.map((json) => Product.fromJson(json)).toList();
           isLoading = false;
         });
       } else {
-        print("Error: ${response.statusCode} - ${response.body}");
         setState(() => isLoading = false);
       }
     } catch (error) {
-      print("API Error: $error");
+      // print("API Error: $error");
       setState(() => isLoading = false);
     }
   }
@@ -98,7 +99,7 @@ class _VendorModeState extends State<VendorMode> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products'),
+        title: 'Products'.extenTextStyle(),
         actions: [
           IconButton(
               icon: const Icon(Icons.add),
@@ -110,75 +111,71 @@ class _VendorModeState extends State<VendorMode> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : products.isEmpty
-              ? const Center(
-                  child: Text('No products available! Tap + to add a product.'),
+              ? Center(
+                  child: 'No products available! Tap + to add a product.'
+                      .extenTextStyle(),
                 )
               : ListView.builder(
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     final product = products[index];
-                    return Card(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            product.imagePath.startsWith('http')
-                                ? Image.network(
-                                    product.imagePath,
-                                    height: 180,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.file(
-                                    File(product.imagePath),
-                                    height: 180,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                            const SizedBox(height: 12),
-                            Text(
-                              product.title,
-                              style: const TextStyle(
-                                fontSize: 18,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Card(
+                        margin: const EdgeInsets.all(10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.network(
+                                product.imagePath.startsWith('http')
+                                    ? product.imagePath
+                                    : '${Globals.imagePath}/${product.imagePath}',
+                                height: 180,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.broken_image),
+                              ),
+                              const SizedBox(height: 12),
+                              product.title.extenTextStyle(
+                                fontsize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            if (product.description != null &&
-                                product.description!.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(product.description!),
-                              ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  'Price: ₹${product.price.toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                              if (product.description != null &&
+                                  product.description!.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: product.description!.extenTextStyle(
+                                      textOverflow: TextOverflow.ellipsis,
+                                      maxLines: 3),
                                 ),
-                                if (product.offerPrice != null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      'Offer: ₹${product.offerPrice!.toStringAsFixed(2)}',
-                                      style: const TextStyle(
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  'Price: ₹${product.price.toStringAsFixed(2)}'
+                                      .extenTextStyle(
+                                          fontWeight: FontWeight.bold),
+                                  if (product.offerPrice != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child:
+                                          'Offer: ₹${product.offerPrice!.toStringAsFixed(2)}'
+                                              .extenTextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text('Category: ${product.category}'),
-                            const SizedBox(height: 4),
-                            Text('Stock: ${product.stock} units'),
-                            const SizedBox(height: 4),
-                            Text('Available in: ${product.availableLocations}'),
-                          ],
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text('Category: ${product.category}'),
+                              const SizedBox(height: 4),
+                              Text('Stock: ${product.stock} units'),
+                              const SizedBox(height: 4),
+                            ],
+                          ),
                         ),
                       ),
                     );

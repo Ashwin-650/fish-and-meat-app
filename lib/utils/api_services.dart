@@ -18,7 +18,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('${Globals.baseUrl}/reg'),
+        Uri.parse('${Globals.baseUrl}/auth/register'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -40,7 +40,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('${Globals.baseUrl}/log'),
+        Uri.parse('${Globals.baseUrl}/auth/login'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -61,7 +61,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('${Globals.baseUrl}/verifyotp'),
+        Uri.parse('${Globals.baseUrl}/auth/verify'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -83,7 +83,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('${Globals.baseUrl}/resendotp'),
+        Uri.parse('${Globals.baseUrl}/auth/resend'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -129,7 +129,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse(
-            '${Globals.baseUrl}/allproducts?searchkey=$query&price=$price&category=$category'),
+            '${Globals.baseUrl}/products?searchkey=$query&price=$price&category=$category'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
@@ -255,7 +255,7 @@ class ApiService {
     required String stock,
     required File image,
   }) async {
-    final url = Uri.parse('${Globals.baseUrl}/addproduct');
+    final url = Uri.parse('${Globals.baseUrl}/products');
 
     final request = http.MultipartRequest('POST', url)
       ..headers['Authorization'] = 'token $token'
@@ -287,7 +287,24 @@ class ApiService {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse('${Globals.baseUrl}/userproducts'),
+        Uri.parse('${Globals.baseUrl}/products/user'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> getItemsCategory(
+      {required String token, required String category}) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/products?category=$category'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'

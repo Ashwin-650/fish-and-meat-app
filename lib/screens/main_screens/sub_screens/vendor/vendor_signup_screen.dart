@@ -12,7 +12,6 @@ import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class VendorSignUpScreen extends StatefulWidget {
   const VendorSignUpScreen({super.key});
