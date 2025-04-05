@@ -744,7 +744,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 12),
-                                  Row(
+                                  const Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -754,7 +754,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  Row(
+                                  const Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -769,7 +769,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  Row(
+                                  const Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -797,11 +797,11 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ],
                                   const Divider(height: 24),
-                                  Row(
+                                  const Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
+                                      Text(
                                         'Total',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,

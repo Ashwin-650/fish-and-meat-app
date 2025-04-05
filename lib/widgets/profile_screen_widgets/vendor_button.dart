@@ -1,13 +1,17 @@
-import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor_signup_screen.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VendorButton extends StatelessWidget {
+class VendorButton extends StatefulWidget {
   const VendorButton({super.key});
 
+  @override
+  State<VendorButton> createState() => _VendorButtonState();
+}
+
+class _VendorButtonState extends State<VendorButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(

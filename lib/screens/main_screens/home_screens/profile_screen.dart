@@ -3,15 +3,56 @@ import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
-import 'package:fish_and_meat_app/widgets/home_screen_widgets/vendor_button.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/approval_reach_button.dart';
+import 'package:fish_and_meat_app/widgets/profile_screen_widgets/vendor_button.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_2.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool hasVendorData = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkVendorData();
+    });
+  }
+
+  Future<void> _checkVendorData() async {
+    String gstNumber =
+        await SharedPreferencesServices.getValue('gst_number', '') ?? '';
+    String shopName =
+        await SharedPreferencesServices.getValue('shop_name', '') ?? '';
+    String location =
+        await SharedPreferencesServices.getValue('shop_location', '') ?? '';
+    String pan =
+        await SharedPreferencesServices.getValue('pan_number', '') ?? '';
+    String adhaar =
+        await SharedPreferencesServices.getValue('adhaar_number', '') ?? '';
+
+    bool vendorDataCheck = gstNumber.isNotEmpty &&
+        shopName.isNotEmpty &&
+        location.isNotEmpty &&
+        pan.isNotEmpty &&
+        adhaar.isNotEmpty;
+
+    if (mounted) {
+      setState(() {
+        hasVendorData = vendorDataCheck;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +106,25 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.green.shade400),
-                  child: const VendorButton(),
-                ),
-                //
-                //
+                Visibility(
+                    visible: true,
+                    child: hasVendorData
+                        ? Container(
+                            height: 40,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green.shade400),
+                            child: const ApprovalReachButton(),
+                          )
+                        : Container(
+                            height: 40,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green.shade400),
+                            child: const VendorButton(),
+                          )),
                 const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: ProfileContainerWidget()),
@@ -82,7 +132,6 @@ class ProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10.0), child: ProfileContainer2()),
                 const Padding(
                     padding: EdgeInsets.all(10.0), child: ProfileContainer3()),
-
                 TextButton(
                   style: ButtonStyle(
                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(

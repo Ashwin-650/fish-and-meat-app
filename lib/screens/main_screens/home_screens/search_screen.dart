@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -93,7 +94,8 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                               hintText: 'Search for items...',
                               hintStyle: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                                  fontSize: 18,
+                                  fontFamily: Appfonts.appFontFamily),
                               contentPadding:
                                   const EdgeInsets.symmetric(vertical: 14.0),
                             ),
@@ -116,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             "Suggested",
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontFamily: Appfonts.appFontFamily,
                             ),
                           ),
                         ),
@@ -128,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             "Recent Searches",
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontFamily: Appfonts.appFontFamily,
                             ),
                           ),
                         ),

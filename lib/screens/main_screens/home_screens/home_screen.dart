@@ -38,6 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
             .toList();
       });
     }
+
+    print('Response Status : ${response.body}');
+    //  print('Token Status : ${}');
   }
 
   @override
