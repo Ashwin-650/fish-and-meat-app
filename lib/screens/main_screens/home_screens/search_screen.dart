@@ -74,9 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   });
                                 }
                               } else {
-                                setState(() {
-                                  queryItems = [];
-                                });
+                                queryItems.clear();
                               }
                             },
                             controller: _searchEditingController,
