@@ -106,7 +106,7 @@ class ApiService {
       };
 
       final response = await http.put(
-        Uri.parse('${Globals.baseUrl}/updatefcm'),
+        Uri.parse('${Globals.baseUrl}/users'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'

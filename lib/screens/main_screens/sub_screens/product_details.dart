@@ -2,24 +2,37 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: ProductDetailPage(),
     );
   }
 }
 
 class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({super.key});
+  ProductDetailPage({super.key});
+  final details = Get.arguments;
+
+  late String _name;
+  late String _description;
+  late String _price;
+  late String _offerPrice;
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -48,6 +61,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (rating < 2.0) return Colors.red;
     if (rating < 4.0) return Colors.orange;
     return Colors.green;
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
