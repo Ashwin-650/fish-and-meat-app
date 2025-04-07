@@ -3,7 +3,6 @@ import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,22 +25,34 @@ class _MyAppState extends State<MyApp> {
 }
 
 class ProductDetailPage extends StatefulWidget {
-  ProductDetailPage({super.key});
-  final details = Get.arguments;
-
-  late String _name;
-  late String _description;
-  late String _price;
-  late String _offerPrice;
+  const ProductDetailPage({super.key});
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  late String _title;
+  late String _description;
+  late String _price;
+  // late String _offerPrice;
+  late String _image;
+
   int _quantity = 1;
   final double _rating = 1.5;
-  final double _price = 99;
+  // final double _price = 99;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final Map<String, dynamic> arguments = Get.arguments;
+    _image = arguments['image'];
+    _title = arguments['title'] ?? 'No name';
+    _description = arguments['description'] ?? 'No description available';
+    _price = arguments['price'] ?? 0;
+    // _offerPrice = arguments['offerPrice'];
+  }
 
   void _incrementQuantity() {
     setState(() {
@@ -64,18 +75,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Appcolor.backgroundColor,
+      appBar: AppBar(),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -84,10 +91,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     height: 280,
                     width: 300,
                     decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV-6ak-V8AD7NrLiEnY9oJhMy0SdWzBkIOiw&s'),
-                            fit: BoxFit.cover),
+                        image: DecorationImage(
+                          image: NetworkImage(_image),
+                          fit: BoxFit.cover,
+                          onError: (exception, stackTrace) => Container(
+                            color: Colors.grey[300],
+                            child:
+                                const Icon(Icons.image_not_supported, size: 50),
+                          ),
+                        ),
                         borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
@@ -100,32 +112,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Premium Wireless Headphones',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          _title.extenTextStyle(
+                            fontsize: 24,
+                            fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 10),
-                          Text(
-                            'Experience ultimate sound quality with these premium wireless headphones. Featuring noise cancellation, long battery life, and comfortable design for all-day wear.',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey[700],
-                            ),
-                          ),
+                          _description.extenTextStyle(
+                            fontsize: 18,
+                            color: Colors.grey[700],
+                          )
                         ],
                       ),
                     ),
-                    Text(
-                      '\$${_price.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Appcolor.bottomBarColor,
-                      ),
-                    ),
+                    "₹$_price".extenTextStyle(
+                      fontsize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Appcolor.bottomBarColor,
+                    )
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -207,7 +210,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fontWeight: FontWeight.bold,
                     ),
                     Text(
-                      '\$${(_price * _quantity).toStringAsFixed(2)}',
+                      '₹${(double.parse(_price) * _quantity).toStringAsFixed(2)}',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,

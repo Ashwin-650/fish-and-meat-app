@@ -31,8 +31,17 @@ class _SplashScreenState extends State<SplashScreen> {
               // color: Color(0xffd2ebf0),
               color: Appcolor.backgroundColor),
           child: Center(
-            child: 'MEATZY'.extenTextStyle(
-                fontsize: 36, fontWeight: FontWeight.w900, color: Colors.white),
+            child: Container(
+              height: 200,
+              width: 300,
+              color: Colors.blueGrey.shade400,
+              child: Center(
+                child: 'MEATZY'.extenTextStyle(
+                    fontsize: 36,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white),
+              ),
+            ),
           )),
     );
   }

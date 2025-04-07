@@ -36,8 +36,10 @@ class TopSelling extends StatelessWidget {
                     height: 130,
                     width: 150,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      image: DecorationImage(image: NetworkImage(photo)),
+                      border: Border.all(width: 2, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                          image: NetworkImage(photo), fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -48,7 +50,7 @@ class TopSelling extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 10,
+              top: 16,
               right: 10,
               child: Container(
                 decoration: const BoxDecoration(
