@@ -173,12 +173,31 @@ class ApiService {
     }
   }
 
+  static Future<dynamic> insertToCart({
+    required String token,
+    required String id,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/carts/$id/increase'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static Future<dynamic> getFromCart({
     required String token,
   }) async {
     try {
       final response = await http.get(
-        Uri.parse('${Globals.baseUrl}/productfromcart'),
+        Uri.parse('${Globals.baseUrl}/carts'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
@@ -197,7 +216,7 @@ class ApiService {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse('${Globals.baseUrl}/decrecart/$id'),
+        Uri.parse('${Globals.baseUrl}/carts/$id/decrease'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
@@ -346,6 +365,47 @@ class ApiService {
           'Authorization': 'token $token'
         },
       );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> verifyPromoCode({
+    required String token,
+    required String code,
+  }) async {
+    try {
+      Map<String, dynamic> body = {
+        'code': code,
+      };
+
+      final response = await http.post(
+        Uri.parse('${Globals.baseUrl}/promocodes/verify'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+        body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> getOrders({required String token}) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/orders'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
       return response;
     } catch (error) {
       return error;

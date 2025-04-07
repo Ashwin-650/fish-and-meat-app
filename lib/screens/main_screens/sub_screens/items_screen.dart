@@ -95,9 +95,11 @@ class ItemsScreen extends StatelessWidget {
                   'offerPrice': offerPrice
                 }),
                 child: Card(
+                  color: Colors.white,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey.shade600),
                       borderRadius: BorderRadius.circular(12)),
                   elevation: 3,
                   child: Padding(
@@ -139,7 +141,7 @@ class ItemsScreen extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 description,
-                                maxLines: 3,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 14, color: Colors.black54),

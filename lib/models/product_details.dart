@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 class ProductDetails {
   final String id;
@@ -39,7 +38,9 @@ class ProductDetails {
               ?.map((reviewJson) => Reviews.fromJson(reviewJson))
               .toList() ??
           [],
-      availability: List<int>.from(json['availability']),
+      availability: json['availability'] is String
+          ? List<int>.from(jsonDecode(json['availability']))
+          : List<int>.from(json['availability']),
       category: json['category'],
       quantity: json['quantity'],
     );
@@ -76,7 +77,7 @@ class Reviews {
   factory Reviews.fromJson(Map<String, dynamic> json) {
     return Reviews(
       review: json['review'],
-      rating: json['rating'].toDouble(),
+      rating: json['rating'] != null ? json['rating'].toDouble() : 0,
       userid: json['userid'],
     );
   }
