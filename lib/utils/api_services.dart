@@ -219,7 +219,7 @@ class ApiService {
     required String location,
     required File image,
   }) async {
-    final url = Uri.parse('${Globals.baseUrl}/vendorApplication');
+    final url = Uri.parse('${Globals.baseUrl}/vendor/apply');
 
     final request = http.MultipartRequest('POST', url)
       ..headers['Authorization'] = 'token $token'
@@ -250,7 +250,7 @@ class ApiService {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse('${Globals.baseUrl}/getapplicationstatus'),
+        Uri.parse('${Globals.baseUrl}/vendor/status'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
@@ -330,6 +330,22 @@ class ApiService {
         },
       );
 
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> deleteProduct(
+      {required String token, required String id}) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${Globals.baseUrl}/products/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
       return response;
     } catch (error) {
       return error;

@@ -29,7 +29,7 @@ class CategoryGrid extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white70),
+                  border: Border.all(color: Colors.grey.shade600, width: 1),
                   image: DecorationImage(
                       image:
                           NetworkImage(CategoryItems().categoryImages[index]),

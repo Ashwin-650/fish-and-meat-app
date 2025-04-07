@@ -16,8 +16,9 @@ class OrdersListTile extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
           horizontalTitleGap: 10,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide(color: Colors.grey.shade600)),
           tileColor: Colors.white,
           title: orders.orderListname[index].toString().extenTextStyle(
                 fontfamily: Appfonts.appFontFamily,

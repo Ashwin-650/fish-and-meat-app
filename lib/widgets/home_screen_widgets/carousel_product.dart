@@ -52,7 +52,8 @@ class _CarouselProductState extends State<CarouselProduct> {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(width: 2, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
@@ -62,7 +63,7 @@ class _CarouselProductState extends State<CarouselProduct> {
                     ],
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(15),
                     child: Stack(
                       children: [
                         Image.network(
@@ -111,7 +112,7 @@ class _CarouselProductState extends State<CarouselProduct> {
           options: CarouselOptions(
             height: 200,
             aspectRatio: 16 / 9,
-            viewportFraction: 1.1,
+            viewportFraction: 1,
             initialPage: 0,
             enableInfiniteScroll: true,
             reverse: false,

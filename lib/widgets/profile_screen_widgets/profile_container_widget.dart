@@ -9,8 +9,10 @@ class ProfileContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      height: 400,
+          border: Border.all(color: Colors.black, width: 2),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20)),
+      height: 410,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(

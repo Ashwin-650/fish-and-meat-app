@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -50,7 +53,11 @@ class ItemsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(categoryPassed)),
+      backgroundColor: Appcolor.backgroundColor,
+      appBar: AppBar(
+          backgroundColor: Appcolor.appbargroundColor,
+          title: categoryPassed.extenTextStyle(
+              fontfamily: Appfonts.appFontFamily)),
       body: FutureBuilder<List<dynamic>>(
         future: fetchItems(),
         builder: (context, snapshot) {
@@ -132,6 +139,8 @@ class ItemsScreen extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 description,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 14, color: Colors.black54),
                               ),

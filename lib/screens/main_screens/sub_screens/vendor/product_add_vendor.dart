@@ -29,9 +29,11 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
     'Chicken',
     'Beef',
     'Mutton',
-    'Fish',
-    'Rabbit',
-    'Books',
+    'Pork',
+    'Salt Water Fish',
+    'Fresh Water Fish',
+    'shell Fish',
+    'Prawns',
     'Other'
   ];
   String _selectedCategory = 'Chicken';
