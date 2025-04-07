@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 
 class CartItemsListController extends GetxController {
   // Define the cartItems as RxList
-  var cartItems = RxList<CartProduct>([]);
+  var cartItems = RxList<ProductDetails>([]);
 
   // Method to set the cart items
-  void setItems(List<CartProduct> value) {
+  void setItems(List<ProductDetails> value) {
     // Directly assign the List<CartProduct> to RxList value
     cartItems.value = value; // No need to cast it to RxList<CartProduct>
   }

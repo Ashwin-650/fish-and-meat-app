@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 class ProductDetails {
   final String id;
@@ -7,9 +8,10 @@ class ProductDetails {
   final String description;
   final int price;
   final String image;
-  final String rating;
+  final List<Reviews> reviews;
   final List<int> availability;
   final String category;
+  final int? quantity;
 
   ProductDetails({
     required this.id,
@@ -18,9 +20,10 @@ class ProductDetails {
     required this.description,
     required this.price,
     required this.image,
-    required this.rating,
+    required this.reviews,
     required this.availability,
     required this.category,
+    this.quantity,
   });
 
   // Factory method to create a ProductDetails from a JSON map
@@ -32,9 +35,13 @@ class ProductDetails {
       description: json['description'],
       price: json['price'],
       image: json['image'],
-      rating: json['rating'],
+      reviews: (json['reviews'] as List?)
+              ?.map((reviewJson) => Reviews.fromJson(reviewJson))
+              .toList() ??
+          [],
       availability: List<int>.from(json['availability']),
       category: json['category'],
+      quantity: json['quantity'],
     );
   }
 
@@ -47,68 +54,38 @@ class ProductDetails {
       'description': description,
       'price': price,
       'image': image,
-      'rating': rating,
+      'reviews': reviews,
       'availability': availability,
       'category': category,
+      'quantity': quantity,
     };
   }
 }
 
-class CartProduct {
-  final String id;
-  final String userId;
-  final String title;
-  final String description;
-  final int price;
-  final String image;
-  final String rating;
-  final int quantity;
-  final List<int> availability;
-  final String category;
+class Reviews {
+  final String? review;
+  final double? rating;
+  final String? userid;
 
-  // Constructor
-  CartProduct({
-    required this.id,
-    required this.userId,
-    required this.title,
-    required this.description,
-    required this.price,
-    required this.image,
-    required this.rating,
-    required this.quantity,
-    required this.availability,
-    required this.category,
+  Reviews({
+    this.review,
+    this.rating,
+    this.userid,
   });
 
-  // Factory method to create an instance from a map (useful for parsing data from JSON)
-  factory CartProduct.fromMap(Map<String, dynamic> map) {
-    return CartProduct(
-      id: map['id'],
-      userId: map['userId'],
-      title: map['title'],
-      description: map['description'],
-      price: map['price'],
-      image: map['image'],
-      rating: map['rating'],
-      quantity: map['quantity'],
-      availability: List<int>.from(json.decode(map['availability'])),
-      category: map['category'],
+  factory Reviews.fromJson(Map<String, dynamic> json) {
+    return Reviews(
+      review: json['review'],
+      rating: json['rating'].toDouble(),
+      userid: json['userid'],
     );
   }
 
-  // Method to convert an instance to a map (useful for sending data to a server or saving locally)
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'userId': userId,
-      'title': title,
-      'description': description,
-      'price': price,
-      'image': image,
+      'review': review,
       'rating': rating,
-      'quantity': quantity,
-      'availability': availability,
-      'category': category,
+      'userid': userid,
     };
   }
 }
