@@ -29,7 +29,7 @@ class ProductDetailPage extends StatefulWidget {
   ProductDetailPage({super.key});
   final details = Get.arguments;
 
-  late String _name;
+  late String _title;
   late String _description;
   late String _price;
   late String _offerPrice;
@@ -61,11 +61,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (rating < 2.0) return Colors.red;
     if (rating < 4.0) return Colors.orange;
     return Colors.green;
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
