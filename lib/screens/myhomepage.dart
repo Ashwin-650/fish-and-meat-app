@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
+import 'package:fish_and_meat_app/models/order_details.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/home_screen.dart';
@@ -23,12 +25,14 @@ class Myhomepage extends StatefulWidget {
 class _MyhomepageState extends State<Myhomepage> {
   final CartItemsListController cartItemsListController =
       Get.put(CartItemsListController());
+  final OrdersItemsListController ordersItemsListController =
+      Get.put(OrdersItemsListController());
   int currentIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
     const SearchScreen(),
     const CartScreen(),
-    const OrdersScreen(),
+    OrdersScreen(),
     const ProfileScreen()
   ];
 
@@ -59,6 +63,15 @@ class _MyhomepageState extends State<Myhomepage> {
                 cartItemsListController.setItems((json.decode(response.body)
                         as List)
                     .map((productJson) => ProductDetails.fromJson(productJson))
+                    .toList());
+              }
+            } else if (value == 3) {
+              final response =
+                  await ApiService.getOrders(token: await Globals.loginToken);
+              if (response != null && response.statusCode == 200) {
+                ordersItemsListController.setItems((json.decode(response.body)
+                        as List)
+                    .map((productJson) => OrderDetails.fromJson(productJson))
                     .toList());
               }
             }
