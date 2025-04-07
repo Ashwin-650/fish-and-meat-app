@@ -56,10 +56,10 @@ class _MyhomepageState extends State<Myhomepage> {
               final response =
                   await ApiService.getFromCart(token: await Globals.loginToken);
               if (response != null && response.statusCode == 200) {
-                cartItemsListController.setItems(
-                    (json.decode(response.body) as List)
-                        .map((productJson) => CartProduct.fromMap(productJson))
-                        .toList());
+                cartItemsListController.setItems((json.decode(response.body)
+                        as List)
+                    .map((productJson) => ProductDetails.fromJson(productJson))
+                    .toList());
               }
             }
           },

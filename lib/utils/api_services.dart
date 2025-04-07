@@ -129,7 +129,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse(
-            '${Globals.baseUrl}/products?searchkey=$query&price=$price&category=$category'),
+            '${Globals.baseUrl}/products?search=$query&price=$price&category=$category'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
@@ -153,7 +153,7 @@ class ApiService {
         'description': item.description,
         'price': item.price,
         'image': item.image,
-        'rating': item.rating,
+        'reviews': item.reviews,
         'availability': "${item.availability}",
         'category': item.category,
       };
