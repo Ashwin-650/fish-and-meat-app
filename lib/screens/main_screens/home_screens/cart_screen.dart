@@ -1,6 +1,9 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
+import 'package:fish_and_meat_app/utils/razorpay_services.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/cart_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,35 +18,15 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // Sample data
-  final CartItemsListController cartItemsListController = Get.find();
-  //final List<ProductDetails> _cartItems = [];
+  final CartItemsListController _cartItemsListController = Get.find();
+  final TextEditingController _textEditingController = TextEditingController();
 
   String _selectedLocation = 'Home';
   String _selectedAddress = '123 Main St, Apt 4B, New York, NY 10001';
   String _mobileNumber = '+1 (555) 123-4567';
-  String _couponCode = '';
   bool _couponApplied = false;
   final double _discount = 0.0;
   DateTime _deliveryDate = DateTime.now().add(const Duration(days: 1));
-  String _selectedTimeSlot = '10:00 AM - 12:00 PM';
-  String _selectedPaymentMethod = 'Credit Card';
-
-  final List<String> _timeSlots = [
-    '10:00 AM - 12:00 PM',
-    '12:00 PM - 2:00 PM',
-    '2:00 PM - 4:00 PM',
-    '4:00 PM - 6:00 PM',
-    '6:00 PM - 8:00 PM',
-  ];
-
-  final List<String> _paymentMethods = [
-    'Credit Card',
-    'PayPal',
-    'Apple Pay',
-    'Google Pay',
-    'Cash on Delivery',
-  ];
 
   void _showLocationBottomSheet() {
     showModalBottomSheet(
@@ -241,121 +224,12 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  void _showTimeSlotBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Select Time Slot',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _timeSlots.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_timeSlots[index]),
-                    trailing: _selectedTimeSlot == _timeSlots[index]
-                        ? const Icon(Icons.check_circle, color: Colors.teal)
-                        : null,
-                    onTap: () {
-                      setState(() {
-                        _selectedTimeSlot = _timeSlots[index];
-                      });
-                      Navigator.pop(context);
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showPaymentMethodsBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Select Payment Method',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: _paymentMethods.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(_getPaymentIcon(_paymentMethods[index])),
-                  title: Text(_paymentMethods[index]),
-                  trailing: _selectedPaymentMethod == _paymentMethods[index]
-                      ? const Icon(Icons.check_circle, color: Colors.teal)
-                      : null,
-                  onTap: () {
-                    setState(() {
-                      _selectedPaymentMethod = _paymentMethods[index];
-                    });
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  IconData _getPaymentIcon(String paymentMethod) {
-    switch (paymentMethod) {
-      case 'Credit Card':
-        return Icons.credit_card;
-      case 'PayPal':
-        return Icons.account_balance_wallet;
-      case 'Apple Pay':
-        return Icons.apple;
-      case 'Google Pay':
-        return Icons.g_mobiledata;
-      case 'Cash on Delivery':
-        return Icons.money;
-      default:
-        return Icons.payment;
-    }
-  }
-
-  void _applyCoupon() {
-    // Simulate coupon application
-    if (_couponCode.toUpperCase() == 'SAVE10') {
+  void _applyCoupon({required String code}) async {
+    final response = await ApiService.verifyPromoCode(
+        token: await Globals.loginToken, code: code);
+    if (response != null && response.statusCode == 200) {
       setState(() {
         _couponApplied = true;
-
-//.....error
-
-        // _discount = _subtotal * 0.1; // 10% discount
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Coupon applied successfully!'),
@@ -374,13 +248,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _placeOrder() {
-    // Implement order placement logic
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Order placed successfully!'),
-        backgroundColor: Colors.green,
-      ),
-    );
+    RazorpayServices.init();
+    RazorpayServices.openCheckOut(amount: 100000);
   }
 
   @override
@@ -424,7 +293,7 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
       body: Obx(
-        () => cartItemsListController.cartItems.isEmpty
+        () => _cartItemsListController.cartItems.isEmpty
             ? const Center(
                 child: Text(
                   'Your cart is empty',
@@ -452,9 +321,9 @@ class _CartScreenState extends State<CartScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(16),
-                      itemCount: cartItemsListController.cartItems.length,
+                      itemCount: _cartItemsListController.cartItems.length,
                       itemBuilder: (context, index) {
-                        final item = cartItemsListController.cartItems[index];
+                        final item = _cartItemsListController.cartItems[index];
                         return CartItemWidget(
                           item: item,
                         );
@@ -494,9 +363,9 @@ class _CartScreenState extends State<CartScreen> {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: TextField(
+                                      controller: _textEditingController,
                                       onChanged: (value) {
                                         setState(() {
-                                          _couponCode = value;
                                           _couponApplied = false;
                                         });
                                       },
@@ -508,7 +377,8 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                   ElevatedButton(
-                                    onPressed: _applyCoupon,
+                                    onPressed: () => _applyCoupon(
+                                        code: _textEditingController.text),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.teal,
                                       shape: RoundedRectangleBorder(
@@ -672,47 +542,6 @@ class _CartScreenState extends State<CartScreen> {
                                           )),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-
-                            const SizedBox(height: 16),
-
-                            // Payment Method
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Colors.teal.withAlpha(50),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.grey[300]!),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                          _getPaymentIcon(
-                                              _selectedPaymentMethod),
-                                          color: Colors.teal),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        _selectedPaymentMethod,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  TextButton(
-                                      onPressed: _showPaymentMethodsBottomSheet,
-                                      child: const Text(
-                                        'Change',
-                                        style: TextStyle(
-                                          color: Colors.teal,
-                                        ),
-                                      )),
                                 ],
                               ),
                             ),

@@ -62,7 +62,7 @@ class CartItemWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Subtotal: \$${(item.price * item.availability.length).toStringAsFixed(2)}',
+                    'Subtotal: \$${(item.price * item.quantity!).toStringAsFixed(2)}',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,
@@ -112,7 +112,22 @@ class CartItemWidget extends StatelessWidget {
                         Icons.add,
                         color: Colors.white,
                       ),
-                      onPressed: () {}),
+                      onPressed: () async {
+                        final token = await Globals.loginToken;
+                        final response = await ApiService.insertToCart(
+                            token: token, id: item.id);
+                        if (response != null && response.statusCode == 200) {
+                          final response =
+                              await ApiService.getFromCart(token: token);
+                          final CartItemsListController
+                              cartItemsListController = Get.find();
+                          cartItemsListController.setItems(
+                              (json.decode(response.body) as List)
+                                  .map((productJson) =>
+                                      ProductDetails.fromJson(productJson))
+                                  .toList());
+                        }
+                      }),
                 ],
               ),
             ),
