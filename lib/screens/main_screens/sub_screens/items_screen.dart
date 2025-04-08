@@ -42,10 +42,10 @@ class ItemsScreen extends StatelessWidget {
           await SharedPreferencesServices.getValue(Globals.apiToken, '');
       final response = await ApiService.getItemsCategory(
           token: token, category: categoryPassed);
-      print(listcategory.runtimeType);
-      print(categoryPassed);
+
       if (response is http.Response && response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final dataBody = json.decode(response.body);
+        final data = dataBody["data"];
         return data; // Adjust this key based on your API response
       } else {
         throw Exception('Failed to load items');
@@ -82,12 +82,10 @@ class ItemsScreen extends StatelessWidget {
                   item['offerprice']?.toString(); // null if not available
               final imageUrl =
                   '${Globals.imagePath}/${item['image']}'; // change key if needed
-              print(item['offerprice']);
-              print(
-                  'Offer price for ${item['title']}: ${item['offerPrice'] ?? "Not provided"}');
 
               return InkWell(
-                onTap: () => Get.to(() => ProductDetailPage(), arguments: {
+                onTap: () =>
+                    Get.to(() => const ProductDetailPage(), arguments: {
                   'image': imageUrl,
                   'title': name,
                   'description': description,

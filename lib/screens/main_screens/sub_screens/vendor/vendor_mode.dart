@@ -80,7 +80,9 @@ class _VendorModeState extends State<VendorMode> {
           await ApiService.getFromVendor(token: token);
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body);
+        final responseBody = jsonDecode(response.body);
+        final responseData = responseBody["data"];
+        final List<dynamic> data = responseData;
 
         setState(() {
           products = data.map((json) => Product.fromJson(json)).toList();

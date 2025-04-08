@@ -159,7 +159,7 @@ class ApiService {
       };
 
       final response = await http.post(
-        Uri.parse('${Globals.baseUrl}/addtocart'),
+        Uri.parse('${Globals.baseUrl}/carts'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'

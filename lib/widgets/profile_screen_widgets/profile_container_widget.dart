@@ -10,7 +10,7 @@ class ProfileContainerWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2),
-          color: Colors.white,
+          color: Colors.grey.shade50,
           borderRadius: BorderRadius.circular(20)),
       height: 410,
       child: Padding(

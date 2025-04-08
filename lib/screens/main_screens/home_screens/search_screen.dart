@@ -34,9 +34,9 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
-                  color: Appcolor.bottomBarColor,
+                  color: Appcolor.itemBackColor,
                   borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(color: Colors.grey[300]!)),
+                  border: Border.all(color: Colors.grey[600]!)),
               child: Column(
                 children: [
                   Padding(

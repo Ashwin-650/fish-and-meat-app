@@ -11,7 +11,7 @@ class TopSelling extends StatelessWidget {
     super.key,
     required this.photo,
     required this.text,
-    this.onAddPressed,
+    required this.onAddPressed,
   });
 
   @override

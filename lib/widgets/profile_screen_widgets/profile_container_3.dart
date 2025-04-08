@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class ProfileContainer3 extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 2),
-            color: Colors.white,
+            color: Colors.grey.shade50,
             borderRadius: BorderRadius.circular(20)),
         height: 280,
         child: Column(
