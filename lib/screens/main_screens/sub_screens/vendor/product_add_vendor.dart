@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductAddVendor extends StatefulWidget {
+  const ProductAddVendor({super.key});
+
   @override
   _ProductAddVendorState createState() => _ProductAddVendorState();
 }
@@ -23,7 +25,7 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
   final _categoryController = TextEditingController();
   final _pincodeController = TextEditingController();
 
-  List<String> _availableLocations = [];
+  final List<String> _availableLocations = [];
   File? _imageFile;
   final List<String> _categories = [
     'Chicken',
@@ -51,9 +53,9 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
   }
 
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {

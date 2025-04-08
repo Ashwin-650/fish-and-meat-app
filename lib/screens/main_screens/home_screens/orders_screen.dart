@@ -26,17 +26,18 @@ class OrdersScreen extends StatelessWidget {
                 itemCount: _cartItemsListController.cartItems.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
-                        color: Colors.blueGrey.shade200,
+                        border: Border.all(color: Colors.grey.shade600),
+                        color: Appcolor.itemBackColor,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _cartItemsListController.cartItems[index].id
+                          "Order ID: ${_cartItemsListController.cartItems[index].id}"
                               .extenTextStyle(
                                   fontsize: 18, fontWeight: FontWeight.w700),
                           ListTile(
@@ -62,7 +63,7 @@ class OrdersScreen extends StatelessWidget {
                                     .extenTextStyle(
                                         fontsize: 16,
                                         fontfamily: Appfonts.appFontFamily,
-                                        color: Colors.black45,
+                                        color: Colors.black54,
                                         textAlign: TextAlign.center),
                               ),
                             ),

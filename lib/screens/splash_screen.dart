@@ -32,9 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
               color: Appcolor.backgroundColor),
           child: Center(
             child: Container(
-              height: 200,
-              width: 300,
-              color: Colors.blueGrey.shade400,
+              decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade400,
+                  borderRadius: BorderRadius.circular(10)),
+              height: 60,
+              width: 180,
               child: Center(
                 child: 'MEATZY'.extenTextStyle(
                     fontsize: 36,

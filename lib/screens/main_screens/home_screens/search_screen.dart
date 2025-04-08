@@ -34,9 +34,9 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
-                  color: Appcolor.bottomBarColor,
+                  color: Appcolor.itemBackColor,
                   borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(color: Colors.grey[300]!)),
+                  border: Border.all(color: Colors.grey[600]!)),
               child: Column(
                 children: [
                   Padding(
@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (response != null &&
                                 response.statusCode == 200) {
                               setState(() {
-                                queryItems = (json.decode(response.body)
+                                queryItems = (json.decode(response.body)["data"]
                                         as List)
                                     .map((productJson) =>
                                         ProductDetails.fromJson(productJson))

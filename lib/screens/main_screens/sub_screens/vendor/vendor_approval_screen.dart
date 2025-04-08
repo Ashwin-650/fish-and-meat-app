@@ -46,7 +46,7 @@ class _VendorApprovalScreenState extends State<VendorApprovalScreen> {
 
       if (response is http.Response) {
         if (response.statusCode == 200) {
-          final responseBody = json.decode(response.body);
+          final responseBody = jsonDecode(response.body);
           final responseData = responseBody["data"];
 
           if (responseData["status"] == "success") {

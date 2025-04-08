@@ -92,7 +92,7 @@ class _MyhomepageState extends State<Myhomepage> {
                               token: await Globals.loginToken);
                           if (response != null && response.statusCode == 200) {
                             ordersItemsListController.setItems(
-                                (json.decode(response.body) as List)
+                                (json.decode(response.body)["data"] as List)
                                     .map((productJson) =>
                                         OrderDetails.fromJson(productJson))
                                     .toList());

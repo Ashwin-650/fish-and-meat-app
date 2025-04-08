@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -16,7 +17,8 @@ class CartItemWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.teal.withAlpha(50),
+        border: Border.all(color: Colors.grey),
+        color: Appcolor.itemBackColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
@@ -56,7 +58,7 @@ class CartItemWidget extends StatelessWidget {
                   Text(
                     '\$${item.price.toStringAsFixed(2)}',
                     style: const TextStyle(
-                      color: Colors.teal,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -64,7 +66,7 @@ class CartItemWidget extends StatelessWidget {
                   Text(
                     'Subtotal: \$${(item.price * item.quantity!).toStringAsFixed(2)}',
                     style: TextStyle(
-                      color: Colors.grey[600],
+                      color: Colors.black,
                       fontSize: 12,
                     ),
                   ),
@@ -74,7 +76,7 @@ class CartItemWidget extends StatelessWidget {
             // Quantity Controls
             Container(
               decoration: BoxDecoration(
-                color: Colors.teal,
+                color: Appcolor.bottomBarColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(

@@ -6,4 +6,6 @@ class Appcolor {
   static Color appbargroundColor = Colors.white;
 
   static Color bottomBarColor = Colors.blueGrey.shade400;
+
+  static Color itemBackColor = Colors.green.shade50;
 }

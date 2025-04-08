@@ -355,6 +355,23 @@ class ApiService {
     }
   }
 
+  static Future<dynamic> getProduct(
+      {required String token, required String id}) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/products/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static Future<dynamic> deleteProduct(
       {required String token, required String id}) async {
     try {

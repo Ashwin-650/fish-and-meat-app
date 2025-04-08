@@ -4,6 +4,7 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -36,16 +37,19 @@ class ItemsScreen extends StatelessWidget {
 
     String categoryPassed = displayCategory[categoryIndex][itemIndex];
 
-    Future<List<dynamic>> fetchItems() async {
+    Future<List<ProductDetails>> fetchItems() async {
       String token =
           await SharedPreferencesServices.getValue(Globals.apiToken, '');
       final response = await ApiService.getItemsCategory(
           token: token, category: categoryPassed);
-      print(listcategory.runtimeType);
-      print(categoryPassed);
+
       if (response is http.Response && response.statusCode == 200) {
-        final responseData = json.decode(response.body)["data"];
-        return responseData; // Adjust this key based on your API response
+        final responseBody = json.decode(response.body);
+        final data = responseBody["data"];
+
+        return (data as List)
+            .map((json) => ProductDetails.fromJson(json))
+            .toList();
       } else {
         throw Exception('Failed to load items');
       }
@@ -57,7 +61,7 @@ class ItemsScreen extends StatelessWidget {
           backgroundColor: Appcolor.appbargroundColor,
           title: categoryPassed.extenTextStyle(
               fontfamily: Appfonts.appFontFamily)),
-      body: FutureBuilder<List<dynamic>>(
+      body: FutureBuilder<List<ProductDetails>>(
         future: fetchItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -74,19 +78,11 @@ class ItemsScreen extends StatelessWidget {
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
-              final name = item['title'] ?? 'No name';
-              final description = item['description'] ?? '';
-              final price = item['price']?.toString() ?? 'N/A';
-              final offerPrice =
-                  item['offerprice']?.toString(); // null if not available
-              final imageUrl =
-                  '${Globals.imagePath}/${item['image']}'; // change key if needed
+              final imageUrl = '${Globals.imagePath}/${item.image}';
 
               return InkWell(
                 onTap: () =>
-                    Get.to(() => const ProductDetailPage(), arguments: {
-                  'id': item["id"],
-                }),
+                    Get.to(() => const ProductDetailPage(), arguments: item.id),
                 child: Card(
                   color: Colors.white,
                   margin:
@@ -125,7 +121,7 @@ class ItemsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                name,
+                                item.title,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -133,7 +129,7 @@ class ItemsScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                description,
+                                item.description,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -143,21 +139,21 @@ class ItemsScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    '₹$price',
+                                    '₹${item.price}',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      color: offerPrice != null
+                                      color: item.offerPrice != null
                                           ? Colors.grey
                                           : Colors.black,
-                                      decoration: offerPrice != null
+                                      decoration: item.offerPrice != null
                                           ? TextDecoration.lineThrough
                                           : TextDecoration.none,
                                     ),
                                   ),
-                                  if (offerPrice != null) ...[
+                                  if (item.offerPrice != null) ...[
                                     const SizedBox(width: 8),
                                     Text(
-                                      '₹$offerPrice',
+                                      '₹$item.offerPrice',
                                       style: const TextStyle(
                                         fontSize: 15,
                                         color: Colors.green,

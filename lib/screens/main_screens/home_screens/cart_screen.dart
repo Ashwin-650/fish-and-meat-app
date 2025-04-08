@@ -259,7 +259,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         backgroundColor: Appcolor.appbargroundColor,
         title: const Text(
-          'CART',
+          'Cart',
           style: TextStyle(
               color: Colors.black,
               fontSize: 26,
@@ -352,7 +352,7 @@ class _CartScreenState extends State<CartScreen> {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.teal.withAlpha(50),
+                                color: Appcolor.itemBackColor,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(color: Colors.grey[300]!),
                               ),
@@ -380,7 +380,7 @@ class _CartScreenState extends State<CartScreen> {
                                     onPressed: () => _applyCoupon(
                                         code: _textEditingController.text),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.teal,
+                                      backgroundColor: Appcolor.bottomBarColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -400,7 +400,7 @@ class _CartScreenState extends State<CartScreen> {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.teal.withAlpha(50),
+                                color: Appcolor.itemBackColor,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(color: Colors.grey[300]!),
                               ),
@@ -456,7 +456,7 @@ class _CartScreenState extends State<CartScreen> {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.teal.withAlpha(50),
+                                color: Appcolor.itemBackColor,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(color: Colors.grey[300]!),
                               ),
@@ -552,7 +552,7 @@ class _CartScreenState extends State<CartScreen> {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.teal.withAlpha(50),
+                                color: Appcolor.itemBackColor,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(color: Colors.grey[300]!),
                               ),
