@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -9,6 +10,7 @@ import 'package:fish_and_meat_app/widgets/search_screen_widgets/moving_carousel.
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/recent_searches_list.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/suggestion_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -23,6 +25,28 @@ class _SearchScreenState extends State<SearchScreen> {
       Get.put(TextEditingController());
   List<ProductDetails> queryItems = [];
   int searchPageIndex = 0;
+  final NavBarController _navBarController = Get.find();
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController2 = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+    _scrollController2.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      _navBarController.isVisible.value = false;
+    }
+
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      _navBarController.isVisible.value = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 index: searchPageIndex,
                 children: [
                   ListView(
+                    controller: _scrollController,
                     shrinkWrap: true,
                     children: [
                       const Padding(
@@ -135,6 +160,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ],
                   ),
                   ListView.builder(
+                    controller: _scrollController2,
                     shrinkWrap: true,
                     itemCount: queryItems.length,
                     itemBuilder: (ctx, index) {

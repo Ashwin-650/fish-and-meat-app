@@ -6,7 +6,6 @@ class Globals {
   static const String imagePath = "http://192.168.1.137:3000/uploads";
   static const String razorToken = "rzp_test_wywYDiHyaudgBK";
 
-  static Future<String> get loginToken async {
-    return await SharedPreferencesServices.getValue(apiToken, "");
-  }
+  static Future<String> get loginToken async =>
+      await SharedPreferencesServices.getValue(apiToken, "");
 }
