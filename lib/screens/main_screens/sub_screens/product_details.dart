@@ -49,6 +49,22 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     init();
   }
 
+  void _incrementQuantity() {
+    setState(() {
+      if (_quantity < 50) {
+        _quantity++;
+      }
+    });
+  }
+
+  void _decrementQuantity() {
+    setState(() {
+      if (_quantity > 1) {
+        _quantity--;
+      }
+    });
+  }
+
   void init() async {
     final response = await ApiService.getProduct(
         token: await Globals.loginToken, id: productID);
@@ -57,7 +73,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       setState(() {
         productDetails = ProductDetails.fromJson(responseData["product"]);
         _rating = responseData["rating"].toDouble();
-        print(productDetails);
       });
     }
   }
@@ -362,7 +377,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     Row(
                                       children: [
                                         InkWell(
-                                          onTap: () {},
+                                          onTap: () {
+                                            _decrementQuantity();
+                                          },
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           child: Container(
@@ -399,7 +416,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                           ),
                                         ),
                                         InkWell(
-                                          onTap: () {},
+                                          onTap: () {
+                                            _incrementQuantity();
+                                          },
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           child: Container(

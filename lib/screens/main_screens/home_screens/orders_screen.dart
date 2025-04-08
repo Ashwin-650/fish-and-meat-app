@@ -1,5 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,10 @@ class OrdersScreen extends StatelessWidget {
       backgroundColor: Appcolor.backgroundColor,
       appBar: AppBar(
           backgroundColor: Appcolor.appbargroundColor,
-          title: 'Orders'
-              .extenTextStyle(fontWeight: FontWeight.w700, fontsize: 24)),
+          title: 'Orders'.extenTextStyle(
+            fontfamily: Appfonts.appFontFamily,
+            fontsize: Appfontsize.appBarHeadSize,
+          )),
       body: Column(
         children: [
           Expanded(

@@ -1,7 +1,9 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/razorpay_services.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/cart_item_widget.dart';
@@ -258,13 +260,10 @@ class _CartScreenState extends State<CartScreen> {
       backgroundColor: Appcolor.backgroundColor,
       appBar: AppBar(
         backgroundColor: Appcolor.appbargroundColor,
-        title: const Text(
-          'Cart',
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 26,
-              fontFamily: Appfonts.appFontFamily),
-        ),
+        title: 'Cart'.extenTextStyle(
+            color: Colors.black,
+            fontsize: Appfontsize.appBarHeadSize,
+            fontfamily: Appfonts.appFontFamily),
         actions: [
           InkWell(
             borderRadius: BorderRadius.circular(20.0),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
             snap: true,
             title: 'Hii..John '.extenTextStyle(
                 fontWeight: FontWeight.w700,
-                fontsize: 24,
+                fontsize: Appfontsize.appBarHeadSize,
                 fontfamily: Appfonts.appFontFamily),
             actions: [
               IconButton(
@@ -92,30 +93,26 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-                child: CarouselProduct(),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: 'Top Selling Items'.extenTextStyle(
-                    fontsize: 26,
-                    fontfamily: Appfonts.appFontFamily,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-            ]),
-          ),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                  child: CarouselProduct(),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: 'Top Selling Items'.extenTextStyle(
+                      fontsize: Appfontsize.headerFontSize,
+                      fontfamily: Appfonts.appFontFamily,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 180,
                   child: ListView.builder(
@@ -157,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Fish Categories'.extenTextStyle(
-                              fontsize: 26,
+                              fontsize: Appfontsize.headerFontSize,
                               textAlign: TextAlign.left,
                               fontfamily: Appfonts.appFontFamily),
                           TextButton(
@@ -183,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Meat Categories'.extenTextStyle(
-                              fontsize: 26,
+                              fontsize: Appfontsize.headerFontSize,
                               textAlign: TextAlign.left,
                               fontfamily: Appfonts.appFontFamily),
                           TextButton(
