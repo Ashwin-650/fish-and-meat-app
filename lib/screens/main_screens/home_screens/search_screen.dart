@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (response != null &&
                                 response.statusCode == 200) {
                               setState(() {
-                                queryItems = (json.decode(response.body)
+                                queryItems = (json.decode(response.body)["data"]
                                         as List)
                                     .map((productJson) =>
                                         ProductDetails.fromJson(productJson))

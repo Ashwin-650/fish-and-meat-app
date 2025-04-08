@@ -55,9 +55,7 @@ class OrdersScreen extends StatelessWidget {
                                     ),
                             trailing: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey.shade700),
+                                  color: Appcolor.appbargroundColor,
                                   borderRadius: BorderRadius.circular(10)),
                               height: 30,
                               width: 100,

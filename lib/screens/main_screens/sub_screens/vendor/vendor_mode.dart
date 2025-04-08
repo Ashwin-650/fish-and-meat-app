@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -8,45 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
-
-class Product {
-  final String id;
-  final String title;
-  final String? description;
-  final String imagePath;
-  final double price;
-  final String availableLocations;
-  final String category;
-  final double? offerPrice;
-  final int stock;
-
-  Product({
-    required this.id,
-    required this.title,
-    this.description,
-    required this.imagePath,
-    required this.price,
-    required this.availableLocations,
-    required this.category,
-    this.offerPrice,
-    required this.stock,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id']?.toString() ?? '', // Ensuring ID is always a string
-      title: json['title']?.toString() ?? '',
-      description: json['description']?.toString(),
-      imagePath: json['image']?.toString() ?? '',
-      price: (json['price'] is num) ? (json['price'] as num).toDouble() : 0.0,
-      category: json['category']?.toString() ?? '',
-      offerPrice: (json['offerPrice'] is num)
-          ? (json['offerPrice'] as num).toDouble()
-          : null,
-      stock: json['stock'] is int ? json['stock'] : 0, availableLocations: '',
-    );
-  }
-}
 
 class VendorMode extends StatefulWidget {
   const VendorMode({super.key});
@@ -56,7 +18,7 @@ class VendorMode extends StatefulWidget {
 }
 
 class _VendorModeState extends State<VendorMode> {
-  List<Product> products = [];
+  List<ProductDetails> products = [];
   bool isLoading = true; // Loading state
   bool isDeleting = false;
   @override
@@ -81,11 +43,12 @@ class _VendorModeState extends State<VendorMode> {
 
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-        final responseData = responseBody["data"];
-        final List<dynamic> data = responseData;
+        final List responseData = responseBody["data"];
 
         setState(() {
-          products = data.map((json) => Product.fromJson(json)).toList();
+          products = responseData
+              .map((json) => ProductDetails.fromJson(json))
+              .toList();
           isLoading = false;
         });
       } else {
@@ -97,7 +60,6 @@ class _VendorModeState extends State<VendorMode> {
     }
   }
 
-//
   Future<void> _deleteProduct(String productId) async {
     setState(() {
       isDeleting = true;
@@ -216,9 +178,9 @@ class _VendorModeState extends State<VendorMode> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Image.network(
-                                product.imagePath.startsWith('http')
-                                    ? product.imagePath
-                                    : '${Globals.imagePath}/${product.imagePath}',
+                                product.image.startsWith('http')
+                                    ? product.image
+                                    : '${Globals.imagePath}/${product.image}',
                                 height: 180,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -230,11 +192,10 @@ class _VendorModeState extends State<VendorMode> {
                                 fontsize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
-                              if (product.description != null &&
-                                  product.description!.isNotEmpty)
+                              if (product.description.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
-                                  child: product.description!.extenTextStyle(
+                                  child: product.description.extenTextStyle(
                                       textOverflow: TextOverflow.ellipsis,
                                       maxLines: 3),
                                 ),
