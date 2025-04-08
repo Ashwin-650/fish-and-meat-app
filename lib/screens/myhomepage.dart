@@ -60,8 +60,9 @@ class _MyhomepageState extends State<Myhomepage> {
               final response =
                   await ApiService.getFromCart(token: await Globals.loginToken);
               if (response != null && response.statusCode == 200) {
-                cartItemsListController.setItems((json.decode(response.body)
-                        as List)
+                final responseBody = jsonDecode(response.body);
+                final responseData = responseBody["data"];
+                cartItemsListController.setItems(((responseData) as List)
                     .map((productJson) => ProductDetails.fromJson(productJson))
                     .toList());
               }

@@ -29,9 +29,12 @@ class _LoginPageState extends State<LoginPage> {
         email: !_isLoginWithNumber ? _emailController.text : "",
         number: _isLoginWithNumber ? _numberController.text : "",
       );
-      if (response != null && response.statusCode == 200) {
+      if (response != null && response.statusCode == 200 ||
+          response.statusCode == 201) {
         Map<String, dynamic> jsonData = json.decode(response.body);
-        String email = jsonData["data"];
+        print('rep :${response.body}');
+        String email = jsonData["data"]["email"];
+
         Get.to(const VerificationScreen(), arguments: email);
       } else {}
     } else {}

@@ -58,7 +58,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   void _incrementQuantity() {
     setState(() {
-      _quantity++;
+      if (_quantity < 50) {
+        _quantity++;
+      }
     });
   }
 
@@ -323,6 +325,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     : Icons.keyboard_arrow_down,
                                 color: Appcolor.bottomBarColor,
                               ),
+                              childrenPadding: EdgeInsets.zero,
                               children: [
                                 Padding(
                                   padding:
@@ -337,7 +340,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   ),
                                 ),
                               ],
-                              childrenPadding: EdgeInsets.zero,
                             ),
                           ),
                         ),
@@ -354,7 +356,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Quantity',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -486,12 +488,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.shopping_cart_outlined,
+                          Icon(Icons.shopping_cart_outlined,
                               color: Colors.white),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 10),
                           Text(
                             'Add to Cart',
                             style: TextStyle(

@@ -95,8 +95,10 @@ class CartItemWidget extends StatelessWidget {
                               await ApiService.getFromCart(token: token);
                           final CartItemsListController
                               cartItemsListController = Get.find();
+                          final responseBody = jsonDecode(response.body);
+                          final responseData = responseBody["data"];
                           cartItemsListController.setItems(
-                              (json.decode(response.body) as List)
+                              ((responseData) as List)
                                   .map((productJson) =>
                                       ProductDetails.fromJson(productJson))
                                   .toList());
@@ -123,8 +125,10 @@ class CartItemWidget extends StatelessWidget {
                               await ApiService.getFromCart(token: token);
                           final CartItemsListController
                               cartItemsListController = Get.find();
+                          final responseBody = jsonDecode(response.body);
+                          final responseData = responseBody["data"];
                           cartItemsListController.setItems(
-                              (json.decode(response.body) as List)
+                              ((responseData) as List)
                                   .map((productJson) =>
                                       ProductDetails.fromJson(productJson))
                                   .toList());
