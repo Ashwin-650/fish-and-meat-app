@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_mode.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -44,9 +46,10 @@ class _VendorApprovalScreenState extends State<VendorApprovalScreen> {
 
       if (response is http.Response) {
         if (response.statusCode == 200) {
-          final String responseBody = response.body.trim().replaceAll('"', '');
+          final responseBody = json.decode(response.body);
+          final responseData = responseBody["data"];
 
-          if (responseBody == "success") {
+          if (responseData["status"] == "success") {
             if (mounted) {
               setState(() {
                 _isApproved = true;
@@ -56,10 +59,10 @@ class _VendorApprovalScreenState extends State<VendorApprovalScreen> {
 
             Future.delayed(const Duration(seconds: 1), () {
               if (mounted) {
-                Get.off(() => VendorMode());
+                Get.off(() => const VendorMode());
               }
             });
-          } else if (responseBody == "pending") {
+          } else if (responseData["status"] == "pending") {
             if (mounted) {
               setState(() {
                 _isApproved = false;

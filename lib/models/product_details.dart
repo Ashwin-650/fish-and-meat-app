@@ -11,6 +11,8 @@ class ProductDetails {
   final List<int> availability;
   final String category;
   final int? quantity;
+  final int? stock;
+  final double? offerPrice;
 
   ProductDetails({
     required this.id,
@@ -23,6 +25,8 @@ class ProductDetails {
     required this.availability,
     required this.category,
     this.quantity,
+    this.stock,
+    this.offerPrice,
   });
 
   // Factory method to create a ProductDetails from a JSON map
@@ -43,6 +47,8 @@ class ProductDetails {
           : List<int>.from(json['availability']),
       category: json['category'],
       quantity: json['quantity'],
+      offerPrice: json['offerPrice'],
+      stock: json['stock'],
     );
   }
 
@@ -59,6 +65,8 @@ class ProductDetails {
       'availability': availability,
       'category': category,
       'quantity': quantity,
+      'offerPrice': offerPrice,
+      'stock': stock,
     };
   }
 }

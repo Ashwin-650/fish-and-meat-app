@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -11,6 +10,7 @@ import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,25 +22,25 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ProductDetails> items = [];
+  final NavBarController _navBarController = Get.find();
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    tests();
+    _scrollController.addListener(_scrollListener);
   }
 
-  tests() async {
-    final response =
-        await ApiService.getProducts(token: await Globals.loginToken);
-    if (response != null && response.statusCode == 200) {
-      setState(() {
-        items = (json.decode(response.body) as List)
-            .map((productJson) => ProductDetails.fromJson(productJson))
-            .toList();
-      });
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      _navBarController.isVisible.value = false;
     }
 
-    print('Response Status : ${response.body}');
-    //  print('Token Status : ${}');
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      _navBarController.isVisible.value = true;
+    }
   }
 
   @override
@@ -62,58 +62,60 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-                child: CarouselProduct(),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: 'Top Selling Items'.extenTextStyle(
-                    fontsize: 26,
-                    fontfamily: Appfonts.appFontFamily,
-                    textAlign: TextAlign.left,
+        child: CustomScrollView(
+          controller: _scrollController, // Attach ScrollController here
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate([
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                  child: CarouselProduct(),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: 'Top Selling Items'.extenTextStyle(
+                      fontsize: 26,
+                      fontfamily: Appfonts.appFontFamily,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                 ),
+              ]),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return TopSelling(
+                    photo: "${Globals.imagePath}\\${items[index].image}",
+                    text: items[index].title,
+                    onAddPressed: () async {
+                      final response = await ApiService.addToCart(
+                        token: await Globals.loginToken,
+                        item: items[index],
+                      );
+                      if (response != null &&
+                          (response.statusCode == 200 ||
+                              response.statusCode == 201)) {
+                        print(response);
+                      }
+                      Get.showSnackbar(
+                        const GetSnackBar(
+                          message: "Added to cart",
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                  );
+                },
+                childCount: items.length,
               ),
-              SizedBox(
-                height: 180,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return TopSelling(
-                      photo: "${Globals.imagePath}\\${items[index].image}",
-                      text: items[index].title,
-                      onAddPressed: () async {
-                        final response = await ApiService.addToCart(
-                          token: await Globals.loginToken,
-                          item: items[index],
-                        );
-                        if (response != null &&
-                            (response.statusCode == 200 ||
-                                response.statusCode == 201)) {
-                          print(response);
-                        }
-                        Get.showSnackbar(
-                          const GetSnackBar(
-                            message: "Added to cart",
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              Column(
+            ),
+            SliverToBoxAdapter(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -167,9 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: MeatGrid(),
                   ),
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

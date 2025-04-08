@@ -17,7 +17,6 @@ class ItemsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final listcategory = Get.arguments;
-    print('$listcategory');
     List<List<String>> displayCategory = [
       [
         'Fresh water fish',
@@ -45,8 +44,8 @@ class ItemsScreen extends StatelessWidget {
       print(listcategory.runtimeType);
       print(categoryPassed);
       if (response is http.Response && response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return data; // Adjust this key based on your API response
+        final responseData = json.decode(response.body)["data"];
+        return responseData; // Adjust this key based on your API response
       } else {
         throw Exception('Failed to load items');
       }
@@ -82,17 +81,11 @@ class ItemsScreen extends StatelessWidget {
                   item['offerprice']?.toString(); // null if not available
               final imageUrl =
                   '${Globals.imagePath}/${item['image']}'; // change key if needed
-              print(item['offerprice']);
-              print(
-                  'Offer price for ${item['title']}: ${item['offerPrice'] ?? "Not provided"}');
 
               return InkWell(
-                onTap: () => Get.to(() => ProductDetailPage(), arguments: {
-                  'image': imageUrl,
-                  'title': name,
-                  'description': description,
-                  'price': price,
-                  'offerPrice': offerPrice
+                onTap: () =>
+                    Get.to(() => const ProductDetailPage(), arguments: {
+                  'id': item["id"],
                 }),
                 child: Card(
                   color: Colors.white,
