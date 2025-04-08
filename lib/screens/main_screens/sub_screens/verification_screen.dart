@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/firebase_services.dart';
@@ -182,7 +183,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                 'We have sent the verification code to your mobile number',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: Appfontsize.regular16,
                   color: Colors.black54,
                 ),
               ),

@@ -64,7 +64,7 @@ class OrdersScreen extends StatelessWidget {
                                 child: _cartItemsListController
                                     .cartItems[index].status
                                     .extenTextStyle(
-                                        fontsize: 16,
+                                        fontsize: Appfontsize.regular16,
                                         fontfamily: Appfonts.appFontFamily,
                                         color: Colors.black54,
                                         textAlign: TextAlign.center),

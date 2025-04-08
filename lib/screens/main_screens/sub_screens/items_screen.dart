@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -81,8 +82,10 @@ class ItemsScreen extends StatelessWidget {
               final imageUrl = '${Globals.imagePath}/${item.image}';
 
               return InkWell(
-                onTap: () =>
-                    Get.to(() => const ProductDetailPage(), arguments: item.id),
+                onTap: () => Get.to(
+                  () => const ProductDetailPage(),
+                  arguments: item.id,
+                ),
                 child: Card(
                   color: Colors.white,
                   margin:
@@ -123,7 +126,7 @@ class ItemsScreen extends StatelessWidget {
                               Text(
                                 item.title,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: Appfontsize.regular16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

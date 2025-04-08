@@ -29,7 +29,9 @@ class _SignupPageState extends State<SignupPage> {
           _numberController.text,
         );
         if (response != null &&
-            (response.statusCode == 200 || response.statusCode == 202)) {
+            (response.statusCode == 200 ||
+                response.statusCode == 201 ||
+                response.statusCode == 202)) {
           Get.to(
             const VerificationScreen(),
             arguments: _emailController.text,

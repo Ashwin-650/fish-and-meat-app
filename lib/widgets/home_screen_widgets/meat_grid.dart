@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/list/category_items.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/items_screen.dart';
@@ -42,7 +43,7 @@ class MeatGrid extends StatelessWidget {
                       .toString()
                       .extenTextStyle(
                           color: Colors.white,
-                          fontsize: 20,
+                          fontsize: Appfontsize.gridTextSize,
                           fontfamily: Appfonts.appFontFamily),
                 ),
               ),

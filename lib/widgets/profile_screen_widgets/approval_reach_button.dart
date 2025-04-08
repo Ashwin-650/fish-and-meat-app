@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_approval_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class ApprovalReachButton extends StatelessWidget {
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)))),
         child: 'Vendor Profile'.extenTextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontsize: 16));
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontsize: Appfontsize.regular16));
   }
 }

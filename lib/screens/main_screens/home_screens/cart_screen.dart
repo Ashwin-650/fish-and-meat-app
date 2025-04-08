@@ -413,7 +413,7 @@ class _CartScreenState extends State<CartScreen> {
                                         'Schedule Your Delivery',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                          fontSize: Appfontsize.regular16,
                                         ),
                                       ),
                                     ],
@@ -475,7 +475,7 @@ class _CartScreenState extends State<CartScreen> {
                                             'Delivery Address',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                                              fontSize: Appfontsize.regular16,
                                             ),
                                           ),
                                         ],
@@ -517,7 +517,8 @@ class _CartScreenState extends State<CartScreen> {
                                                 'Mobile Number',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
+                                                  fontSize:
+                                                      Appfontsize.regular16,
                                                 ),
                                               ),
                                               const SizedBox(height: 4),
@@ -566,7 +567,7 @@ class _CartScreenState extends State<CartScreen> {
                                         'Order Summary',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                          fontSize: Appfontsize.regular16,
                                         ),
                                       ),
                                     ],

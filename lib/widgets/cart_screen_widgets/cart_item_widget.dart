@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -51,7 +52,7 @@ class CartItemWidget extends StatelessWidget {
                     item.title,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: Appfontsize.regular16,
                     ),
                   ),
                   const SizedBox(height: 4),

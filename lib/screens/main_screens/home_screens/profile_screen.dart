@@ -1,5 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -20,38 +21,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool hasVendorData = false;
-
+  final VisibilityButtonController _visibilityButtonController = Get.find();
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkVendorData();
-    });
-  }
-
-  Future<void> _checkVendorData() async {
-    String gstNumber =
-        await SharedPreferencesServices.getValue('gst_number', '') ?? '';
-    String shopName =
-        await SharedPreferencesServices.getValue('shop_name', '') ?? '';
-    String location =
-        await SharedPreferencesServices.getValue('shop_location', '') ?? '';
-    String pan =
-        await SharedPreferencesServices.getValue('pan_number', '') ?? '';
-    String adhaar =
-        await SharedPreferencesServices.getValue('adhaar_number', '') ?? '';
-
-    bool vendorDataCheck = gstNumber.isNotEmpty &&
-        shopName.isNotEmpty &&
-        location.isNotEmpty &&
-        pan.isNotEmpty &&
-        adhaar.isNotEmpty;
-
-    if (mounted) {
-      setState(() {
-        hasVendorData = vendorDataCheck;
-      });
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   @override
@@ -106,25 +80,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                Visibility(
-                    visible: true,
-                    child: hasVendorData
-                        ? Container(
-                            height: 40,
-                            width: 200,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.green.shade400),
-                            child: const ApprovalReachButton(),
-                          )
-                        : Container(
-                            height: 40,
-                            width: 200,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.green.shade400),
-                            child: const VendorButton(),
-                          )),
+                Obx(
+                  () => _visibilityButtonController.isVisible.value
+                      ? Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.green.shade400),
+                          child: const ApprovalReachButton(),
+                        )
+                      : Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.green.shade400),
+                          child: const VendorButton(),
+                        ),
+                ),
                 const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: ProfileContainerWidget()),

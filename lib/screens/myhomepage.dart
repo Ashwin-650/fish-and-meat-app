@@ -5,6 +5,7 @@ import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
 import 'package:fish_and_meat_app/models/order_details.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
@@ -29,7 +30,8 @@ class _MyhomepageState extends State<Myhomepage> {
   final OrdersItemsListController ordersItemsListController =
       Get.put(OrdersItemsListController());
   final NavBarController _navBarController = Get.put(NavBarController());
-
+  final VisibilityButtonController _visibilityButtonController =
+      Get.put(VisibilityButtonController());
   int currentIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
@@ -98,6 +100,19 @@ class _MyhomepageState extends State<Myhomepage> {
                                     .map((productJson) =>
                                         OrderDetails.fromJson(productJson))
                                     .toList());
+                          }
+                        } else if (value == 4) {
+                          final response = await ApiService.getUserInfo(
+                              token: await Globals.loginToken);
+                          if (response != null && response.statusCode == 200) {
+                            final responseData =
+                                jsonDecode(response.body)["data"];
+                            print(responseData["vendor"]);
+                            if (responseData["vendor"]) {
+                              _visibilityButtonController.displayVendor();
+                            } else {
+                              _visibilityButtonController.displayUser();
+                            }
                           }
                         }
                       },

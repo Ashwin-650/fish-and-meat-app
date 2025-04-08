@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -342,7 +343,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         child: Text(
                                           productDetails!.description,
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: Appfontsize.regular16,
                                             color: Colors.grey[700],
                                             height: 1.5,
                                           ),
@@ -369,7 +370,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     const Text(
                                       'Quantity',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: Appfontsize.regular16,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: Appfonts.appFontFamily,
                                       ),
@@ -410,7 +411,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                           child: Text(
                                             _quantity.toString(),
                                             style: const TextStyle(
-                                              fontSize: 16,
+                                              fontSize: Appfontsize.regular16,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -518,7 +519,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 Text(
                                   'Add to Cart',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: Appfontsize.regular16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                     fontFamily: Appfonts.appFontFamily,

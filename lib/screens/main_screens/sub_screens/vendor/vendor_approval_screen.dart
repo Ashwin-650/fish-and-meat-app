@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_mode.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -120,7 +121,7 @@ class _VendorApprovalScreenState extends State<VendorApprovalScreen> {
                       const Text(
                         'Your application is still under review. Please wait for approval.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: Appfontsize.regular16),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(

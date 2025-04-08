@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 
 class CommonButton extends StatelessWidget {
@@ -20,7 +21,7 @@ class CommonButton extends StatelessWidget {
       ),
       child: Text(
         buttonText,
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: Appfontsize.regular16),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class _VendorButtonState extends State<VendorButton> {
                         child: 'Sign Up'.extenTextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontsize: 16),
+                            fontsize: Appfontsize.regular16),
                       ),
                     )
                   ],

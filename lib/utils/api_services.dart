@@ -120,6 +120,24 @@ class ApiService {
     }
   }
 
+  static Future<dynamic> getUserInfo({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/users'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static Future<dynamic> getProducts({
     required String token,
     String query = "",

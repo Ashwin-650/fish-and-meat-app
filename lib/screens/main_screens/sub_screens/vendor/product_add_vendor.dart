@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:http/http.dart' as http;
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/models/product_form_model.dart';
@@ -245,7 +246,9 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
               // Locations Section
               const Text(
                 'Available Locations (Pincodes)*',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: Appfontsize.regular16,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Row(

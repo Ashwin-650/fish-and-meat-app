@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       if (response != null && response.statusCode == 200 ||
           response.statusCode == 201) {
         Map<String, dynamic> jsonData = json.decode(response.body);
-        print('rep :${response.body}');
+        // print('rep :${response.body}');
         String email = jsonData["data"]["email"];
 
         Get.to(const VerificationScreen(), arguments: email);

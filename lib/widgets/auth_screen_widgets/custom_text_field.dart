@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -66,7 +67,7 @@ class CustomTextField extends StatelessWidget {
                   prefixIcon: isNumber
                       ? const Text(
                           "  +91 ",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: Appfontsize.regular16),
                         )
                       : null,
                   prefixIconConstraints:

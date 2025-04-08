@@ -291,8 +291,10 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
         location: vendorData.shopLocation,
         image: _selectedFile!,
       );
+      print('rep : ${response.body}.');
 
-      if (response != null && response.statusCode == 200) {
+      if (response != null &&
+          (response.statusCode == 200 || response.statusCode == 201)) {
         // Call the method to store data in SharedPreferences
         await storeSignUpData();
         Get.off(() => const VendorApprovalScreen());
