@@ -35,6 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController.addListener(_scrollListener);
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Dispose the controller to avoid memory leaks
+    super.dispose();
+  }
+
   init() async {
     final response =
         await ApiService.getProducts(token: await Globals.loginToken);
