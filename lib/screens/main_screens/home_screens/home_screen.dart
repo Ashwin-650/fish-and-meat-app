@@ -34,6 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController.addListener(_scrollListener);
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Dispose the controller to avoid memory leaks
+    super.dispose();
+  }
+
   init() async {
     final response =
         await ApiService.getProducts(token: await Globals.loginToken);
@@ -71,6 +77,21 @@ class _HomeScreenState extends State<HomeScreen> {
           child: CustomScrollView(
         controller: _scrollController, // Attach ScrollController here
         slivers: [
+          SliverAppBar(
+            backgroundColor: Appcolor.appbargroundColor,
+            floating: true,
+            snap: true,
+            title: 'Hii..John '.extenTextStyle(
+                fontWeight: FontWeight.w700,
+                fontsize: 24,
+                fontfamily: Appfonts.appFontFamily),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications),
+              )
+            ],
+          ),
           SliverList(
             delegate: SliverChildListDelegate([
               const Padding(
