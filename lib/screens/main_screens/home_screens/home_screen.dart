@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -11,6 +12,7 @@ import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,17 +24,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ProductDetails> items = [];
+  final NavBarController _navBarController = Get.find();
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    tests();
+    init();
+    _scrollController.addListener(_scrollListener);
   }
 
-  tests() async {
+  init() async {
     final response =
         await ApiService.getProducts(token: await Globals.loginToken);
     if (response != null && response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
+      final responseBody = jsonDecode(response.body);
       final responseData = responseBody["data"];
 
       final List<dynamic> productList = responseData;
@@ -45,48 +51,50 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      _navBarController.isVisible.value = false;
+    }
+
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      _navBarController.isVisible.value = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Appcolor.backgroundColor,
       body: SafeArea(
           child: CustomScrollView(
+        controller: _scrollController, // Attach ScrollController here
         slivers: [
-          SliverAppBar(
-            backgroundColor: Appcolor.appbargroundColor,
-            floating: true,
-            snap: true,
-            title: 'Hii..John '.extenTextStyle(
-                fontWeight: FontWeight.w700,
-                fontsize: 24,
-                fontfamily: Appfonts.appFontFamily),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications),
-              )
-            ],
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                child: CarouselProduct(),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: 'Top Selling Items'.extenTextStyle(
+                    fontsize: 26,
+                    fontfamily: Appfonts.appFontFamily,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
+            ]),
           ),
           SliverToBoxAdapter(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-                  child: CarouselProduct(),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: 'Top Selling Items'.extenTextStyle(
-                      fontsize: 26,
-                      fontfamily: Appfonts.appFontFamily,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: 180,
                   child: ListView.builder(
