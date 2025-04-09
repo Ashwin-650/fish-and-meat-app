@@ -4,10 +4,11 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/checkout_price_controller.dart';
+import 'package:fish_and_meat_app/controllers/my_home_page_controllers/home_page_index_controller.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
-import 'package:fish_and_meat_app/functions/get_items_from_cart.dart';
+import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/order_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/home_screen.dart';
@@ -18,14 +19,8 @@ import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Myhomepage extends StatefulWidget {
-  const Myhomepage({super.key});
-
-  @override
-  State<Myhomepage> createState() => _MyhomepageState();
-}
-
-class _MyhomepageState extends State<Myhomepage> {
+class Myhomepage extends StatelessWidget {
+  Myhomepage({super.key});
   final CartItemsListController _cartItemsListController =
       Get.put(CartItemsListController());
   final OrdersItemsListController ordersItemsListController =
@@ -35,22 +30,25 @@ class _MyhomepageState extends State<Myhomepage> {
       Get.put(VisibilityButtonController());
   final CheckoutPriceController _checkoutPriceController =
       Get.put(CheckoutPriceController());
+  final HomePageIndexController _homePageIndexController =
+      Get.put(HomePageIndexController());
 
-  int currentIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
-    const SearchScreen(),
+    SearchScreen(),
     const CartScreen(),
     OrdersScreen(),
-    const ProfileScreen()
+    ProfileScreen()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: _pages,
+      body: Obx(
+        () => IndexedStack(
+          index: _homePageIndexController.selectedPageIndex.value,
+          children: _pages,
+        ),
       ),
       floatingActionButton: Obx(
         () => AnimatedSwitcher(
@@ -70,62 +68,65 @@ class _MyhomepageState extends State<Myhomepage> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: BottomNavigationBar(
-                      elevation: 0,
-                      type: BottomNavigationBarType.fixed,
-                      backgroundColor: Appcolor.bottomBarColor,
-                      selectedItemColor: Colors.white,
-                      unselectedItemColor: Colors.black,
-                      currentIndex: currentIndex,
-                      onTap: (value) async {
-                        setState(() {
-                          currentIndex = value;
-                        });
-
-                        // Your existing onTap logic
-                        if (value == 2) {
-                          getItemFromCart(
-                              cartItemsListController: _cartItemsListController,
-                              checkoutPriceController:
-                                  _checkoutPriceController);
-                        } else if (value == 3) {
-                          final response = await ApiService.getOrders(
-                              token: await Globals.loginToken);
-                          if (response != null && response.statusCode == 200) {
-                            ordersItemsListController.setItems(
-                                (json.decode(response.body)["data"] as List)
-                                    .map((productJson) =>
-                                        OrderDetails.fromJson(productJson))
-                                    .toList());
-                          }
-                        } else if (value == 4) {
-                          final response = await ApiService.getUserInfo(
-                              token: await Globals.loginToken);
-                          if (response != null && response.statusCode == 200) {
-                            final responseData =
-                                jsonDecode(response.body)["data"];
-                            if (responseData["vendor"]) {
-                              _visibilityButtonController.displayVendor();
-                            } else {
-                              _visibilityButtonController.displayUser();
+                    child: Obx(
+                      () => BottomNavigationBar(
+                        elevation: 0,
+                        type: BottomNavigationBarType.fixed,
+                        backgroundColor: Appcolor.bottomBarColor,
+                        selectedItemColor: Colors.white,
+                        unselectedItemColor: Colors.black,
+                        currentIndex:
+                            _homePageIndexController.selectedPageIndex.value,
+                        onTap: (value) async {
+                          _homePageIndexController.switchIndex(value);
+                          // Your existing onTap logic
+                          if (value == 2) {
+                            getItemFromCart(
+                                cartItemsListController:
+                                    _cartItemsListController,
+                                checkoutPriceController:
+                                    _checkoutPriceController);
+                          } else if (value == 3) {
+                            final response = await ApiService.getOrders(
+                                token: await Globals.loginToken);
+                            if (response != null &&
+                                response.statusCode == 200) {
+                              ordersItemsListController.setItems(
+                                  (json.decode(response.body)["data"] as List)
+                                      .map((productJson) =>
+                                          OrderDetails.fromJson(productJson))
+                                      .toList());
+                            }
+                          } else if (value == 4) {
+                            final response = await ApiService.getUserInfo(
+                                token: await Globals.loginToken);
+                            if (response != null &&
+                                response.statusCode == 200) {
+                              final responseData =
+                                  jsonDecode(response.body)["data"];
+                              if (responseData["vendor"]) {
+                                _visibilityButtonController.displayVendor();
+                              } else {
+                                _visibilityButtonController.displayUser();
+                              }
                             }
                           }
-                        }
-                      },
-                      items: const [
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.home_outlined), label: 'Home'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.search), label: 'Search'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.shopping_cart_outlined),
-                            label: 'Cart'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.local_shipping_outlined),
-                            label: 'Orders'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.person), label: 'Profile'),
-                      ],
+                        },
+                        items: const [
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.home_outlined), label: 'Home'),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.search), label: 'Search'),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.shopping_cart_outlined),
+                              label: 'Cart'),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.local_shipping_outlined),
+                              label: 'Orders'),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.person), label: 'Profile'),
+                        ],
+                      ),
                     ),
                   ),
                 )

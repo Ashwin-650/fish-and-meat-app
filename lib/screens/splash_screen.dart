@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   getToLogin() async {
     await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
-      Get.off(() => const OnboardScreen());
+      Get.off(() => OnboardScreen());
     }
   }
 
@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
         await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
     if (token != null && token.isNotEmpty) {
-      Get.off(() => const Myhomepage());
+      Get.off(() => Myhomepage());
     } else {
       Get.off(() => const AuthScreen());
     }
