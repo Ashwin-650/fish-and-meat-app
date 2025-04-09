@@ -130,15 +130,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (response != null &&
                               (response.statusCode == 200 ||
                                   response.statusCode == 201)) {
-                            print(response);
+                            Get.showSnackbar(
+                              const GetSnackBar(
+                                message: "Added to cart",
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
                           }
-                          Get.showSnackbar(
-                            const GetSnackBar(
-                              message: "Added to cart",
-                              backgroundColor: Colors.green,
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
                         },
                       );
                     },
