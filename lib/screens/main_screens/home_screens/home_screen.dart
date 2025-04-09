@@ -6,6 +6,7 @@ import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/carousel_product.dart';
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     init();
-    _scrollController.addListener(_scrollListener);
+    _scrollController.addListener(() => scrollListener(_scrollController));
   }
 
   @override
@@ -55,18 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
             .map((productJson) => ProductDetails.fromJson(productJson))
             .toList();
       });
-    }
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      _navBarController.isVisible.value = false;
-    }
-
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      _navBarController.isVisible.value = true;
     }
   }
 

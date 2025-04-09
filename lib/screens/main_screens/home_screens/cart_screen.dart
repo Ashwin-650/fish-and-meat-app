@@ -583,9 +583,9 @@ class _CartScreenState extends State<CartScreen> {
                                     children: [
                                       Text(
                                           'items x ${_cartItemsListController.cartItems.length}'),
-                                      Text(_checkoutPriceController
-                                          .totalCheckoutPrice.value
-                                          .toString()),
+                                      Text(
+                                        "\$${_checkoutPriceController.totalCheckoutPrice.value}",
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(height: 8),
@@ -594,7 +594,7 @@ class _CartScreenState extends State<CartScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       //......error  _deliveryFee
-                                      const Text('Delivery Fee'),
+                                      //Text('Delivery Fee'),
                                       // _deliveryFee > 0
                                       //     ? Text(
                                       //         '\$${_deliveryFee.toStringAsFixed(2)}')
@@ -660,9 +660,7 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                       ),
                                       Text(
-                                        _checkoutPriceController
-                                            .totalCheckoutPrice.value
-                                            .toString(),
+                                        "\$${_checkoutPriceController.totalCheckoutPrice.value}",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
