@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/checkout_price_controller.dart';
+import 'package:fish_and_meat_app/functions/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,9 @@ import 'package:get/get.dart';
 
 class CartItemWidget extends StatelessWidget {
   final ProductDetails item;
-  const CartItemWidget({super.key, required this.item});
+  CartItemWidget({super.key, required this.item});
+  final CheckoutPriceController _checkoutPriceController = Get.find();
+  final CartItemsListController _cartItemsListController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class CartItemWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     'Subtotal: \$${(item.price * item.quantity!).toStringAsFixed(2)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: Appfontsize.small14,
                     ),
@@ -92,17 +94,10 @@ class CartItemWidget extends StatelessWidget {
                         final response = await ApiService.removeFromCart(
                             token: token, id: item.id);
                         if (response != null && response.statusCode == 200) {
-                          final response =
-                              await ApiService.getFromCart(token: token);
-                          final CartItemsListController
-                              cartItemsListController = Get.find();
-                          final responseBody = jsonDecode(response.body);
-                          final responseData = responseBody["data"];
-                          cartItemsListController.setItems(
-                              ((responseData) as List)
-                                  .map((productJson) =>
-                                      ProductDetails.fromJson(productJson))
-                                  .toList());
+                          getItemFromCart(
+                              cartItemsListController: _cartItemsListController,
+                              checkoutPriceController:
+                                  _checkoutPriceController);
                         }
                       }),
                   Text(
@@ -122,17 +117,10 @@ class CartItemWidget extends StatelessWidget {
                         final response = await ApiService.insertToCart(
                             token: token, id: item.id);
                         if (response != null && response.statusCode == 200) {
-                          final response =
-                              await ApiService.getFromCart(token: token);
-                          final CartItemsListController
-                              cartItemsListController = Get.find();
-                          final responseBody = jsonDecode(response.body);
-                          final responseData = responseBody["data"];
-                          cartItemsListController.setItems(
-                              ((responseData) as List)
-                                  .map((productJson) =>
-                                      ProductDetails.fromJson(productJson))
-                                  .toList());
+                          getItemFromCart(
+                              cartItemsListController: _cartItemsListController,
+                              checkoutPriceController:
+                                  _checkoutPriceController);
                         }
                       }),
                 ],

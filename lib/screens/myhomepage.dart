@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
+import 'package:fish_and_meat_app/functions/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/order_details.dart';
-import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/home_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/orders_screen.dart';
@@ -25,13 +26,16 @@ class Myhomepage extends StatefulWidget {
 }
 
 class _MyhomepageState extends State<Myhomepage> {
-  final CartItemsListController cartItemsListController =
+  final CartItemsListController _cartItemsListController =
       Get.put(CartItemsListController());
   final OrdersItemsListController ordersItemsListController =
       Get.put(OrdersItemsListController());
   final NavBarController _navBarController = Get.put(NavBarController());
   final VisibilityButtonController _visibilityButtonController =
       Get.put(VisibilityButtonController());
+  final CheckoutPriceController _checkoutPriceController =
+      Get.put(CheckoutPriceController());
+
   int currentIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
@@ -80,17 +84,10 @@ class _MyhomepageState extends State<Myhomepage> {
 
                         // Your existing onTap logic
                         if (value == 2) {
-                          final response = await ApiService.getFromCart(
-                              token: await Globals.loginToken);
-                          if (response != null && response.statusCode == 200) {
-                            final responseBody = jsonDecode(response.body);
-                            final responseData = responseBody["data"];
-                            cartItemsListController.setItems(
-                                ((responseData) as List)
-                                    .map((productJson) =>
-                                        ProductDetails.fromJson(productJson))
-                                    .toList());
-                          }
+                          getItemFromCart(
+                              cartItemsListController: _cartItemsListController,
+                              checkoutPriceController:
+                                  _checkoutPriceController);
                         } else if (value == 3) {
                           final response = await ApiService.getOrders(
                               token: await Globals.loginToken);
@@ -107,7 +104,6 @@ class _MyhomepageState extends State<Myhomepage> {
                           if (response != null && response.statusCode == 200) {
                             final responseData =
                                 jsonDecode(response.body)["data"];
-                            print(responseData["vendor"]);
                             if (responseData["vendor"]) {
                               _visibilityButtonController.displayVendor();
                             } else {

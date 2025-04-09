@@ -98,7 +98,6 @@ class VerificationScreenState extends State<VerificationScreen> {
 
     try {
       var response = await ApiService.verifyOTP(email, otp);
-      print('rep: ${response.body}');
       if (response != null && response.statusCode == 200) {
         Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -126,7 +125,6 @@ class VerificationScreenState extends State<VerificationScreen> {
         Get.offAll(const Myhomepage());
       }
     } catch (error) {
-      print('❌ OTP verification error: $error');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Verification failed: $error'),

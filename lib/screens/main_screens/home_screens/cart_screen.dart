@@ -3,6 +3,7 @@ import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/razorpay_services.dart';
@@ -22,6 +23,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final CartItemsListController _cartItemsListController = Get.find();
   final TextEditingController _textEditingController = TextEditingController();
+  final CheckoutPriceController _checkoutPriceController = Get.find();
 
   String _selectedLocation = 'Home';
   String _selectedAddress = '123 Main St, Apt 4B, New York, NY 10001';
@@ -303,7 +305,7 @@ class _CartScreenState extends State<CartScreen> {
               )
             : SlidingUpPanel(
                 maxHeight: MediaQuery.sizeOf(context).height - 200,
-                minHeight: 160,
+                minHeight: 190,
                 borderRadius: BorderRadius.circular(20),
                 body: // Items List
                     Column(
@@ -575,13 +577,15 @@ class _CartScreenState extends State<CartScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 12),
-                                  const Row(
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      //...error _text
-                                      Text('Subtotal'),
-                                      // Text('\$${_subtotal.toStringAsFixed(2)}'),
+                                      Text(
+                                          'items x ${_cartItemsListController.cartItems.length}'),
+                                      Text(_checkoutPriceController
+                                          .totalCheckoutPrice.value
+                                          .toString()),
                                     ],
                                   ),
                                   const SizedBox(height: 8),
@@ -604,9 +608,25 @@ class _CartScreenState extends State<CartScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      //.....error   _tax
-                                      // const Text('Tax'),
-                                      // Text('\$${_tax.toStringAsFixed(2)}'),
+                                      Text('Delivery Fee'),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '\$30',
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            'Free',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.green),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                   if (_couponApplied) ...[
@@ -628,32 +648,33 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ],
                                   const Divider(height: 24),
-                                  const Row(
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Total',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: Appfontsize.medium18,
                                         ),
                                       ),
-
-                                      //.....error _total
-                                      // Text(
-                                      //   '\$${_total.toStringAsFixed(2)}',
-                                      //   style: const TextStyle(
-                                      //     fontWeight: FontWeight.bold,
-                                      //     fontsize: Appfontsize.medium18,,
-                                      //     color: Colors.teal,
-                                      //   ),
-                                      // ),
+                                      Text(
+                                        _checkoutPriceController
+                                            .totalCheckoutPrice.value
+                                            .toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.teal,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
+                            // Place Order Button
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 16, 10, 0),
                               width: double.infinity,
@@ -671,9 +692,8 @@ class _CartScreenState extends State<CartScreen> {
                                 child: const Text(
                                   'Place Order',
                                   style: TextStyle(
-                                    fontSize: Appfontsize.medium18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                      fontSize: Appfontsize.medium18,
+                                      fontFamily: Appfonts.appFontFamily),
                                 ),
                               ),
                             ),
