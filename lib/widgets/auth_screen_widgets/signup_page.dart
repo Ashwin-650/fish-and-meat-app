@@ -1,3 +1,5 @@
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
@@ -68,49 +70,43 @@ class _SignupPageState extends State<SignupPage> {
         child: Form(
           key: _signupFormKey,
           child: Column(
+            spacing: 30,
             mainAxisSize: MainAxisSize.min,
             children: [
               // Logo
-              const Text(
-                'SIGN UP',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
+
+              'SIGN UP'.extenTextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
               ),
-              const SizedBox(height: 30),
+
               // Title
-              const Text(
-                'Create an account',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF333333),
-                ),
+
+              'Create an account'.extenTextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF333333),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+
               // Full Name
               CustomTextField(
                   label: 'Full Name',
                   hint: 'Enter your name',
                   textController: _fullnameController),
-              const SizedBox(height: 20),
               // Email
               CustomTextField(
                   label: 'Email',
                   hint: 'Enter your email',
                   textController: _emailController,
                   isEmail: true),
-              const SizedBox(height: 20),
               // Mobile Number
               CustomTextField(
                   label: 'Mobile Number',
                   hint: 'Enter your mobile number',
                   textController: _numberController,
                   isNumber: true),
-              const SizedBox(height: 20),
               // Terms Agreement
               Row(
                 children: [
@@ -127,13 +123,11 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Expanded(
-                    child: Text(
-                      'I agree to the Terms and Privacy Policy',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF555555),
-                      ),
+                  Expanded(
+                    child: 'I agree to the Terms and Privacy Policy'
+                        .extenTextStyle(
+                      fontSize: Appfontsize.small14,
+                      color: const Color(0xFF555555),
                     ),
                   ),
                 ],
@@ -146,25 +140,22 @@ class _SignupPageState extends State<SignupPage> {
                       onPress: _signupPressed, buttonText: "Sign up")),
               const SizedBox(height: 20),
               // Separator
-              const Row(
+              Row(
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: Divider(
                       color: Color(0xFFDDDDDD),
                       thickness: 1,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Or sign up with',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF777777),
-                      ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: 'Or sign up with'.extenTextStyle(
+                      fontSize: Appfontsize.small14,
+                      color: const Color(0xFF777777),
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Divider(
                       color: Color(0xFFDDDDDD),
                       thickness: 1,

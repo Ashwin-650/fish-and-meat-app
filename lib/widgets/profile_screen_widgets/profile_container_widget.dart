@@ -25,7 +25,7 @@ class ProfileContainerWidget extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'WishList'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -41,7 +41,7 @@ class ProfileContainerWidget extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'Refer & Earn'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -57,7 +57,7 @@ class ProfileContainerWidget extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'Saved Payment Options'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -73,7 +73,7 @@ class ProfileContainerWidget extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'My Addresses'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),

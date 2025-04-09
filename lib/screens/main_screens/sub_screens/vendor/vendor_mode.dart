@@ -190,7 +190,7 @@ class _VendorModeState extends State<VendorMode> {
                               ),
                               const SizedBox(height: 12),
                               product.title.extenTextStyle(
-                                fontsize: Appfontsize.medium18,
+                                fontSize: Appfontsize.medium18,
                                 fontWeight: FontWeight.bold,
                               ),
                               if (product.description.isNotEmpty)

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/firebase_services.dart';
@@ -152,14 +153,12 @@ class VerificationScreenState extends State<VerificationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'OTP Verification',
-          style: TextStyle(
-            color: Colors.teal,
-            fontSize: Appfontsize.appBarHeadSize,
-            fontWeight: FontWeight.bold,
-          ),
+        title: 'OTP Verification'.extenTextStyle(
+          color: Colors.teal,
+          fontSize: Appfontsize.appBarHeadSize,
+          fontWeight: FontWeight.bold,
         ),
+
         //backgroundColor: Colors.teal,
       ),
       body: SafeArea(
@@ -168,23 +167,21 @@ class VerificationScreenState extends State<VerificationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Verification Code',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
+              'Verification Code'.extenTextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
               ),
+
               const SizedBox(height: 10),
-              const Text(
-                'We have sent the verification code to your mobile number',
+
+              'We have sent the verification code to your mobile number'
+                  .extenTextStyle(
+                fontSize: Appfontsize.regular16,
+                color: Colors.black54,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: Appfontsize.regular16,
-                  color: Colors.black54,
-                ),
               ),
+
               const SizedBox(height: 40),
 
               // OTP input fields
@@ -238,32 +235,23 @@ class VerificationScreenState extends State<VerificationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Didn't receive the code? ",
-                    style: TextStyle(
-                      fontSize: Appfontsize.small14,
-                      color: Colors.black54,
-                    ),
+                  "Didn't receive the code? ".extenTextStyle(
+                    fontSize: Appfontsize.small14,
+                    color: Colors.black54,
                   ),
                   _canResend
                       ? InkWell(
                           onTap: _resendOTP,
-                          child: const Text(
-                            "Resend",
-                            style: TextStyle(
-                              fontSize: Appfontsize.small14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.teal,
-                            ),
-                          ),
-                        )
-                      : Text(
-                          _timerText,
-                          style: const TextStyle(
+                          child: "Resend".extenTextStyle(
                             fontSize: Appfontsize.small14,
                             fontWeight: FontWeight.bold,
                             color: Colors.teal,
                           ),
+                        )
+                      : _timerText.extenTextStyle(
+                          fontSize: Appfontsize.small14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
                         ),
                 ],
               ),

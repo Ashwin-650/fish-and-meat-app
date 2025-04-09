@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 extension TextExtention on String {
   Widget extenTextStyle({
-    double? fontsize,
+    double? fontSize,
     FontWeight? fontWeight,
     String? fontfamily = Appfonts.appFontFamily,
     Color? color,
@@ -17,7 +17,7 @@ extension TextExtention on String {
       style: TextStyle(
         decoration: decoration,
         fontFamily: fontfamily,
-        fontSize: fontsize,
+        fontSize: fontSize,
         fontWeight: fontWeight,
         color: color,
       ),

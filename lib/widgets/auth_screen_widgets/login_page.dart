@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
@@ -54,25 +55,21 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Logo
-                const Text(
-                  'LOGIN',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal,
-                  ),
+
+                'LOGIN'.extenTextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
                 ),
                 const SizedBox(height: 30),
                 // Title
-                const Text(
-                  'Welcome back',
-                  style: TextStyle(
+
+                'Welcome back'.extenTextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF333333),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                    color: const Color(0xFF333333),
+                    textAlign: TextAlign.center),
+
                 const SizedBox(height: 30),
                 // Email
 
@@ -92,10 +89,8 @@ class _LoginPageState extends State<LoginPage> {
                             _isLoginWithNumber = false;
                           });
                         },
-                        child: const Text(
-                          "Login with email?",
-                          style: TextStyle(color: Colors.teal),
-                        ),
+                        child: "Login with email?"
+                            .extenTextStyle(color: Colors.teal),
                       ),
                     ],
                   ),
@@ -116,10 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                             _isLoginWithNumber = true;
                           });
                         },
-                        child: const Text(
-                          "Login with mobile number?",
-                          style: TextStyle(color: Colors.teal),
-                        ),
+                        child: "Login with mobile number?"
+                            .extenTextStyle(color: Colors.teal),
                       ),
                     ],
                   ),
@@ -133,25 +126,22 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 // Separator
-                const Row(
+                Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Divider(
                         color: Color(0xFFDDDDDD),
                         thickness: 1,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        'Or continue with',
-                        style: TextStyle(
-                          fontSize: Appfontsize.small14,
-                          color: Color(0xFF777777),
-                        ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: 'Or continue with'.extenTextStyle(
+                        fontSize: Appfontsize.small14,
+                        color: const Color(0xFF777777),
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Divider(
                         color: Color(0xFFDDDDDD),
                         thickness: 1,

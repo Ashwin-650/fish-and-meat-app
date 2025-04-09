@@ -44,7 +44,7 @@ class TopSelling extends StatelessWidget {
                 ),
                 text.extenTextStyle(
                     fontWeight: FontWeight.bold,
-                    fontsize: Appfontsize.medium18,
+                    fontSize: Appfontsize.medium18,
                     textAlign: TextAlign.center)
               ],
             ),

@@ -15,7 +15,7 @@ class OnboardPage2 extends StatelessWidget {
       child: Align(
         alignment: const Alignment(0, -0.5),
         child: 'Fast Delivery'.extenTextStyle(
-            fontsize: 50,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
             color: Colors.white.withOpacity(0.8)),
       ),

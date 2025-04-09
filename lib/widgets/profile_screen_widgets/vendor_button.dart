@@ -30,10 +30,10 @@ class _VendorButtonState extends State<VendorButton> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: 'Want to sell your product ?'.extenTextStyle(
-                          fontWeight: FontWeight.bold, fontsize: 25),
+                          fontWeight: FontWeight.bold, fontSize: 25),
                     ),
                     'Be a Vendor'.extenTextStyle(
-                        fontsize: 34,
+                        fontSize: 34,
                         color: Colors.green.shade200,
                         fontWeight: FontWeight.bold),
                     Padding(
@@ -65,7 +65,7 @@ class _VendorButtonState extends State<VendorButton> {
                         child: 'Sign Up'.extenTextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontsize: Appfontsize.regular16),
+                            fontSize: Appfontsize.regular16),
                       ),
                     )
                   ],
@@ -76,7 +76,7 @@ class _VendorButtonState extends State<VendorButton> {
         );
       },
       child: 'Become a Vendor'.extenTextStyle(
-          fontsize: Appfontsize.high20,
+          fontSize: Appfontsize.high20,
           fontfamily: Appfonts.appFontFamily,
           color: Colors.white),
     );

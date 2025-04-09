@@ -19,7 +19,7 @@ class OrdersScreen extends StatelessWidget {
           backgroundColor: Appcolor.appbargroundColor,
           title: 'Orders'.extenTextStyle(
             fontfamily: Appfonts.appFontFamily,
-            fontsize: Appfontsize.appBarHeadSize,
+            fontSize: Appfontsize.appBarHeadSize,
           )),
       body: Column(
         children: [
@@ -42,7 +42,7 @@ class OrdersScreen extends StatelessWidget {
                         children: [
                           "Order ID: ${_cartItemsListController.cartItems[index].id}"
                               .extenTextStyle(
-                                  fontsize: Appfontsize.medium18,
+                                  fontSize: Appfontsize.medium18,
                                   fontWeight: FontWeight.w700),
                           ListTile(
                             horizontalTitleGap: 10,
@@ -65,7 +65,7 @@ class OrdersScreen extends StatelessWidget {
                                 child: _cartItemsListController
                                     .cartItems[index].status
                                     .extenTextStyle(
-                                        fontsize: Appfontsize.regular16,
+                                        fontSize: Appfontsize.regular16,
                                         fontfamily: Appfonts.appFontFamily,
                                         color: Colors.black54,
                                         textAlign: TextAlign.center),

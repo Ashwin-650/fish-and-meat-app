@@ -43,7 +43,7 @@ class MeatGrid extends StatelessWidget {
                       .toString()
                       .extenTextStyle(
                           color: Colors.white,
-                          fontsize: Appfontsize.gridTextSize,
+                          fontSize: Appfontsize.gridTextSize,
                           fontfamily: Appfonts.appFontFamily),
                 ),
               ),

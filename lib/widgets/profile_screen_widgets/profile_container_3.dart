@@ -23,7 +23,7 @@ class ProfileContainer3 extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'About Us'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -39,7 +39,7 @@ class ProfileContainer3 extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'FAQs'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -55,7 +55,7 @@ class ProfileContainer3 extends StatelessWidget {
                   size: 36,
                 ),
                 title: 'Contact Us'.extenTextStyle(
-                    fontfamily: Appfonts.appFontFamily, fontsize: 22),
+                    fontfamily: Appfonts.appFontFamily, fontSize: 22),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),

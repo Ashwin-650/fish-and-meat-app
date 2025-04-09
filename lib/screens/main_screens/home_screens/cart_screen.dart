@@ -264,7 +264,7 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: Appcolor.appbargroundColor,
         title: 'Cart'.extenTextStyle(
             color: Colors.black,
-            fontsize: Appfontsize.appBarHeadSize,
+            fontSize: Appfontsize.appBarHeadSize,
             fontfamily: Appfonts.appFontFamily),
         actions: [
           InkWell(
@@ -594,7 +594,7 @@ class _CartScreenState extends State<CartScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       //......error  _deliveryFee
-                                      const Text('Delivery Fee'),
+                                      Text('Delivery Fee'),
                                       // _deliveryFee > 0
                                       //     ? Text(
                                       //         '\$${_deliveryFee.toStringAsFixed(2)}')

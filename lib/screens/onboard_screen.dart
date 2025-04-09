@@ -43,7 +43,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                     _controller.jumpToPage(2);
                   },
                   child: 'Skip'.extenTextStyle(
-                    fontsize: 24,
+                    fontSize: 24,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -54,7 +54,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                           Get.off(() => const AuthScreen());
                         },
                         child: 'Start'.extenTextStyle(
-                          fontsize: 24,
+                          fontSize: 24,
                           fontWeight: FontWeight.w700,
                         ),
                       )
@@ -65,7 +65,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                               curve: Curves.easeIn);
                         },
                         child: 'Next'.extenTextStyle(
-                          fontsize: 24,
+                          fontSize: 24,
                           fontWeight: FontWeight.w700,
                         ),
                       )

@@ -19,6 +19,6 @@ class ApprovalReachButton extends StatelessWidget {
         child: 'Vendor Profile'.extenTextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontsize: Appfontsize.regular16));
+            fontSize: Appfontsize.regular16));
   }
 }

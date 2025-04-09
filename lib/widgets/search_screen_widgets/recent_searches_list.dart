@@ -28,7 +28,7 @@ class RecentSearchesList extends StatelessWidget {
             contentPadding: const EdgeInsets.only(left: 16.0, right: 10.0),
             leading: const Icon(Icons.history),
             title: "Item $index".extenTextStyle(
-                fontsize: Appfontsize.medium18,
+                fontSize: Appfontsize.medium18,
                 fontfamily: Appfonts.appFontFamily),
             trailing: IconButton(
               onPressed: () {

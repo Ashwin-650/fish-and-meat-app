@@ -90,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                         ),
                         'Edit Profile'.extenTextStyle(
-                            fontsize: Appfontsize.high20,
+                            fontSize: Appfontsize.high20,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             textAlign: TextAlign.center),
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: 'Log out'.extenTextStyle(
                       color: Colors.white,
                       fontfamily: Appfonts.appFontFamily,
-                      fontsize: Appfontsize.high20),
+                      fontSize: Appfontsize.high20),
                 )
               ],
             ),

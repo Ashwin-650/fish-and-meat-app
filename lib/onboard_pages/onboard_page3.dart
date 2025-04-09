@@ -15,7 +15,7 @@ class OnboardPage3 extends StatelessWidget {
       child: Align(
         alignment: const Alignment(-0.9, 0.3),
         child: 'Save More'.extenTextStyle(
-            fontsize: 50, fontWeight: FontWeight.bold, color: Colors.black54),
+            fontSize: 50, fontWeight: FontWeight.bold, color: Colors.black54),
       ),
     );
   }

@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
             snap: true,
             title: 'Hii..John '.extenTextStyle(
                 fontWeight: FontWeight.w700,
-                fontsize: Appfontsize.appBarHeadSize,
+                fontSize: Appfontsize.appBarHeadSize,
                 fontfamily: Appfonts.appFontFamily),
             actions: [
               IconButton(
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: 'Top Selling Items'.extenTextStyle(
-                      fontsize: Appfontsize.headerFontSize,
+                      fontSize: Appfontsize.headerFontSize,
                       fontfamily: Appfonts.appFontFamily,
                       textAlign: TextAlign.left,
                     ),
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Fish Categories'.extenTextStyle(
-                              fontsize: Appfontsize.headerFontSize,
+                              fontSize: Appfontsize.headerFontSize,
                               textAlign: TextAlign.left,
                               fontfamily: Appfonts.appFontFamily),
                           TextButton(
@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     WidgetStatePropertyAll(Colors.black)),
                             onPressed: () {},
                             child: 'See all'.extenTextStyle(
-                                fontsize: Appfontsize.small14,
+                                fontSize: Appfontsize.small14,
                                 fontfamily: Appfonts.appFontFamily),
                           )
                         ],
@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Meat Categories'.extenTextStyle(
-                              fontsize: Appfontsize.headerFontSize,
+                              fontSize: Appfontsize.headerFontSize,
                               textAlign: TextAlign.left,
                               fontfamily: Appfonts.appFontFamily),
                           TextButton(
@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     WidgetStatePropertyAll(Colors.black)),
                             onPressed: () {},
                             child: 'See all'.extenTextStyle(
-                                fontsize: Appfontsize.small14,
+                                fontSize: Appfontsize.small14,
                                 fontfamily: Appfonts.appFontFamily),
                           )
                         ],

@@ -19,7 +19,7 @@ class OnboardPage1 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             'High Quality'.extenTextStyle(
-                fontsize: 50,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
                 color: Colors.black54),
           ],

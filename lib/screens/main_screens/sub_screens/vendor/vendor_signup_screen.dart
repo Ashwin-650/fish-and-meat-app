@@ -61,7 +61,7 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
       appBar: AppBar(
         backgroundColor: Appcolor.appbargroundColor,
         title: 'Signup'
-            .extenTextStyle(fontfamily: Appfonts.appFontFamily, fontsize: 24),
+            .extenTextStyle(fontfamily: Appfonts.appFontFamily, fontSize: 24),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -229,7 +229,7 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
                           borderRadius: BorderRadius.circular(10)))),
                   child: 'Submit'.extenTextStyle(
                       color: Colors.white,
-                      fontsize: 24,
+                      fontSize: 24,
                       fontfamily: Appfonts.appFontFamily),
                 ),
               ],
