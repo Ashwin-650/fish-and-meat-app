@@ -1,9 +1,9 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/approval_reach_button.dart';
@@ -12,41 +12,18 @@ import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_contain
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  bool hasVendorData = false;
-  final NavBarController _navBarController = Get.find();
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key});
   final ScrollController _scrollController = ScrollController();
   final VisibilityButtonController _visibilityButtonController = Get.find();
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      _navBarController.isVisible.value = false;
-    }
-
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      _navBarController.isVisible.value = true;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(() => scrollListener(_scrollController));
+    });
     return Scaffold(
       backgroundColor: Appcolor.backgroundColor,
       body: SafeArea(

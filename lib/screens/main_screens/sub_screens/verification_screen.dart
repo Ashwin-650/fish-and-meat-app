@@ -123,7 +123,7 @@ class VerificationScreenState extends State<VerificationScreen> {
           }
         }
 
-        Get.offAll(const Myhomepage());
+        Get.offAll(Myhomepage());
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
