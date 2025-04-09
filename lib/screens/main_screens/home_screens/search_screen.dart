@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -99,7 +100,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                         controller: _searchEditingController,
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: Appfontsize.high20,
                           fontWeight: FontWeight.w500,
                         ),
                         decoration: InputDecoration(
@@ -113,7 +114,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           hintText: 'Search for items...',
                           hintStyle: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: Appfontsize.medium18,
+                              fontWeight: FontWeight.bold),
                           contentPadding:
                               const EdgeInsets.symmetric(vertical: 14.0),
                         ),
@@ -139,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: Text(
                           "Suggested",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: Appfontsize.medium18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -151,7 +153,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: Text(
                           "Recent Searches",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: Appfontsize.medium18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

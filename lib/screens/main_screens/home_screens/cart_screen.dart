@@ -44,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
             const Text(
               'Select Location',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: Appfontsize.medium18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -113,7 +113,7 @@ class _CartScreenState extends State<CartScreen> {
             const Text(
               'Edit Delivery Address',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: Appfontsize.medium18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -173,7 +173,7 @@ class _CartScreenState extends State<CartScreen> {
             const Text(
               'Edit Mobile Number',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: Appfontsize.medium18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -280,7 +280,7 @@ class _CartScreenState extends State<CartScreen> {
                   Text(
                     _selectedLocation,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: Appfontsize.medium18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -296,7 +296,9 @@ class _CartScreenState extends State<CartScreen> {
             ? const Center(
                 child: Text(
                   'Your cart is empty',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    fontSize: Appfontsize.medium18,
+                  ),
                 ),
               )
             : SlidingUpPanel(
@@ -312,7 +314,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: Text(
                         "Items",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: Appfontsize.medium18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -578,7 +580,7 @@ class _CartScreenState extends State<CartScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       //...error _text
-                                      // const Text('Subtotal'),
+                                      Text('Subtotal'),
                                       // Text('\$${_subtotal.toStringAsFixed(2)}'),
                                     ],
                                   ),
@@ -588,7 +590,7 @@ class _CartScreenState extends State<CartScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       //......error  _deliveryFee
-                                      // const Text('Delivery Fee'),
+                                      const Text('Delivery Fee'),
                                       // _deliveryFee > 0
                                       //     ? Text(
                                       //         '\$${_deliveryFee.toStringAsFixed(2)}')
@@ -634,7 +636,7 @@ class _CartScreenState extends State<CartScreen> {
                                         'Total',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                                          fontSize: Appfontsize.medium18,
                                         ),
                                       ),
 
@@ -643,7 +645,7 @@ class _CartScreenState extends State<CartScreen> {
                                       //   '\$${_total.toStringAsFixed(2)}',
                                       //   style: const TextStyle(
                                       //     fontWeight: FontWeight.bold,
-                                      //     fontSize: 18,
+                                      //     fontsize: Appfontsize.medium18,,
                                       //     color: Colors.teal,
                                       //   ),
                                       // ),
@@ -652,32 +654,33 @@ class _CartScreenState extends State<CartScreen> {
                                 ],
                               ),
                             ),
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 16, 10, 0),
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _placeOrder,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.teal,
+                                  foregroundColor: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Place Order',
+                                  style: TextStyle(
+                                    fontSize: Appfontsize.medium18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
                       // Place Order Button
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(10, 16, 10, 0),
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _placeOrder,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.teal,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: const Text(
-                            'Place Order',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

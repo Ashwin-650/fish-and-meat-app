@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 
@@ -23,13 +24,11 @@ class TopSelling extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           color: Appcolor.backgroundColor,
         ),
-        height: 150,
         width: 150,
         child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
                   child: Container(
@@ -45,7 +44,7 @@ class TopSelling extends StatelessWidget {
                 ),
                 text.extenTextStyle(
                     fontWeight: FontWeight.bold,
-                    fontsize: 18,
+                    fontsize: Appfontsize.medium18,
                     textAlign: TextAlign.center)
               ],
             ),

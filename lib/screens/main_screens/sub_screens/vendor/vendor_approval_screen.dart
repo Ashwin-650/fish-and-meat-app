@@ -102,7 +102,7 @@ class _VendorApprovalScreenState extends State<VendorApprovalScreen> {
                 ? const Text(
                     'Approved! Redirecting...',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: Appfontsize.high20,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),

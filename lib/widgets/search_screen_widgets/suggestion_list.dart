@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 
 class SuggestionList extends StatelessWidget {
@@ -72,7 +73,7 @@ class SuggestionList extends StatelessWidget {
                   child: Text(
                     sampleItems[index]["title"] ?? "",
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: Appfontsize.medium18,
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 2,

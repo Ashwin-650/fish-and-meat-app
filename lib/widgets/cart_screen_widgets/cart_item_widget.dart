@@ -68,7 +68,7 @@ class CartItemWidget extends StatelessWidget {
                     'Subtotal: \$${(item.price * item.quantity!).toStringAsFixed(2)}',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: Appfontsize.small14,
                     ),
                   ),
                 ],

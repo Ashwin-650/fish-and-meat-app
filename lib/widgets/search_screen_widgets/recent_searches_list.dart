@@ -1,5 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,8 @@ class RecentSearchesList extends StatelessWidget {
             contentPadding: const EdgeInsets.only(left: 16.0, right: 10.0),
             leading: const Icon(Icons.history),
             title: "Item $index".extenTextStyle(
-                fontsize: 18, fontfamily: Appfonts.appFontFamily),
+                fontsize: Appfontsize.medium18,
+                fontfamily: Appfonts.appFontFamily),
             trailing: IconButton(
               onPressed: () {
                 _searchEditingController.text = "item $index";

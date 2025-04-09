@@ -42,7 +42,8 @@ class OrdersScreen extends StatelessWidget {
                         children: [
                           "Order ID: ${_cartItemsListController.cartItems[index].id}"
                               .extenTextStyle(
-                                  fontsize: 18, fontWeight: FontWeight.w700),
+                                  fontsize: Appfontsize.medium18,
+                                  fontWeight: FontWeight.w700),
                           ListTile(
                             horizontalTitleGap: 10,
                             shape: RoundedRectangleBorder(

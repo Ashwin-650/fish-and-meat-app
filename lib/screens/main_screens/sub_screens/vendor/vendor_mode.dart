@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -189,7 +190,7 @@ class _VendorModeState extends State<VendorMode> {
                               ),
                               const SizedBox(height: 12),
                               product.title.extenTextStyle(
-                                fontsize: 18,
+                                fontsize: Appfontsize.medium18,
                                 fontWeight: FontWeight.bold,
                               ),
                               if (product.description.isNotEmpty)

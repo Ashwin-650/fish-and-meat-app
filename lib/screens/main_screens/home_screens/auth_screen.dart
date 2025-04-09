@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/login_page.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -61,34 +62,32 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Get.isDarkMode ? Colors.black : Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(50),
-                blurRadius: 10,
-                offset: const Offset(0, -5),
-              ),
-            ],
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(20),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Get.isDarkMode ? Colors.black : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(50),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
             ),
+          ],
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(20),
           ),
-          margin: const EdgeInsets.only(top: 16),
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            children: const [
-              LoginPage(),
-              SignupPage(),
-            ],
-          ),
+        ),
+        margin: const EdgeInsets.only(top: 16),
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (int page) {
+            setState(() {
+              _currentPage = page;
+            });
+          },
+          children: const [
+            LoginPage(),
+            SignupPage(),
+          ],
         ),
       ),
     );
@@ -113,7 +112,7 @@ class _AuthScreenState extends State<AuthScreen> {
         text,
         style: const TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 14,
+          fontSize: Appfontsize.small14,
         ),
       ),
     );

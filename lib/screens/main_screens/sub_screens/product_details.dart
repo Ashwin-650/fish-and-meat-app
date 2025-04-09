@@ -209,7 +209,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                        fontSize: Appfontsize.small14,
                                       ),
                                     ),
                                   ],
@@ -302,7 +302,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         const Text(
                                           "Description",
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: Appfontsize.medium18,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: Appfonts.appFontFamily,
                                           ),
@@ -322,7 +322,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                 ? "Collapse"
                                                 : "Read more",
                                             style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: Appfontsize.small14,
                                               color: Appcolor.bottomBarColor,
                                             ),
                                           ),
@@ -473,13 +473,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           const Text(
                             "Total Price",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: Appfontsize.small14,
                               color: Colors.grey,
                               fontFamily: Appfonts.appFontFamily,
                             ),
                           ),
                           Text(
-                            "₹${((productDetails!.price) * (productDetails!.quantity ?? 0)).toStringAsFixed(2)}",
+                            "₹${((productDetails!.price) * (_quantity)).toStringAsFixed(2)}",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,

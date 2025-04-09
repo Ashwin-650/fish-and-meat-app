@@ -1,5 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
@@ -89,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                         ),
                         'Edit Profile'.extenTextStyle(
-                            fontsize: 20,
+                            fontsize: Appfontsize.high20,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             textAlign: TextAlign.center),
@@ -136,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: 'Log out'.extenTextStyle(
                       color: Colors.white,
                       fontfamily: Appfonts.appFontFamily,
-                      fontsize: 20),
+                      fontsize: Appfontsize.high20),
                 )
               ],
             ),

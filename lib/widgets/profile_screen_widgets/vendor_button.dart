@@ -76,7 +76,7 @@ class _VendorButtonState extends State<VendorButton> {
         );
       },
       child: 'Become a Vendor'.extenTextStyle(
-          fontsize: 20,
+          fontsize: Appfontsize.high20,
           fontfamily: Appfonts.appFontFamily,
           color: Colors.white),
     );

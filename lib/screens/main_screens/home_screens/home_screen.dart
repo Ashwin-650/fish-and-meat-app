@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     WidgetStatePropertyAll(Colors.black)),
                             onPressed: () {},
                             child: 'See all'.extenTextStyle(
-                                fontsize: 14,
+                                fontsize: Appfontsize.small14,
                                 fontfamily: Appfonts.appFontFamily),
                           )
                         ],
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     WidgetStatePropertyAll(Colors.black)),
                             onPressed: () {},
                             child: 'See all'.extenTextStyle(
-                                fontsize: 14,
+                                fontsize: Appfontsize.small14,
                                 fontfamily: Appfonts.appFontFamily),
                           )
                         ],

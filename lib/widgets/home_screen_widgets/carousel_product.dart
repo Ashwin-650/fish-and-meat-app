@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -95,7 +96,7 @@ class _CarouselProductState extends State<CarouselProduct> {
                               item['title'],
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: Appfontsize.medium18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

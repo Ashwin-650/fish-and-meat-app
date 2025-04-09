@@ -136,7 +136,8 @@ class ItemsScreen extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontSize: 14, color: Colors.black54),
+                                    fontSize: Appfontsize.small14,
+                                    color: Colors.black54),
                               ),
                               const SizedBox(height: 6),
                               Row(
@@ -144,7 +145,7 @@ class ItemsScreen extends StatelessWidget {
                                   Text(
                                     '₹${item.price}',
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: Appfontsize.regular16,
                                       color: item.offerPrice != null
                                           ? Colors.grey
                                           : Colors.black,
@@ -158,7 +159,7 @@ class ItemsScreen extends StatelessWidget {
                                     Text(
                                       '₹$item.offerPrice',
                                       style: const TextStyle(
-                                        fontSize: 15,
+                                        fontSize: Appfontsize.regular16,
                                         color: Colors.green,
                                         fontWeight: FontWeight.bold,
                                       ),

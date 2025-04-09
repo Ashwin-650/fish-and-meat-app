@@ -158,7 +158,7 @@ class VerificationScreenState extends State<VerificationScreen> {
           'OTP Verification',
           style: TextStyle(
             color: Colors.teal,
-            fontSize: 26,
+            fontSize: Appfontsize.appBarHeadSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -243,7 +243,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                   const Text(
                     "Didn't receive the code? ",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: Appfontsize.small14,
                       color: Colors.black54,
                     ),
                   ),
@@ -253,7 +253,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                           child: const Text(
                             "Resend",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: Appfontsize.small14,
                               fontWeight: FontWeight.bold,
                               color: Colors.teal,
                             ),
@@ -262,7 +262,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                       : Text(
                           _timerText,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: Appfontsize.small14,
                             fontWeight: FontWeight.bold,
                             color: Colors.teal,
                           ),

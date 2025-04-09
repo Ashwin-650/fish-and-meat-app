@@ -33,7 +33,7 @@ class CustomTextField extends StatelessWidget {
               Text(
                 label,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: Appfontsize.small14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -75,7 +75,7 @@ class CustomTextField extends StatelessWidget {
                   hintText: hint,
                   hintStyle: const TextStyle(
                     color: Color(0xFFAAAAAA),
-                    fontSize: 14,
+                    fontSize: Appfontsize.small14,
                   ),
                   filled: true,
                   fillColor: Colors.white,

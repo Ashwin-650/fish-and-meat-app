@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
@@ -145,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'Or continue with',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: Appfontsize.small14,
                           color: Color(0xFF777777),
                         ),
                       ),
