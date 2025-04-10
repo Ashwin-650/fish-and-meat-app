@@ -44,8 +44,9 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                   child: CarouselProduct(),
                 ),
                 Padding(
