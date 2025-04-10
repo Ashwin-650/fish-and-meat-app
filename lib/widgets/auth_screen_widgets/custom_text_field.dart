@@ -4,16 +4,25 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hint;
+  final int? maxLines;
+  final Function? validator;
   final bool isEmail;
-  final bool isNumber;
+  final bool isMobileNumber;
+  final bool isNumberField;
+  final bool isOptional;
   final TextEditingController textController;
-  const CustomTextField(
-      {super.key,
-      required this.label,
-      required this.hint,
-      this.isEmail = false,
-      this.isNumber = false,
-      required this.textController});
+  const CustomTextField({
+    super.key,
+    required this.label,
+    required this.hint,
+    required this.textController,
+    this.maxLines,
+    this.validator,
+    this.isEmail = false,
+    this.isMobileNumber = false,
+    this.isNumberField = false,
+    this.isOptional = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,31 +49,26 @@ class CustomTextField extends StatelessWidget {
               const SizedBox(height: 8),
               TextFormField(
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (!isOptional && (value == null || value.isEmpty)) {
                     return 'Please enter your ${label.toLowerCase()}';
-                  } else if (label.toLowerCase() != "full name" &&
-                      value.contains(" ")) {
-                    return 'Please enter a valid ${label.toLowerCase()}';
-                  } else if (isEmail &&
-                      !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                          .hasMatch(value)) {
-                    return 'Please enter a valid email address';
-                  } else if (isNumber &&
-                      (value.length > 10 ||
-                          !RegExp(r'^[6-9]\d{9}$').hasMatch(value))) {
-                    return 'Please enter a valid mobile number';
                   }
+
+                  if (validator != null) {
+                    validator!(value);
+                  }
+
                   return null;
                 },
+                maxLines: maxLines,
                 controller: textController,
                 keyboardType: isEmail
                     ? TextInputType.emailAddress
-                    : isNumber
+                    : isNumberField
                         ? TextInputType.number
                         : TextInputType.text,
                 decoration: InputDecoration(
                   isDense: true,
-                  prefixIcon: isNumber
+                  prefixIcon: isMobileNumber
                       ? const Text(
                           "  +91 ",
                           style: TextStyle(fontSize: Appfontsize.regular16),

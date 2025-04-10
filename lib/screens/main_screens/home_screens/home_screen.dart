@@ -4,7 +4,6 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -14,7 +13,6 @@ import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +24,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ProductDetails> items = [];
-  final NavBarController _navBarController = Get.find();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -48,8 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response != null && response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
       final responseData = responseBody["data"];
+      final products = responseData["products"];
+      final pagination = responseData["pagination"];
 
-      final List<dynamic> productList = responseData;
+      final List<dynamic> productList = products;
 
       setState(() {
         items = productList

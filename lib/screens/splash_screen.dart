@@ -42,16 +42,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> getToCheck() async {
-    final result =
-        await SharedPreferencesServices.getValue("isFirstTime", false);
+    final result = await SharedPreferencesServices.getValue(
+        Globals.onboardDisplayed, false);
 
     if (!result) {
-      await SharedPreferencesServices.setValue("isFirstTime", true);
+      await SharedPreferencesServices.setValue(Globals.onboardDisplayed, true);
       Get.off(() => OnboardScreen());
     } else {
       final token =
           await SharedPreferencesServices.getValue(Globals.apiToken, '');
-      if (token != null && token.isNotEmpty) {
+      if (token != '' && token.isNotEmpty) {
         Get.off(() => Myhomepage());
       } else {
         Get.off(() => const AuthScreen());

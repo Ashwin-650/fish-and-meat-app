@@ -13,13 +13,19 @@ void main() {
 
   // Configure foreground message handler
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    Get.showSnackbar(
-      GetSnackBar(
-        duration: const Duration(seconds: 4),
-        backgroundColor: Colors.green,
-        title: message.notification?.title,
-        message: message.notification?.body,
-      ),
+    // Get.showSnackbar(
+    //   GetSnackBar(
+    //     duration: const Duration(seconds: 4),
+    //     backgroundColor: Colors.green,
+    //     title: message.notification?.title,
+    //     message: message.notification?.body,
+    //   ),
+    // );
+    Get.snackbar(
+      message.notification?.title ?? "Error",
+      message.notification?.body ?? "Error",
+      duration: const Duration(seconds: 5),
+      isDismissible: true,
     );
   });
   runApp(const MyApp());

@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/helpers/update_fcm_token.dart';
 
 class FirebaseServices {
   FirebaseMessaging? firebaseMessaging;
@@ -14,9 +16,8 @@ class FirebaseServices {
     await firebaseMessaging?.requestPermission();
 
     // Token refresh
-    firebaseMessaging?.onTokenRefresh.listen((String token) {
-      print('FCM Token refreshed: $token');
-      // You may want to save the token to your server here
+    firebaseMessaging?.onTokenRefresh.listen((String fcmToken) async {
+      updateFCMToken(token: await Globals.loginToken, fcmToken: fcmToken);
     });
   }
 

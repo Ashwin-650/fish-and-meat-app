@@ -9,26 +9,6 @@ import 'package:get/get.dart';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ProductDetailPage(),
-    );
-  }
-}
-
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key});
 
@@ -38,7 +18,7 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final String productID = Get.arguments;
-  ProductDetails? productDetails; // Change to nullable ProductDetails
+  ProductDetails? productDetails;
   double _rating = 0;
   int _quantity = 1;
   bool _isFavorite = false;
@@ -289,7 +269,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   data: Theme.of(context).copyWith(
                                       dividerColor: Colors.transparent),
                                   child: ExpansionTile(
-                                    initiallyExpanded: false,
+                                    initiallyExpanded: true,
                                     onExpansionChanged: (expanded) {
                                       setState(() {
                                         _isDescriptionExpanded = expanded;

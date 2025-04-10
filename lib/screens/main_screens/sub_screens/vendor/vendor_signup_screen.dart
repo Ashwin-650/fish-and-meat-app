@@ -5,7 +5,6 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/models/vendor_signup_form_data.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_approval_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
@@ -17,7 +16,7 @@ class VendorSignUpScreen extends StatefulWidget {
   const VendorSignUpScreen({super.key});
 
   @override
-  _VendorSignUpScreen createState() => _VendorSignUpScreen();
+  State<VendorSignUpScreen> createState() => _VendorSignUpScreen();
 }
 
 class _VendorSignUpScreen extends State<VendorSignUpScreen> {
@@ -198,26 +197,6 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                ElevatedButton.icon(
-                  onPressed: _pickFile,
-                  icon: const Icon(
-                    Icons.upload_file,
-                    color: Colors.white,
-                  ),
-                  label: 'Upload Verification Document'
-                      .extenTextStyle(color: Colors.white),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black54,
-                  ),
-                ),
-                if (_selectedFile != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text('Selected File: ${_selectedFile!.path}'),
-                  ),
-
-                const SizedBox(height: 24),
-
                 // Submit Button
                 ElevatedButton(
                   onPressed: _submitForm,
@@ -263,15 +242,6 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
         const SnackBar(content: Text('Processing Data')),
       );
 
-      VendorSignUpFormData vendorData = VendorSignUpFormData(
-        gstNumber: _gstController.text,
-        panNumber: _panController.text,
-        adhaarNumber: _adhaarController.text,
-        shopName: _shopNameController.text,
-        shopLocation: _shopLocationController.text,
-        image: _selectedFile!,
-      );
-
       String? token =
           await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
@@ -284,12 +254,11 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
 
       final response = await ApiService.postVendorData(
         token: token,
-        pan: vendorData.panNumber,
-        adhaar: vendorData.adhaarNumber,
-        shopName: vendorData.shopName,
-        gstNumber: vendorData.gstNumber,
-        location: vendorData.shopLocation,
-        image: _selectedFile!,
+        pan: _panController.text,
+        aadhaar: _adhaarController.text,
+        shopname: _shopNameController.text,
+        gstNumber: _gstController.text,
+        location: _shopLocationController.text,
       );
       print('rep : ${response.body}.');
 
