@@ -268,6 +268,7 @@ class ProductAddVendor extends StatelessWidget {
             throw Exception("Invalid API response: Missing 'message' field.");
           }
 
+
           if ((response.statusCode == 200 || response.statusCode == 201) &&
               decodedResponse['message'].toString().trim().toLowerCase() ==
                   'product added') {
@@ -304,5 +305,6 @@ class ProductAddVendor extends StatelessWidget {
         );
       }
     }
+
   }
 }

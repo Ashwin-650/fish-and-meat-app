@@ -1,16 +1,13 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 
-class CarouselProduct extends StatefulWidget {
-  const CarouselProduct({super.key});
+class CarouselProduct extends StatelessWidget {
+  CarouselProduct({super.key});
 
-  @override
-  State<CarouselProduct> createState() => _CarouselProductState();
-}
+  final RxInt _currentIndex = 0.obs;
 
-class _CarouselProductState extends State<CarouselProduct> {
-  int _currentIndex = 0;
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
@@ -124,9 +121,7 @@ class _CarouselProductState extends State<CarouselProduct> {
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
             onPageChanged: (index, reason) {
-              setState(() {
-                _currentIndex = index;
-              });
+              _currentIndex.value = index;
             },
           ),
         ),

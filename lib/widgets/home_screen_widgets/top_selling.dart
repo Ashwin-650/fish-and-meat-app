@@ -1,20 +1,20 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/home_page_controllers/home_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TopSelling extends StatelessWidget {
-  final String photo;
-  final String text;
-  final Function()? onAddPressed;
+  final int index;
 
-  const TopSelling({
+  TopSelling({
     super.key,
-    required this.photo,
-    required this.text,
-    required this.onAddPressed,
+    required this.index,
   });
-
+  final HomeController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,11 +38,14 @@ class TopSelling extends StatelessWidget {
                       border: Border.all(width: 2, color: Colors.grey),
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          image: NetworkImage(photo), fit: BoxFit.cover),
+                          image: NetworkImage(
+                            "${Globals.imagePath}\\${controller.items[index].image}",
+                          ),
+                          fit: BoxFit.cover),
                     ),
                   ),
                 ),
-                text.extenTextStyle(
+                controller.items[index].title.extenTextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: Appfontsize.medium18,
                     textAlign: TextAlign.center)
@@ -58,7 +61,23 @@ class TopSelling extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: IconButton(
                   icon: const Icon(size: 30, Icons.add, color: Colors.black),
-                  onPressed: onAddPressed,
+                  onPressed: () async {
+                    final response = await ApiService.addToCart(
+                      token: await Globals.loginToken,
+                      item: controller.items[index],
+                    );
+                    if (response != null &&
+                        (response.statusCode == 200 ||
+                            response.statusCode == 201)) {
+                      Get.showSnackbar(
+                        const GetSnackBar(
+                          message: "Added to cart",
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    }
+                  },
                   constraints: const BoxConstraints(
                     minHeight: 36,
                     minWidth: 36,

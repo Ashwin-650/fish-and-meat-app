@@ -1,13 +1,8 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/home_page_controllers/home_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
-import 'package:fish_and_meat_app/models/product_details.dart';
-import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/carousel_product.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
@@ -15,49 +10,11 @@ import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+  final ScrollController _scrollController = Get.put(ScrollController());
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  List<ProductDetails> items = [];
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    init();
-    _scrollController.addListener(() => scrollListener(_scrollController));
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose(); // Dispose the controller to avoid memory leaks
-    super.dispose();
-  }
-
-  init() async {
-    final response =
-        await ApiService.getProducts(token: await Globals.loginToken);
-    if (response != null && response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
-      final responseData = responseBody["data"];
-      final products = responseData["products"];
-      final pagination = responseData["pagination"];
-
-      final List<dynamic> productList = products;
-
-      setState(() {
-        items = productList
-            .map((productJson) => ProductDetails.fromJson(productJson))
-            .toList();
-      });
-    }
-  }
-
+  final HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,8 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                   child: CarouselProduct(),
                 ),
                 Padding(
@@ -102,35 +60,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 180,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return TopSelling(
-                        photo: "${Globals.imagePath}\\${items[index].image}",
-                        text: items[index].title,
-                        onAddPressed: () async {
-                          final response = await ApiService.addToCart(
-                            token: await Globals.loginToken,
-                            item: items[index],
-                          );
-                          if (response != null &&
-                              (response.statusCode == 200 ||
-                                  response.statusCode == 201)) {
-                            Get.showSnackbar(
-                              const GetSnackBar(
-                                message: "Added to cart",
-                                backgroundColor: Colors.green,
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                          }
-                        },
+                    height: 180,
+                    child: Obx(() {
+                      if (controller.items.isEmpty) {
+                        return const Center(
+                            child: Text("No items found")); // helpful fallback
+                      }
+                      return SizedBox(
+                        height: 180,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.items.length,
+                          itemBuilder: (context, index) {
+                            return TopSelling(index: index);
+                          },
+                        ),
                       );
-                    },
-                  ),
-                ),
+                    })),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

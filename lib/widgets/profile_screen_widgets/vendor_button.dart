@@ -5,14 +5,9 @@ import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VendorButton extends StatefulWidget {
+class VendorButton extends StatelessWidget {
   const VendorButton({super.key});
 
-  @override
-  State<VendorButton> createState() => _VendorButtonState();
-}
-
-class _VendorButtonState extends State<VendorButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(

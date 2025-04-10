@@ -34,9 +34,9 @@ class Myhomepage extends StatelessWidget {
       Get.put(HomePageIndexController());
 
   final List<Widget> _pages = [
-    const HomeScreen(),
+    HomeScreen(),
     SearchScreen(),
-    const CartScreen(),
+    CartScreen(),
     OrdersScreen(),
     ProfileScreen()
   ];
