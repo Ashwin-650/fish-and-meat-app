@@ -130,5 +130,5 @@ Future<void> logOut() async {
     "login_token",
   );
 
-  Get.offAll(() => const AuthScreen());
+  Get.offAll(() => AuthScreen());
 }

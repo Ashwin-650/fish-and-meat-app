@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class NavBarController extends GetxController {
-  var isVisible = true.obs;
+  RxBool isVisible = RxBool(true);
 
   void hide() => isVisible.value = false;
   void show() => isVisible.value = true;

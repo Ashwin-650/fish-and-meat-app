@@ -68,66 +68,61 @@ class Myhomepage extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Obx(
-                      () => BottomNavigationBar(
-                        elevation: 0,
-                        type: BottomNavigationBarType.fixed,
-                        backgroundColor: Appcolor.bottomBarColor,
-                        selectedItemColor: Colors.white,
-                        unselectedItemColor: Colors.black,
-                        currentIndex:
-                            _homePageIndexController.selectedPageIndex.value,
-                        onTap: (value) async {
-                          _homePageIndexController.switchIndex(value);
-                          // Your existing onTap logic
-                          if (value == 2) {
-                            getItemFromCart(
-                                cartItemsListController:
-                                    _cartItemsListController,
-                                checkoutPriceController:
-                                    _checkoutPriceController);
-                          } else if (value == 3) {
-                            final response = await ApiService.getOrders(
-                                token: await Globals.loginToken);
-                            if (response != null &&
-                                response.statusCode == 200) {
-                              ordersItemsListController.setItems(
-                                  (json.decode(response.body)["data"] as List)
-                                      .map((productJson) =>
-                                          OrderDetails.fromJson(productJson))
-                                      .toList());
-                            }
-                          } else if (value == 4) {
-                            final response = await ApiService.getUserInfo(
-                                token: await Globals.loginToken);
-                            if (response != null &&
-                                response.statusCode == 200) {
-                              final responseData =
-                                  jsonDecode(response.body)["data"];
-                              if (responseData["vendor"] == "pending" ||
-                                  responseData["vendor"] == "true") {
-                                _visibilityButtonController.displayVendor();
-                              } else {
-                                _visibilityButtonController.displayUser();
-                              }
+                    child: BottomNavigationBar(
+                      elevation: 0,
+                      type: BottomNavigationBarType.fixed,
+                      backgroundColor: Appcolor.bottomBarColor,
+                      selectedItemColor: Colors.white,
+                      unselectedItemColor: Colors.black,
+                      currentIndex:
+                          _homePageIndexController.selectedPageIndex.value,
+                      onTap: (value) async {
+                        _homePageIndexController.switchIndex(value);
+                        // Your existing onTap logic
+                        if (value == 2) {
+                          getItemFromCart(
+                              cartItemsListController: _cartItemsListController,
+                              checkoutPriceController:
+                                  _checkoutPriceController);
+                        } else if (value == 3) {
+                          final response = await ApiService.getOrders(
+                              token: await Globals.loginToken);
+                          if (response != null && response.statusCode == 200) {
+                            ordersItemsListController.setItems(
+                                (json.decode(response.body)["data"] as List)
+                                    .map((productJson) =>
+                                        OrderDetails.fromJson(productJson))
+                                    .toList());
+                          }
+                        } else if (value == 4) {
+                          final response = await ApiService.getUserInfo(
+                              token: await Globals.loginToken);
+                          if (response != null && response.statusCode == 200) {
+                            final responseData =
+                                jsonDecode(response.body)["data"];
+                            if (responseData["vendor"] == "pending" ||
+                                responseData["vendor"] == "true") {
+                              _visibilityButtonController.displayVendor();
+                            } else {
+                              _visibilityButtonController.displayUser();
                             }
                           }
-                        },
-                        items: const [
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.home_outlined), label: 'Home'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.search), label: 'Search'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.shopping_cart_outlined),
-                              label: 'Cart'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.local_shipping_outlined),
-                              label: 'Orders'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.person), label: 'Profile'),
-                        ],
-                      ),
+                        }
+                      },
+                      items: const [
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.home_outlined), label: 'Home'),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.search), label: 'Search'),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            label: 'Cart'),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.local_shipping_outlined),
+                            label: 'Orders'),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.person), label: 'Profile'),
+                      ],
                     ),
                   ),
                 )

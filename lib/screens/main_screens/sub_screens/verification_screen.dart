@@ -20,8 +20,8 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class VerificationScreenState extends State<VerificationScreen> {
-  // Controllers for each digit input
-  final String email = Get.arguments;
+  final String email = Get.arguments["email"];
+  final String number = Get.arguments["number"];
   final List<TextEditingController> _controllers = List.generate(
     6,
     (index) => TextEditingController(),
@@ -46,7 +46,6 @@ class VerificationScreenState extends State<VerificationScreen> {
 
   void _startTimer() {
     _canResend = false;
-    _secondsRemaining = 300;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_secondsRemaining > 0) {
@@ -67,7 +66,7 @@ class VerificationScreenState extends State<VerificationScreen> {
 
   void _resendOTP() async {
     if (_canResend) {
-      final response = await ApiService.resendOTP(email: email, number: "");
+      final response = await ApiService.resendOTP(email: email, number: number);
       if (response != null && response.statusCode == 200) {
         // Reset the timer
         _startTimer();
@@ -99,7 +98,8 @@ class VerificationScreenState extends State<VerificationScreen> {
     }
 
     try {
-      var response = await ApiService.verifyOTP(email, otp);
+      var response =
+          await ApiService.verifyOTP(email: email, number: number, otp: otp);
       if (response != null && response.statusCode == 200) {
         Map<String, dynamic> jsonData = json.decode(response.body);
 

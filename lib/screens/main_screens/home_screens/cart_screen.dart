@@ -30,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
   String _mobileNumber = '+1 (555) 123-4567';
   bool _couponApplied = false;
   final double _discount = 0.0;
-  DateTime _deliveryDate = DateTime.now().add(const Duration(days: 1));
+  DateTime _deliveryDate = DateTime.now().add(const Duration(days: 3));
 
   void _showLocationBottomSheet() {
     showModalBottomSheet(
@@ -217,8 +217,8 @@ class _CartScreenState extends State<CartScreen> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _deliveryDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 30)),
+      firstDate: DateTime.now().add(const Duration(days: 3)),
+      lastDate: DateTime.now().add(const Duration(days: 33)),
     );
 
     if (picked != null && picked != _deliveryDate) {
@@ -251,7 +251,13 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  void _placeOrder() {
+  void _placeOrder() async {
+    ApiService.checkoutCart(
+        token: await Globals.loginToken,
+        amount: _checkoutPriceController.totalCheckoutPrice.value.toString(),
+        address: "address",
+        pincode: 673003,
+        preOrder: "preOrder");
     RazorpayServices.init();
     RazorpayServices.openCheckOut(amount: 100000);
   }
