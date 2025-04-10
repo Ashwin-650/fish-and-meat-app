@@ -10,11 +10,11 @@ import 'package:get/get.dart';
 class TopSelling extends StatelessWidget {
   final int index;
 
-  const TopSelling({
+  TopSelling({
     super.key,
     required this.index,
   });
-
+  final HomeController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,13 +39,13 @@ class TopSelling extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                           image: NetworkImage(
-                            "${Globals.imagePath}\\${HomeController().items[index].image}",
+                            "${Globals.imagePath}\\${controller.items[index].image}",
                           ),
                           fit: BoxFit.cover),
                     ),
                   ),
                 ),
-                HomeController().items[index].title.extenTextStyle(
+                controller.items[index].title.extenTextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: Appfontsize.medium18,
                     textAlign: TextAlign.center)
@@ -64,7 +64,7 @@ class TopSelling extends StatelessWidget {
                   onPressed: () async {
                     final response = await ApiService.addToCart(
                       token: await Globals.loginToken,
-                      item: HomeController().items[index],
+                      item: controller.items[index],
                     );
                     if (response != null &&
                         (response.statusCode == 200 ||

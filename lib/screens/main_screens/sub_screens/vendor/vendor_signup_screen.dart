@@ -30,17 +30,6 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
   final TextEditingController _shopNameController = TextEditingController();
   final TextEditingController _shopLocationController = TextEditingController();
 
-  File? _selectedFile;
-
-  Future<void> _pickFile() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      setState(() {
-        _selectedFile = File(result.files.single.path!);
-      });
-    }
-  }
-
   @override
   void dispose() {
     // Dispose controllers to prevent memory leaks
@@ -228,12 +217,6 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
         'shop_name', _shopNameController.text);
     await SharedPreferencesServices.setValue(
         'shop_location', _shopLocationController.text);
-
-    // Store the file path if a file is selected
-    if (_selectedFile != null) {
-      await SharedPreferencesServices.setValue(
-          'uploaded_file_path', _selectedFile!.path);
-    }
   }
 
   void _submitForm() async {

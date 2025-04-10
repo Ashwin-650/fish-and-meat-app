@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var items = <ProductDetails>[].obs;
+  RxList<ProductDetails> items = RxList([]);
   final ScrollController _scrollController = Get.find();
 
   @override
@@ -18,20 +18,14 @@ class HomeController extends GetxController {
     _scrollController.addListener(() => scrollListener(_scrollController));
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-    _scrollController.dispose(); // Dispose the controller to avoid memory leaks
-  }
-
-  init() async {
+  void init() async {
     final response =
         await ApiService.getProducts(token: await Globals.loginToken);
     if (response != null && response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
       final responseData = responseBody["data"];
 
-      final List<dynamic> productList = responseData;
+      final List<dynamic> productList = responseData["products"];
 
       items.value = productList
           .map((productJson) => ProductDetails.fromJson(productJson))
