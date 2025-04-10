@@ -13,7 +13,9 @@ void getItemFromCart(
       await ApiService.getFromCart(token: await Globals.loginToken);
   if (response != null && response.statusCode == 200) {
     final responseBody = jsonDecode(response.body);
+
     final responseData = responseBody["data"];
+    print(responseData);
     final items = ((responseData) as List)
         .map((productJson) => ProductDetails.fromJson(productJson))
         .toList();

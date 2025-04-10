@@ -172,6 +172,7 @@ class ApiService {
         'title': item.title,
         'description': item.description,
         'price': item.price,
+        'stock': item.stock,
         'image': item.image,
         'reviews': item.reviews,
         'availability': "${item.availability}",

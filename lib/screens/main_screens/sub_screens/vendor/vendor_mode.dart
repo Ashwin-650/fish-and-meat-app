@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
@@ -6,9 +7,9 @@ import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/product_price_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:http/http.dart' as http;
 
 class VendorMode extends StatefulWidget {
@@ -20,20 +21,21 @@ class VendorMode extends StatefulWidget {
 
 class _VendorModeState extends State<VendorMode> {
   List<ProductDetails> products = [];
-  bool isLoading = true; // Loading state
+  bool isLoading = true;
   bool isDeleting = false;
+  final GlobalKey<RefreshIndicatorState> _refreshKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
-    _fetchProducts(); // Call API on startup
+    _fetchProducts();
   }
 
   Future<void> _fetchProducts() async {
-    String? token = await SharedPreferencesServices.getValue(
-        Globals.apiToken, ''); // Get token from storage
+    String? token =
+        await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
     if (token == null) {
-      // print("Error: No token found.");
       setState(() => isLoading = false);
       return;
     }
@@ -56,7 +58,6 @@ class _VendorModeState extends State<VendorMode> {
         setState(() => isLoading = false);
       }
     } catch (error) {
-      // print("API Error: $error");
       setState(() => isLoading = false);
     }
   }
@@ -66,76 +67,227 @@ class _VendorModeState extends State<VendorMode> {
       isDeleting = true;
     });
 
-    String? token = await SharedPreferencesServices.getValue(
-        Globals.apiToken, ''); // Get token from storage
+    String? token =
+        await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
     if (token == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Authentication error. Please login again.')),
-      );
+      _showSnackBar('Authentication error. Please login again.', isError: true);
       setState(() => isDeleting = false);
       return;
     }
 
     try {
-      // Make the API call to delete the product
       final http.Response response = await ApiService.deleteProduct(
         id: productId,
         token: token,
       );
-      // print(token);
 
       if (response.statusCode == 200) {
-        // If successful, remove product from local list
         setState(() {
           products.removeWhere((product) => product.id == productId);
           isDeleting = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Product removed successfully')),
-        );
+        _showSnackBar('Product removed successfully');
       } else {
-        // Handle error responses
         final responseData = jsonDecode(response.body);
-
         String errorMessage =
             responseData['message'] ?? 'Failed to delete product';
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+        _showSnackBar(errorMessage, isError: true);
         setState(() => isDeleting = false);
-        print(response);
       }
     } catch (error) {
-      // Handle network or other errors
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${error.toString()}')),
-      );
+      _showSnackBar('Error: ${error.toString()}', isError: true);
       setState(() => isDeleting = false);
     }
   }
 
-//
+  void _showSnackBar(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red.shade800 : Colors.green.shade800,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(10),
+      ),
+    );
+  }
+
   void _showDeleteConfirmation(String productId, String productName) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Product'),
         content: Text('Are you sure you want to delete "$productName"?'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               _deleteProduct(productId);
             },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red.shade700,
+              foregroundColor: Colors.white,
+            ),
             child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductCard(ProductDetails product) {
+    bool hasOffer = product.offerPrice != null;
+    double discount = hasOffer
+        ? ((product.price - product.offerPrice!) / product.price) * 100
+        : 0.0;
+
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image with category tag and discount badge
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                child: Image.network(
+                  product.image.startsWith('http')
+                      ? product.image
+                      : '${Globals.imagePath}/${product.image}',
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 200,
+                    width: double.infinity,
+                    color: Colors.grey.shade200,
+                    child: const Icon(Icons.broken_image,
+                        size: 50, color: Colors.grey),
+                  ),
+                ),
+              ),
+              // Category tag
+              Positioned(
+                top: 12,
+                left: 12,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    product.category,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+              // Discount badge
+              if (hasOffer)
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      "${discount.toStringAsFixed(0)}% OFF",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ),
+              // Stock indicator
+              Positioned(
+                bottom: 12,
+                right: 12,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: product.stock! > 10 ? Colors.green : Colors.orange,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    "Stock: ${product.stock}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Product info
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                Text(
+                  product.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: Appfonts.appFontFamily,
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // Description
+                if (product.description.isNotEmpty)
+                  Text(
+                    product.description,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontFamily: Appfonts.appFontFamily,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                const SizedBox(height: 12),
+
+                // Price information
+                ProductPriceInfo(
+                    hasOffer: hasOffer,
+                    offerPrice: "₹${product.offerPrice?.toStringAsFixed(2)}",
+                    price: "₹${product.price.toStringAsFixed(2)}",
+                    onTap: () {
+                      _showDeleteConfirmation(
+                        product.id,
+                        product.title,
+                      );
+                    })
+              ],
+            ),
           ),
         ],
       ),
@@ -145,112 +297,90 @@ class _VendorModeState extends State<VendorMode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: 'Products'.extenTextStyle(),
+        title: const Text(
+          'My Products',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: Appfonts.appFontFamily,
+          ),
+        ),
+        elevation: 0,
         actions: [
           IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () async {
-                final result = await Get.to(() => ProductAddVendor());
-                if (result == true) {
-                  _fetchProducts();
-                }
-              }),
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              setState(() => isLoading = true);
+              _fetchProducts();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline),
+            onPressed: () async {
+              final result = await Get.to(() => ProductAddVendor());
+              if (result == true) {
+                _fetchProducts();
+              }
+            },
+          ),
         ],
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : products.isEmpty
-              ? Center(
-                  child: 'No products available! Tap + to add a product.'
-                      .extenTextStyle(),
-                )
-              : ListView.builder(
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Card(
-                        margin: const EdgeInsets.all(10.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.network(
-                                product.image.startsWith('http')
-                                    ? product.image
-                                    : '${Globals.imagePath}/${product.image}',
-                                height: 180,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Icon(Icons.broken_image),
-                              ),
-                              const SizedBox(height: 12),
-                              product.title.extenTextStyle(
-                                fontSize: Appfontsize.medium18,
+      body: Stack(
+        children: [
+          RefreshIndicator(
+            key: _refreshKey,
+            onRefresh: _fetchProducts,
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : products.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.inventory,
+                              size: 80,
+                              color: Colors.grey.shade400,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'No products available',
+                              style: TextStyle(
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600,
+                                fontFamily: Appfonts.appFontFamily,
                               ),
-                              if (product.description.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: product.description.extenTextStyle(
-                                      textOverflow: TextOverflow.ellipsis,
-                                      maxLines: 3),
-                                ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  'Price: ₹${product.price.toStringAsFixed(2)}'
-                                      .extenTextStyle(
-                                          fontWeight: FontWeight.bold),
-                                  if (product.offerPrice != null)
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child:
-                                          'Offer: ₹${product.offerPrice!.toStringAsFixed(2)}'
-                                              .extenTextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                ],
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Tap + to add your first product',
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontFamily: Appfonts.appFontFamily,
                               ),
-                              const SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Category: ${product.category}'),
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    margin: const EdgeInsets.all(8),
-                                    child: IconButton(
-                                      icon: const Icon(Icons.delete,
-                                          color: Colors.red),
-                                      onPressed: () => _showDeleteConfirmation(
-                                        product.id,
-                                        product.title,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              Text('Stock: ${product.stock} units'),
-                              const SizedBox(height: 4),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
+                      )
+                    : ListView.builder(
+                        padding:
+                            const EdgeInsets.only(bottom: 80), // Space for FAB
+                        itemCount: products.length,
+                        itemBuilder: (context, index) =>
+                            _buildProductCard(products[index]),
                       ),
-                    );
-                  },
-                ),
+          ),
+          if (isDeleting)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
