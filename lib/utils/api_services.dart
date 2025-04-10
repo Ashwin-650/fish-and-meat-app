@@ -53,10 +53,14 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> verifyOTP(String email, String otp) async {
+  static Future<dynamic> verifyOTP(
+      {required String email,
+      required String number,
+      required String otp}) async {
     try {
       Map<String, String> body = {
         'email': email,
+        'mobile': "+91$number",
         'otp': otp,
       };
 
@@ -177,6 +181,7 @@ class ApiService {
         'reviews': item.reviews,
         'availability': "${item.availability}",
         'category': item.category,
+        'stock': item.stock,
       };
 
       final response = await http.post(
@@ -446,6 +451,36 @@ class ApiService {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
         },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> checkoutCart({
+    required String token,
+    required String amount,
+    required String address,
+    required int pincode,
+    required String preOrder,
+  }) async {
+    try {
+      Map<String, dynamic> body = {
+        'discountAmount': amount,
+        'address': address,
+        'pincode': pincode,
+        'preOrder': preOrder,
+      };
+
+      final response = await http.post(
+        Uri.parse('${Globals.baseUrl}/checkout'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+        body: json.encode(body),
       );
 
       return response;

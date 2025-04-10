@@ -4,7 +4,7 @@ import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
-import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
+import 'package:fish_and_meat_app/widgets/custom_text_field.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:fish_and_meat_app/widgets/social_button.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +33,13 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (response != null && response.statusCode == 200 ||
           response.statusCode == 201) {
-        Map<String, dynamic> jsonData = json.decode(response.body);
-        // print('rep :${response.body}');
-        String email = jsonData["data"]["email"];
-
-        Get.to(const VerificationScreen(), arguments: email);
+        Get.to(
+          VerificationScreen(),
+          arguments: {
+            'email': _emailController.text,
+            'number': _numberController.text
+          },
+        );
       } else {}
     } else {}
   }
@@ -109,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       CustomTextField(
                         label: 'Email',
                         hint: 'Enter your email',
-                        textController: _numberController,
+                        textController: _emailController,
                         isEmail: true,
                         validator: (value) {
                           if (!RegExp(

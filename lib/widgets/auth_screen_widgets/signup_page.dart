@@ -2,7 +2,7 @@ import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
-import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
+import 'package:fish_and_meat_app/widgets/custom_text_field.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:fish_and_meat_app/widgets/social_button.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
                 response.statusCode == 201 ||
                 response.statusCode == 202)) {
           Get.to(
-            const VerificationScreen(),
+            VerificationScreen(),
             arguments: _emailController.text,
           );
         } else {
