@@ -181,7 +181,6 @@ class ApiService {
         'reviews': item.reviews,
         'availability': "${item.availability}",
         'category': item.category,
-        'stock': item.stock,
       };
 
       final response = await http.post(

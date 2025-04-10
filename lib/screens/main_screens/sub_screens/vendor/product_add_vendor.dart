@@ -219,8 +219,6 @@ class ProductAddVendor extends StatelessWidget {
   _onPressed(context) async {
     if (_formKey.currentState!.validate()) {
       if (_imagePickerController.pickedImage.value == null) {
-        print(
-            "Error: Image file does not exist at path: ${_imagePickerController.pickedImage.value!.path}");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please select an image')),
         );
@@ -268,7 +266,6 @@ class ProductAddVendor extends StatelessWidget {
             throw Exception("Invalid API response: Missing 'message' field.");
           }
 
-
           if ((response.statusCode == 200 || response.statusCode == 201) &&
               decodedResponse['message'].toString().trim().toLowerCase() ==
                   'product added') {
@@ -277,12 +274,9 @@ class ProductAddVendor extends StatelessWidget {
             );
 
             Future.delayed(const Duration(milliseconds: 500), () {
-              print("Popping back to previous screen");
               Navigator.pop(context, true);
             });
           } else {
-            print(
-                "API Error: ${decodedResponse['message'] ?? 'Unknown error'}");
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   content: Text(
@@ -290,21 +284,16 @@ class ProductAddVendor extends StatelessWidget {
             );
           }
         } catch (decodeError) {
-          print("JSON Decoding Error: $decodeError");
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Failed to parse response from server')),
           );
         }
-      } catch (error, stackTrace) {
-        print("Exception caught: $error");
-        print("Stack trace: $stackTrace");
-
+      } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $error')),
         );
       }
     }
-
   }
 }

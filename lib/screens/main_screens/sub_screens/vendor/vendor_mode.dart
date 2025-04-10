@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
-import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -229,7 +227,7 @@ class _VendorModeState extends State<VendorMode> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: product.stock! > 10 ? Colors.green : Colors.orange,
+                    color: product.stock > 10 ? Colors.green : Colors.orange,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
