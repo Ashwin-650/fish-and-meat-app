@@ -18,27 +18,21 @@ class ProductPriceInfo extends StatelessWidget {
     return Row(
       children: [
         if (hasOffer) ...[
-          offerPrice.extenTextStyle
-              // "₹${product.offerPrice!.toStringAsFixed(2)}",
-              (
+          offerPrice.extenTextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: Colors.green,
             fontfamily: Appfonts.appFontFamily,
           ),
           const SizedBox(width: 8),
-          price.extenTextStyle
-              // "₹${product.price.toStringAsFixed(2)}",
-              (
+          price.extenTextStyle(
             fontSize: 14,
             color: Colors.grey.shade700,
             decoration: TextDecoration.lineThrough,
             fontfamily: Appfonts.appFontFamily,
           ),
         ] else
-          price.extenTextStyle
-              // "₹${product.price.toStringAsFixed(2)}",
-              (
+          price.extenTextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             fontfamily: Appfonts.appFontFamily,
@@ -50,12 +44,7 @@ class ProductPriceInfo extends StatelessWidget {
         ),
         IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () => onTap
-            // _showDeleteConfirmation(
-            //   product.id,
-            //   product.title,
-            // ),
-            ),
+            onPressed: () => onTap),
       ],
     );
   }
