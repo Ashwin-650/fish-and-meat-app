@@ -302,8 +302,6 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       if (_imageFile == null) {
-                        print(
-                            "Error: Image file does not exist at path: ${_imageFile?.path}");
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Please select an image')),
@@ -389,15 +387,11 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
 
                             Future.delayed(const Duration(milliseconds: 500),
                                 () {
-                              print("Checking mounted status: $mounted");
                               if (mounted) {
-                                print("Popping back to previous screen");
                                 Navigator.pop(context, true);
                               }
                             });
                           } else {
-                            print(
-                                "API Error: ${decodedResponse['message'] ?? 'Unknown error'}");
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text(decodedResponse['message'] ??
@@ -405,17 +399,13 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                             );
                           }
                         } catch (decodeError) {
-                          print("JSON Decoding Error: $decodeError");
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text(
                                     'Failed to parse response from server')),
                           );
                         }
-                      } catch (error, stackTrace) {
-                        print("Exception caught: $error");
-                        print("Stack trace: $stackTrace");
-
+                      } catch (error) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Error: $error')),
                         );

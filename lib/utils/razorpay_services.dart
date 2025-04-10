@@ -16,6 +16,7 @@ class RazorpayServices {
 
   static void _handlePaymentFailure(PaymentFailureResponse response) {
     Get.showSnackbar(const GetSnackBar(
+      duration: Duration(seconds: 4),
       message: "Payment failed!",
       backgroundColor: Colors.red,
     ));
@@ -23,6 +24,7 @@ class RazorpayServices {
 
   static void _handleExternalWallet(ExternalWalletResponse response) {
     Get.showSnackbar(const GetSnackBar(
+      duration: Duration(seconds: 4),
       message: "Order placed successfully!",
       backgroundColor: Colors.yellow,
     ));

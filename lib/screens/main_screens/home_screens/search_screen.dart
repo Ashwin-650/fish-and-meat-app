@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/search_screen_controller/query_items_controller.dart';
 import 'package:fish_and_meat_app/controllers/search_screen_controller/search_page_index_controller.dart';
 import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
@@ -14,7 +13,6 @@ import 'package:fish_and_meat_app/widgets/search_screen_widgets/moving_carousel.
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/recent_searches_list.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/suggestion_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class SearchScreen extends StatelessWidget {
