@@ -151,7 +151,7 @@ class _VendorModeState extends State<VendorMode> {
           IconButton(
               icon: const Icon(Icons.add),
               onPressed: () async {
-                final result = await Get.to(() => const ProductAddVendor());
+                final result = await Get.to(() => ProductAddVendor());
                 if (result == true) {
                   _fetchProducts();
                 }

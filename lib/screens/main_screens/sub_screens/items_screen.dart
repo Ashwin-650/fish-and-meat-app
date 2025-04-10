@@ -46,9 +46,11 @@ class ItemsScreen extends StatelessWidget {
 
       if (response is http.Response && response.statusCode == 200) {
         final responseBody = json.decode(response.body);
-        final data = responseBody["data"];
+        final responseData = responseBody["data"];
+        final products = responseData["products"];
+        final pagination = responseData["pagination"];
 
-        return (data as List)
+        return (products as List)
             .map((json) => ProductDetails.fromJson(json))
             .toList();
       } else {
@@ -83,7 +85,7 @@ class ItemsScreen extends StatelessWidget {
 
               return InkWell(
                 onTap: () => Get.to(
-                  () => const ProductDetailPage(),
+                  () => ProductDetailPage(),
                   arguments: item.id,
                 ),
                 child: Card(

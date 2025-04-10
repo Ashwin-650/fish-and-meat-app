@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/helpers/update_fcm_token.dart';
 import 'package:fish_and_meat_app/screens/myhomepage.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/firebase_services.dart';
@@ -111,16 +112,7 @@ class VerificationScreenState extends State<VerificationScreen> {
 
         final fcmToken = await firebaseServices.getToken();
         if (fcmToken != null) {
-          final fcmResponse = await ApiService.fcmTokenToServer(
-            token: token,
-            fcmToken: fcmToken,
-          );
-
-          if (fcmResponse != null && fcmResponse.statusCode == 200) {
-            print('✅ FCM token registered successfully');
-          } else {
-            print('⚠️ Failed to register FCM token');
-          }
+          updateFCMToken(token: token, fcmToken: fcmToken);
         }
 
         Get.offAll(Myhomepage());

@@ -104,7 +104,8 @@ class Myhomepage extends StatelessWidget {
                                 response.statusCode == 200) {
                               final responseData =
                                   jsonDecode(response.body)["data"];
-                              if (responseData["vendor"]) {
+                              if (responseData["vendor"] == "pending" ||
+                                  responseData["vendor"] == "true") {
                                 _visibilityButtonController.displayVendor();
                               } else {
                                 _visibilityButtonController.displayUser();

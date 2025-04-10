@@ -65,8 +65,12 @@ class SearchScreen extends StatelessWidget {
                                 query: _searchEditingController.text);
                             if (response != null &&
                                 response.statusCode == 200) {
+                              final responseData =
+                                  json.decode(response.body)["data"];
+                              final products = responseData["products"];
+                              final pagination = responseData["pagination"];
                               _queryItemsController.queryItems.value =
-                                  (json.decode(response.body)["data"] as List)
+                                  (products as List)
                                       .map((productJson) =>
                                           ProductDetails.fromJson(productJson))
                                       .toList();

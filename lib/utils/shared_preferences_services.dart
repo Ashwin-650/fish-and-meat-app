@@ -26,15 +26,15 @@ class SharedPreferencesServices {
 
     switch (defaultValue.runtimeType) {
       case const (String):
-        return _sharedPreferences!.getString(key);
+        return _sharedPreferences!.getString(key) ?? defaultValue;
       case const (int):
-        return _sharedPreferences!.getInt(key);
+        return _sharedPreferences!.getInt(key) ?? defaultValue;
       case const (bool):
-        return _sharedPreferences!.getBool(key);
+        return _sharedPreferences!.getBool(key) ?? defaultValue;
       case const (double):
-        return _sharedPreferences!.getDouble(key);
+        return _sharedPreferences!.getDouble(key) ?? defaultValue;
       case const (List<String>):
-        return _sharedPreferences!.getStringList(key);
+        return _sharedPreferences!.getStringList(key) ?? defaultValue;
     }
     return defaultValue;
   }

@@ -1,33 +1,28 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/available_locations_controller.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/image_picker_controller.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/selected_category_controller.dart';
+import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/models/product_form_model.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProductAddVendor extends StatefulWidget {
-  const ProductAddVendor({super.key});
+class ProductAddVendor extends StatelessWidget {
+  ProductAddVendor({super.key});
 
-  @override
-  _ProductAddVendorState createState() => _ProductAddVendorState();
-}
-
-class _ProductAddVendorState extends State<ProductAddVendor> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   final _offerPriceController = TextEditingController();
   final _stockController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _pincodeController = TextEditingController();
-
-  final List<String> _availableLocations = [];
-  File? _imageFile;
   final List<String> _categories = [
     'Chicken',
     'Beef',
@@ -39,19 +34,13 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
     'Prawns',
     'Other'
   ];
-  String _selectedCategory = 'Chicken';
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    _offerPriceController.dispose();
-    _stockController.dispose();
-    _categoryController.dispose();
-    _pincodeController.dispose();
-    super.dispose();
-  }
+  final SelectedCategoryController _selectedCategoryController =
+      Get.put(SelectedCategoryController());
+  final AvailableLocationsController _availableLocationsController =
+      Get.put(AvailableLocationsController());
+  final ImagePickerController _imagePickerController =
+      Get.put(ImagePickerController());
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -59,26 +48,22 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
         await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
+      _imagePickerController.setImage(File(pickedFile.path));
     }
   }
 
   void _addPincode() {
     if (_pincodeController.text.isNotEmpty &&
-        !_availableLocations.contains(_pincodeController.text)) {
-      setState(() {
-        _availableLocations.add(_pincodeController.text);
-        _pincodeController.clear();
-      });
+        !_availableLocationsController.availableLocations
+            .contains(_pincodeController.text)) {
+      _availableLocationsController.availableLocations
+          .add(_pincodeController.text);
+      _pincodeController.clear();
     }
   }
 
   void _removeLocation(String location) {
-    setState(() {
-      _availableLocations.remove(location);
-    });
+    _availableLocationsController.availableLocations.remove(location);
   }
 
   @override
@@ -105,112 +90,64 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: _imageFile != null
-                        ? Image.file(
-                            _imageFile!,
-                            fit: BoxFit.cover,
-                          )
-                        : const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.image, size: 50, color: Colors.grey),
-                              SizedBox(height: 8),
-                              Text('Tap to select image*',
-                                  style: TextStyle(color: Colors.grey)),
-                            ],
-                          ),
+                    child: Obx(() {
+                      final image = _imagePickerController.pickedImage.value;
+                      return image != null
+                          ? Image.file(image, fit: BoxFit.cover)
+                          : const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.image, size: 50, color: Colors.grey),
+                                SizedBox(height: 8),
+                                Text('Tap to select image*',
+                                    style: TextStyle(color: Colors.grey)),
+                              ],
+                            );
+                    }),
                   ),
                 ),
               ),
               const SizedBox(height: 24),
 
-              // Title Field
-              TextFormField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title*',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
+              CustomTextField(
+                label: "Title*",
+                hint: "",
+                textController: _titleController,
               ),
               const SizedBox(height: 16),
 
-              // Description Field
-              TextFormField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
-                ),
+              CustomTextField(
+                label: "Description",
+                hint: "",
+                textController: _descriptionController,
                 maxLines: 3,
+                isOptional: true,
               ),
               const SizedBox(height: 16),
 
-              // Price Field
-              TextFormField(
-                controller: _priceController,
-                decoration: const InputDecoration(
-                  labelText: 'Price*',
-                  border: OutlineInputBorder(),
-                  prefixText: '₹',
-                ),
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a price';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-              ),
+              CustomTextField(
+                  label: "Price*",
+                  hint: "",
+                  textController: _priceController,
+                  isNumberField: true),
               const SizedBox(height: 16),
 
               // Offer Price Field
-              TextFormField(
-                controller: _offerPriceController,
-                decoration: const InputDecoration(
-                  labelText: 'Offer Price (Optional)',
-                  border: OutlineInputBorder(),
-                  prefixText: '₹',
-                ),
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    if (double.tryParse(value) == null) {
-                      return 'Please enter a valid number';
-                    }
-                  }
-                  return null;
-                },
+              CustomTextField(
+                label: "Offer Price",
+                hint: "",
+                textController: _offerPriceController,
+                isNumberField: true,
+                isOptional: true,
               ),
               const SizedBox(height: 16),
 
               // Stock Field
-              TextFormField(
-                controller: _stockController,
-                decoration: const InputDecoration(
-                  labelText: 'Stock*',
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter stock quantity';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
+              CustomTextField(
+                label: "Stock*",
+                hint: "",
+                textController: _stockController,
+                isNumberField: true,
               ),
               const SizedBox(height: 16),
 
@@ -220,7 +157,7 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                   labelText: 'Category*',
                   border: OutlineInputBorder(),
                 ),
-                value: _selectedCategory,
+                value: _selectedCategoryController.selectedCategory.value,
                 items: _categories.map((String category) {
                   return DropdownMenuItem<String>(
                     value: category,
@@ -229,9 +166,7 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                 }).toList(),
                 onChanged: (String? newValue) {
                   if (newValue != null) {
-                    setState(() {
-                      _selectedCategory = newValue;
-                    });
+                    _selectedCategoryController.setCategory(newValue);
                   }
                 },
                 validator: (value) {
@@ -254,13 +189,11 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
               Row(
                 children: [
                   Expanded(
-                    child: TextFormField(
-                      controller: _pincodeController,
-                      decoration: const InputDecoration(
-                        labelText: 'Enter Pincode',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
+                    child: CustomTextField(
+                      label: "Enter Pincode",
+                      hint: "",
+                      textController: _pincodeController,
+                      isNumberField: true,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -273,18 +206,21 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
               const SizedBox(height: 8),
 
               // Display added pincodes
-              Wrap(
-                spacing: 8.0,
-                runSpacing: 8.0,
-                children: _availableLocations.map((location) {
-                  return Chip(
-                    label: Text(location),
-                    deleteIcon: const Icon(Icons.close, size: 16),
-                    onDeleted: () => _removeLocation(location),
-                  );
-                }).toList(),
+              Obx(
+                () => Wrap(
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: _availableLocationsController.availableLocations
+                      .map((location) {
+                    return Chip(
+                      label: Text(location),
+                      deleteIcon: const Icon(Icons.close, size: 16),
+                      onDeleted: () => _removeLocation(location),
+                    );
+                  }).toList(),
+                ),
               ),
-              if (_availableLocations.isEmpty)
+              if (_availableLocationsController.availableLocations.isEmpty)
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
@@ -301,7 +237,9 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      if (_imageFile == null) {
+                      if (_imagePickerController.pickedImage.value == null) {
+                        print(
+                            "Error: Image file does not exist at path: ${_imagePickerController.pickedImage.value!.path}");
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Please select an image')),
@@ -309,7 +247,8 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                         return;
                       }
 
-                      if (_availableLocations.isEmpty) {
+                      if (_availableLocationsController
+                          .availableLocations.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content:
@@ -317,25 +256,6 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                         );
                         return;
                       }
-
-                      // Initialize ProductFormModel
-                      ProductFormModel productForm = ProductFormModel(
-                        title: _titleController.text,
-                        //
-                        description: _descriptionController.text,
-                        //
-                        image: _imageFile!,
-                        price: double.parse(_priceController.text),
-                        //
-                        offerPrice: _offerPriceController.text.trim().isEmpty
-                            ? null
-                            : double.tryParse(
-                                _offerPriceController.text.trim()),
-                        //
-                        stock: int.parse(_stockController.text),
-                        availableLocations: _availableLocations.join(','),
-                        category: _selectedCategory,
-                      );
 
                       // Fetch API Token
                       String? token = await SharedPreferencesServices.getValue(
@@ -354,14 +274,17 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
                         final http.Response response =
                             await ApiService.vendorProductAdd(
                           token: token,
-                          title: productForm.title,
-                          description: productForm.description ?? '',
-                          price: productForm.price.toString(),
-                          availability: productForm.availableLocations,
-                          category: productForm.category,
-                          offerPrice: productForm.offerPrice?.toString() ?? '0',
-                          stock: productForm.stock.toString(),
-                          image: _imageFile!,
+                          title: _titleController.text,
+                          description: _descriptionController.text,
+                          price: _priceController.text,
+                          availability: _availableLocationsController
+                              .availableLocations
+                              .join(','),
+                          category: _selectedCategoryController
+                              .selectedCategory.value,
+                          offerPrice: _offerPriceController.text,
+                          stock: _stockController.text,
+                          image: _imagePickerController.pickedImage.value!,
                         );
 
                         try {
@@ -387,9 +310,8 @@ class _ProductAddVendorState extends State<ProductAddVendor> {
 
                             Future.delayed(const Duration(milliseconds: 500),
                                 () {
-                              if (mounted) {
-                                Navigator.pop(context, true);
-                              }
+                              print("Popping back to previous screen");
+                              Navigator.pop(context, true);
                             });
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

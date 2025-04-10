@@ -81,7 +81,14 @@ class _LoginPageState extends State<LoginPage> {
                         label: 'Mobile Number',
                         hint: 'Enter your mobile number',
                         textController: _numberController,
-                        isNumber: true,
+                        isMobileNumber: true,
+                        isNumberField: true,
+                        validator: (value) {
+                          if (value.length > 10 ||
+                              !RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
+                            return 'Please enter a valid mobile number';
+                          }
+                        },
                       ),
                       TextButton(
                         onPressed: () {
@@ -104,6 +111,13 @@ class _LoginPageState extends State<LoginPage> {
                         hint: 'Enter your email',
                         textController: _numberController,
                         isEmail: true,
+                        validator: (value) {
+                          if (!RegExp(
+                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                              .hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                        },
                       ),
                       TextButton(
                         onPressed: () {
