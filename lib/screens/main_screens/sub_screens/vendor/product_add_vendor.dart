@@ -4,7 +4,9 @@ import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/available_locations_controller.dart';
 import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/image_picker_controller.dart';
 import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/selected_category_controller.dart';
-import 'package:fish_and_meat_app/widgets/auth_screen_widgets/custom_text_field.dart';
+import 'package:fish_and_meat_app/widgets/common_button.dart';
+import 'package:fish_and_meat_app/widgets/custom_combo_box.dart';
+import 'package:fish_and_meat_app/widgets/custom_text_field.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:fish_and_meat_app/constants/globals.dart';
@@ -23,17 +25,6 @@ class ProductAddVendor extends StatelessWidget {
   final _offerPriceController = TextEditingController();
   final _stockController = TextEditingController();
   final _pincodeController = TextEditingController();
-  final List<String> _categories = [
-    'Chicken',
-    'Beef',
-    'Mutton',
-    'Pork',
-    'Salt Water Fish',
-    'Fresh Water Fish',
-    'shell Fish',
-    'Prawns',
-    'Other'
-  ];
 
   final SelectedCategoryController _selectedCategoryController =
       Get.put(SelectedCategoryController());
@@ -152,30 +143,11 @@ class ProductAddVendor extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Category Dropdown
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Category*',
-                  border: OutlineInputBorder(),
-                ),
-                value: _selectedCategoryController.selectedCategory.value,
-                items: _categories.map((String category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    _selectedCategoryController.setCategory(newValue);
-                  }
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a category';
-                  }
-                  return null;
-                },
+              CustomComboBox(
+                label: "Category*",
+                selectedCategoryController: _selectedCategoryController,
               ),
+
               const SizedBox(height: 24),
 
               // Locations Section
@@ -234,113 +206,105 @@ class ProductAddVendor extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      if (_imagePickerController.pickedImage.value == null) {
-                        print(
-                            "Error: Image file does not exist at path: ${_imagePickerController.pickedImage.value!.path}");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Please select an image')),
-                        );
-                        return;
-                      }
-
-                      if (_availableLocationsController
-                          .availableLocations.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content:
-                                  Text('Please add at least one location')),
-                        );
-                        return;
-                      }
-
-                      // Fetch API Token
-                      String? token = await SharedPreferencesServices.getValue(
-                          Globals.apiToken, '');
-
-                      if (token == null || token.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Authentication error. Please login again.')),
-                        );
-                        return;
-                      }
-
-                      try {
-                        final http.Response response =
-                            await ApiService.vendorProductAdd(
-                          token: token,
-                          title: _titleController.text,
-                          description: _descriptionController.text,
-                          price: _priceController.text,
-                          availability: _availableLocationsController
-                              .availableLocations
-                              .join(','),
-                          category: _selectedCategoryController
-                              .selectedCategory.value,
-                          offerPrice: _offerPriceController.text,
-                          stock: _stockController.text,
-                          image: _imagePickerController.pickedImage.value!,
-                        );
-
-                        try {
-                          final decodedResponse = jsonDecode(response.body);
-
-                          if (decodedResponse == null ||
-                              !decodedResponse.containsKey('message')) {
-                            throw Exception(
-                                "Invalid API response: Missing 'message' field.");
-                          }
-
-                          if ((response.statusCode == 200 ||
-                                  response.statusCode == 201) &&
-                              decodedResponse['message']
-                                      .toString()
-                                      .trim()
-                                      .toLowerCase() ==
-                                  'product added') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Product added successfully!')),
-                            );
-
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () {
-                              print("Popping back to previous screen");
-                              Navigator.pop(context, true);
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(decodedResponse['message'] ??
-                                      'Failed to add product')),
-                            );
-                          }
-                        } catch (decodeError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    'Failed to parse response from server')),
-                          );
-                        }
-                      } catch (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: $error')),
-                        );
-                      }
-                    }
-                  },
-                  child: const Text('Add Product'),
-                ),
+                child: CommonButton(
+                    onPress: _onPressed, buttonText: "Add Product"),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  _onPressed(context) async {
+    if (_formKey.currentState!.validate()) {
+      if (_imagePickerController.pickedImage.value == null) {
+        print(
+            "Error: Image file does not exist at path: ${_imagePickerController.pickedImage.value!.path}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select an image')),
+        );
+        return;
+      }
+
+      if (_availableLocationsController.availableLocations.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please add at least one location')),
+        );
+        return;
+      }
+
+      // Fetch API Token
+      String? token =
+          await SharedPreferencesServices.getValue(Globals.apiToken, '');
+
+      if (token == null || token.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Authentication error. Please login again.')),
+        );
+        return;
+      }
+
+      try {
+        final http.Response response = await ApiService.vendorProductAdd(
+          token: token,
+          title: _titleController.text,
+          description: _descriptionController.text,
+          price: _priceController.text,
+          availability:
+              _availableLocationsController.availableLocations.join(','),
+          category: _selectedCategoryController.selectedCategory.value,
+          offerPrice: _offerPriceController.text,
+          stock: _stockController.text,
+          image: _imagePickerController.pickedImage.value!,
+        );
+
+        try {
+          final decodedResponse = jsonDecode(response.body);
+
+          if (decodedResponse == null ||
+              !decodedResponse.containsKey('message')) {
+            throw Exception("Invalid API response: Missing 'message' field.");
+          }
+
+
+          if ((response.statusCode == 200 || response.statusCode == 201) &&
+              decodedResponse['message'].toString().trim().toLowerCase() ==
+                  'product added') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Product added successfully!')),
+            );
+
+            Future.delayed(const Duration(milliseconds: 500), () {
+              print("Popping back to previous screen");
+              Navigator.pop(context, true);
+            });
+          } else {
+            print(
+                "API Error: ${decodedResponse['message'] ?? 'Unknown error'}");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(
+                      decodedResponse['message'] ?? 'Failed to add product')),
+            );
+          }
+        } catch (decodeError) {
+          print("JSON Decoding Error: $decodeError");
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Failed to parse response from server')),
+          );
+        }
+      } catch (error, stackTrace) {
+        print("Exception caught: $error");
+        print("Stack trace: $stackTrace");
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $error')),
+        );
+      }
+    }
+
   }
 }

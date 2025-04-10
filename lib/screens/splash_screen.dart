@@ -8,22 +8,13 @@ import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 3), getToCheck);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) => Future.delayed(const Duration(seconds: 3), getToCheck));
     return Scaffold(
       backgroundColor: Appcolor.backgroundColor,
       body: Center(
@@ -54,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (token != '' && token.isNotEmpty) {
         Get.off(() => Myhomepage());
       } else {
-        Get.off(() => const AuthScreen());
+        Get.off(() => AuthScreen());
       }
     }
   }

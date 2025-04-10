@@ -45,8 +45,7 @@ class OnboardScreen extends StatelessWidget {
                   _onboardPageController.onLastPage.value
                       ? GestureDetectorWidget(
                           text: 'Start',
-                          onTapFunciton: () =>
-                              Get.off(() => const AuthScreen()),
+                          onTapFunciton: () => Get.off(() => AuthScreen()),
                         )
                       : GestureDetectorWidget(
                           text: 'Next',

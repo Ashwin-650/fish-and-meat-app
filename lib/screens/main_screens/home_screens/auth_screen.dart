@@ -1,42 +1,18 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/controllers/auth_screen_controller/Auth_Controller.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/login_page.dart';
 import 'package:fish_and_meat_app/widgets/auth_screen_widgets/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class AuthScreen extends StatelessWidget {
+  AuthScreen({super.key});
 
-  @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
-
-class _AuthScreenState extends State<AuthScreen> {
-  final PageController _pageController = PageController(initialPage: 0);
-
-  int _currentPage = 0;
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _navigateToPage(int page) {
-    _pageController.animateToPage(
-      page,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-    setState(() {
-      _currentPage = page;
-    });
-  }
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
         centerTitle: true,
         title: Container(
@@ -55,9 +31,9 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildNavButton('Login', 0),
+              Obx(() => _buildNavButton('Login', 0)),
               const SizedBox(width: 10),
-              _buildNavButton('Sign up', 1),
+              Obx(() => _buildNavButton('Sign up', 1)),
             ],
           ),
         ),
@@ -78,12 +54,8 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         margin: const EdgeInsets.only(top: 16),
         child: PageView(
-          controller: _pageController,
-          onPageChanged: (int page) {
-            setState(() {
-              _currentPage = page;
-            });
-          },
+          controller: authController.pageController,
+          onPageChanged: (int page) => authController.currentPage.value = page,
           children: const [
             LoginPage(),
             SignupPage(),
@@ -94,9 +66,9 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Widget _buildNavButton(String text, int page) {
-    final bool isActive = _currentPage == page;
+    final bool isActive = authController.currentPage.value == page;
     return ElevatedButton(
-      onPressed: isActive ? null : () => _navigateToPage(page),
+      onPressed: isActive ? null : () => authController.navigateToPage(page),
       style: ElevatedButton.styleFrom(
         backgroundColor: isActive ? Colors.teal : Colors.transparent,
         foregroundColor: isActive ? Colors.white : Colors.grey,

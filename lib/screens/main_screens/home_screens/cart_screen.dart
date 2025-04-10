@@ -28,6 +28,7 @@ class CartScreen extends StatelessWidget {
       (TextEditingController());
   final CheckoutPriceController _checkoutPriceController = Get.find();
 
+
   final RxString _selectedLocation = 'Home'.obs;
   final RxString _selectedAddress =
       '123 Main St, Apt 4B, New York, NY 10001'.obs;
@@ -82,6 +83,7 @@ class CartScreen extends StatelessWidget {
   ) async {
     final DateTime? picked = await showDatePicker(
       context: context,
+
       initialDate: _deliveryDate.value,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 30)),
@@ -117,7 +119,13 @@ class CartScreen extends StatelessWidget {
     }
   }
 
-  void _placeOrder() {
+  void _placeOrder() async {
+    ApiService.checkoutCart(
+        token: await Globals.loginToken,
+        amount: _checkoutPriceController.totalCheckoutPrice.value.toString(),
+        address: "address",
+        pincode: 673003,
+        preOrder: "preOrder");
     RazorpayServices.init();
     RazorpayServices.openCheckOut(amount: 100000);
   }
