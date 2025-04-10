@@ -92,21 +92,43 @@ class _SignupPageState extends State<SignupPage> {
 
               // Full Name
               CustomTextField(
-                  label: 'Full Name',
-                  hint: 'Enter your name',
-                  textController: _fullnameController),
+                label: 'Full Name',
+                hint: 'Enter your name',
+                textController: _fullnameController,
+                validator: (value) {
+                  if (value.contains(" ")) {
+                    return 'Please enter a valid full name';
+                  }
+                },
+              ),
               // Email
               CustomTextField(
-                  label: 'Email',
-                  hint: 'Enter your email',
-                  textController: _emailController,
-                  isEmail: true),
+                label: 'Email',
+                hint: 'Enter your email',
+                textController: _emailController,
+                isEmail: true,
+                validator: (value) {
+                  if (!RegExp(
+                          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                      .hasMatch(value)) {
+                    return 'Please enter a valid email address';
+                  }
+                },
+              ),
               // Mobile Number
               CustomTextField(
-                  label: 'Mobile Number',
-                  hint: 'Enter your mobile number',
-                  textController: _numberController,
-                  isNumber: true),
+                label: 'Mobile Number',
+                hint: 'Enter your mobile number',
+                textController: _numberController,
+                isMobileNumber: true,
+                isNumberField: true,
+                validator: (value) {
+                  if (value.length > 10 ||
+                      !RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
+                    return 'Please enter a valid mobile number';
+                  }
+                },
+              ),
               // Terms Agreement
               Row(
                 children: [

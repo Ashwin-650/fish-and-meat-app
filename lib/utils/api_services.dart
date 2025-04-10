@@ -143,11 +143,13 @@ class ApiService {
     String query = "",
     String price = "",
     String category = "",
+    int limit = 15,
+    String cursor = "",
   }) async {
     try {
       final response = await http.get(
         Uri.parse(
-            '${Globals.baseUrl}/products?search=$query&price=$price&category=$category'),
+            '${Globals.baseUrl}/products?search=$query&price=$price&category=$category&limit=$limit&cursor=$cursor'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
@@ -250,32 +252,31 @@ class ApiService {
   static Future<dynamic> postVendorData({
     required String token,
     required String pan,
-    required String adhaar,
-    required String shopName,
+    required String aadhaar,
+    required String shopname,
     required String gstNumber,
     required String location,
-    required File image,
   }) async {
-    final url = Uri.parse('${Globals.baseUrl}/vendor/apply');
-
-    final request = http.MultipartRequest('POST', url)
-      ..headers['Authorization'] = 'token $token'
-      ..fields['pan'] = pan
-      ..fields['adhar'] = adhaar
-      ..fields['shopname'] = shopName
-      ..fields['gstNumber'] = gstNumber
-      ..fields['location'] = location;
-
     try {
-      final file = await http.MultipartFile.fromPath('image', image.path,
-          contentType: MediaType('image', 'jpeg'));
-      request.files.add(file);
+      Map<String, dynamic> body = {
+        'token': token,
+        'pan': pan,
+        'aadhaar': aadhaar,
+        'shopname': shopname,
+        'gstNumber': gstNumber,
+        'location': location,
+      };
 
-      final response = await request.send();
+      final response = http.post(
+        Uri.parse('${Globals.baseUrl}/vendor/apply'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+        body: json.encode(body),
+      );
 
-      final responseData = await http.Response.fromStream(response);
-
-      return responseData;
+      return response;
     } catch (error) {
       return error;
     }
@@ -356,11 +357,16 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> getItemsCategory(
-      {required String token, required String category}) async {
+  static Future<dynamic> getItemsCategory({
+    required String token,
+    required String category,
+    int limit = 15,
+    String cursor = "",
+  }) async {
     try {
       final response = await http.get(
-        Uri.parse('${Globals.baseUrl}/products?category=$category'),
+        Uri.parse(
+            '${Globals.baseUrl}/products?category=$category&limit=$limit&cursor=$cursor'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'token $token'
