@@ -170,7 +170,7 @@ class CartScreen extends StatelessWidget {
                 ),
               )
             : SlidingUpPanel(
-                maxHeight: MediaQuery.sizeOf(context).height - 200,
+                maxHeight: MediaQuery.sizeOf(context).height - 250,
                 minHeight: 190,
                 borderRadius: BorderRadius.circular(20),
                 body: // Items List
@@ -184,16 +184,18 @@ class CartScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _cartItemsListController.cartItems.length,
-                      itemBuilder: (context, index) {
-                        final item = _cartItemsListController.cartItems[index];
-                        return CartItemWidget(
-                          item: item,
-                        );
-                      },
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 350),
+                        itemCount: _cartItemsListController.cartItems.length,
+                        itemBuilder: (context, index) {
+                          final item =
+                              _cartItemsListController.cartItems[index];
+                          return CartItemWidget(
+                            item: item,
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -250,12 +252,14 @@ class CartScreen extends StatelessWidget {
                                 totalCheckOut:
                                     "\$${_checkoutPriceController.totalCheckoutPrice.value}",
                                 couponApplied: _couponApplied.value),
-                            // Place Order Button
-                            PlaceorderButtonWidget(onTap: _placeOrder)
                           ],
                         ),
                       ),
                       // Place Order Button
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 70),
+                        child: PlaceorderButtonWidget(onTap: _placeOrder),
+                      ),
                     ],
                   ),
                 ),

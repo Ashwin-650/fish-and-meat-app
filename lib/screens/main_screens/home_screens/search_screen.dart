@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/search_page_controller.dart';
+import 'package:fish_and_meat_app/helpers/get_search_products.dart';
 import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
-import 'package:fish_and_meat_app/models/product_details.dart';
-import 'package:fish_and_meat_app/utils/api_services.dart';
-import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/search_results.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/moving_carousel.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/recent_searches_list.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/suggestion_list.dart';
@@ -49,36 +46,11 @@ class SearchScreen extends StatelessWidget {
                         onChanged: (value) async {
                           if (_searchEditingController.text.isEmpty) {
                             _searchPageController.pageIndex.value = 0;
+                            _searchPageController.continuationToken.value = "";
                           } else {
                             _searchPageController.pageIndex.value = 1;
                           }
-                          final token =
-                              await SharedPreferencesServices.getValue(
-                                  Globals.apiToken, "");
-                          if (token != "" &&
-                              _searchEditingController.text.isNotEmpty) {
-                            final response = await ApiService.getProducts(
-                                token: token,
-                                query: _searchEditingController.text);
-                            if (response != null &&
-                                response.statusCode == 200) {
-                              final responseData =
-                                  json.decode(response.body)["data"];
-                              final products = responseData["products"];
-                              final pagination = responseData["pagination"];
-                              _searchPageController.continuationToken =
-                                  pagination["cursor"].obs;
-                              _searchPageController.hasNextPage =
-                                  pagination["hasNextPage"].obs;
-                              _searchPageController.queryItems.value =
-                                  (products as List)
-                                      .map((productJson) =>
-                                          ProductDetails.fromJson(productJson))
-                                      .toList();
-                            }
-                          } else {
-                            _searchPageController.clearList();
-                          }
+                          getSearchProducts();
                         },
                         controller: _searchEditingController,
                         style: const TextStyle(
@@ -148,10 +120,11 @@ class SearchScreen extends StatelessWidget {
                         ? const Center(
                             child: Text("No search results found."),
                           )
-                        : Column(
+                        : ListView(
+                            controller: _scrollController2,
                             children: [
                               ListView.builder(
-                                controller: _scrollController2,
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount:
                                     _searchPageController.queryItems.length,
@@ -203,12 +176,16 @@ class SearchScreen extends StatelessWidget {
                                   );
                                 },
                               ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Search more",
-                                    style: TextStyle(fontSize: 18),
-                                  ))
+                              _searchPageController.hasNextPage.value
+                                  ? TextButton(
+                                      onPressed: () {
+                                        Get.to(() => SearchResults());
+                                      },
+                                      child: const Text(
+                                        "Search more",
+                                        style: TextStyle(fontSize: 18),
+                                      ))
+                                  : const SizedBox(),
                             ],
                           ),
                   ],
