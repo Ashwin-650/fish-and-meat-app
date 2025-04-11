@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
-import 'package:fish_and_meat_app/controllers/checkout_price_controller.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/controllers/my_home_page_controllers/home_page_index_controller.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
-import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/orderscreen_controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
 import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/order_details.dart';

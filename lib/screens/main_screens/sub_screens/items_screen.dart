@@ -48,7 +48,7 @@ class ItemsScreen extends StatelessWidget {
         final responseBody = json.decode(response.body);
         final responseData = responseBody["data"];
         final products = responseData["products"];
-        final pagination = responseData["pagination"];
+        // final pagination = responseData["pagination"];
 
         return (products as List)
             .map((json) => ProductDetails.fromJson(json))

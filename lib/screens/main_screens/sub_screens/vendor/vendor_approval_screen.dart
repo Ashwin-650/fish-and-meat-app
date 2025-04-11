@@ -60,7 +60,7 @@ class _VendorApprovalScreenState extends State<VendorApprovalScreen> {
 
             Future.delayed(const Duration(seconds: 1), () {
               if (mounted) {
-                Get.off(() => const VendorMode());
+                Get.off(() => VendorMode());
               }
             });
           } else if (responseData["status"] == "pending") {

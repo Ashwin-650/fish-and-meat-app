@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/cart_items_list_controller.dart';
-import 'package:fish_and_meat_app/controllers/checkout_price_controller.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 

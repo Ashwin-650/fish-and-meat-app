@@ -207,7 +207,8 @@ class ProductAddVendor extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: CommonButton(
-                    onPress: _onPressed, buttonText: "Add Product"),
+                    onPress: () => _onPressed(context),
+                    buttonText: "Add Product"),
               ),
             ],
           ),

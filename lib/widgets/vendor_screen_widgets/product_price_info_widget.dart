@@ -2,8 +2,8 @@ import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 
-class ProductPriceInfo extends StatelessWidget {
-  const ProductPriceInfo(
+class ProductPriceInfoWidget extends StatelessWidget {
+  const ProductPriceInfoWidget(
       {super.key,
       required this.hasOffer,
       required this.offerPrice,
@@ -44,7 +44,7 @@ class ProductPriceInfo extends StatelessWidget {
         ),
         IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () => onTap),
+            onPressed: () => onTap()),
       ],
     );
   }

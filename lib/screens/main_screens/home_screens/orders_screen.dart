@@ -1,7 +1,7 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/controllers/orders_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/orderscreen_controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
@@ -34,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       if (response != null && response.statusCode == 200 ||
           response.statusCode == 201) {
         Get.to(
-          VerificationScreen(),
+          const VerificationScreen(),
           arguments: {
             'email': _emailController.text,
             'number': _numberController.text

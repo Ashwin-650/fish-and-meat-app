@@ -34,7 +34,7 @@ class CustomTextField extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.teal.withAlpha(50),
             borderRadius: BorderRadius.circular(20.0),
-            border: Border.all(color: Colors.grey[300]!),
+            border: Border.all(color: Colors.grey[800]!),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
