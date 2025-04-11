@@ -56,7 +56,7 @@ class AuthScreen extends StatelessWidget {
         child: PageView(
           controller: authController.pageController,
           onPageChanged: (int page) => authController.currentPage.value = page,
-          children: const [
+          children: [
             LoginPage(),
             SignupPage(),
           ],
