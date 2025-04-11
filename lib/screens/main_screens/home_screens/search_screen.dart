@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/search_screen_controller/query_items_controller.dart';
-import 'package:fish_and_meat_app/controllers/search_screen_controller/search_page_index_controller.dart';
+import 'package:fish_and_meat_app/controllers/search_page_controller.dart';
+import 'package:fish_and_meat_app/helpers/get_search_products.dart';
 import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
-import 'package:fish_and_meat_app/models/product_details.dart';
-import 'package:fish_and_meat_app/utils/api_services.dart';
-import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/search_results.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/moving_carousel.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/recent_searches_list.dart';
 import 'package:fish_and_meat_app/widgets/search_screen_widgets/suggestion_list.dart';
@@ -19,10 +15,8 @@ class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
   final TextEditingController _searchEditingController =
       Get.put(TextEditingController());
-  final QueryItemsController _queryItemsController =
-      Get.put(QueryItemsController());
-  final SearchPageIndexController _searchPageIndexController =
-      Get.put(SearchPageIndexController());
+  final SearchPageController _searchPageController =
+      Get.put(SearchPageController());
   final _scrollController = ScrollController();
   final _scrollController2 = ScrollController();
 
@@ -51,33 +45,12 @@ class SearchScreen extends StatelessWidget {
                       child: TextField(
                         onChanged: (value) async {
                           if (_searchEditingController.text.isEmpty) {
-                            _searchPageIndexController.pageIndex.value = 0;
+                            _searchPageController.pageIndex.value = 0;
+                            _searchPageController.continuationToken.value = "";
                           } else {
-                            _searchPageIndexController.pageIndex.value = 1;
+                            _searchPageController.pageIndex.value = 1;
                           }
-                          final token =
-                              await SharedPreferencesServices.getValue(
-                                  Globals.apiToken, "");
-                          if (token != "" &&
-                              _searchEditingController.text.isNotEmpty) {
-                            final response = await ApiService.getProducts(
-                                token: token,
-                                query: _searchEditingController.text);
-                            if (response != null &&
-                                response.statusCode == 200) {
-                              final responseData =
-                                  json.decode(response.body)["data"];
-                              final products = responseData["products"];
-                              // final pagination = responseData["pagination"];
-                              _queryItemsController.queryItems.value =
-                                  (products as List)
-                                      .map((productJson) =>
-                                          ProductDetails.fromJson(productJson))
-                                      .toList();
-                            }
-                          } else {
-                            _queryItemsController.clearList();
-                          }
+                          getSearchProducts();
                         },
                         controller: _searchEditingController,
                         style: const TextStyle(
@@ -111,7 +84,7 @@ class SearchScreen extends StatelessWidget {
             Expanded(
               child: Obx(
                 () => IndexedStack(
-                  index: _searchPageIndexController.pageIndex.value,
+                  index: _searchPageController.pageIndex.value,
                   children: [
                     ListView(
                       controller: _scrollController,
@@ -143,55 +116,78 @@ class SearchScreen extends StatelessWidget {
                         RecentSearchesList(),
                       ],
                     ),
-                    ListView.builder(
-                      controller: _scrollController2,
-                      shrinkWrap: true,
-                      itemCount: _queryItemsController.queryItems.length,
-                      itemBuilder: (ctx, index) {
-                        return Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.all(10.0),
-                              width: 70,
-                              height: 70,
-                              child: ClipOval(
-                                // Clip the image into a circle
-                                child: Image.network(
-                                  "${Globals.imagePath}\\${_queryItemsController.queryItems[index].image}",
-                                  fit: BoxFit
-                                      .cover, // Ensure the image covers the circle
-                                ),
+                    _searchPageController.queryItems.isEmpty
+                        ? const Center(
+                            child: Text("No search results found."),
+                          )
+                        : ListView(
+                            controller: _scrollController2,
+                            children: [
+                              ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount:
+                                    _searchPageController.queryItems.length,
+                                itemBuilder: (ctx, index) {
+                                  return Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.all(10.0),
+                                        width: 70,
+                                        height: 70,
+                                        child: ClipOval(
+                                          // Clip the image into a circle
+                                          child: Image.network(
+                                            "${Globals.imagePath}\\${_searchPageController.queryItems[index].image}",
+                                            fit: BoxFit
+                                                .cover, // Ensure the image covers the circle
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                _searchPageController
+                                                    .queryItems[index].title,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              Text(
+                                                _searchPageController
+                                                    .queryItems[index]
+                                                    .description,
+                                                style: const TextStyle(
+                                                    color: Colors.grey),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _queryItemsController
-                                          .queryItems[index].title,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      _queryItemsController
-                                          .queryItems[index].description,
-                                      style:
-                                          const TextStyle(color: Colors.grey),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                              _searchPageController.hasNextPage.value
+                                  ? TextButton(
+                                      onPressed: () {
+                                        Get.to(() => SearchResults());
+                                      },
+                                      child: const Text(
+                                        "Search more",
+                                        style: TextStyle(fontSize: 18),
+                                      ))
+                                  : const SizedBox(),
+                            ],
+                          ),
                   ],
                 ),
               ),

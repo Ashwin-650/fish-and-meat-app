@@ -9,17 +9,24 @@ import 'package:get/get.dart';
 
 class TopSelling extends StatelessWidget {
   final int index;
+  final Function(GlobalKey) runAddToCartAnimation;
 
   TopSelling({
     super.key,
     required this.index,
+    required this.runAddToCartAnimation,
   });
+
   final HomeController controller = Get.find();
+
+  final GlobalKey imageGlobalKey = GlobalKey(); // This will be animated
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
+        key: imageGlobalKey,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Appcolor.backgroundColor,
@@ -38,10 +45,11 @@ class TopSelling extends StatelessWidget {
                       border: Border.all(width: 2, color: Colors.grey),
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          image: NetworkImage(
-                            "${Globals.imagePath}\\${controller.items[index].image}",
-                          ),
-                          fit: BoxFit.cover),
+                        image: NetworkImage(
+                          "${Globals.imagePath}\\${controller.items[index].image}",
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -62,6 +70,10 @@ class TopSelling extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(size: 30, Icons.add, color: Colors.black),
                   onPressed: () async {
+                    // Trigger the animation
+                    runAddToCartAnimation(imageGlobalKey);
+
+                    // API call
                     final response = await ApiService.addToCart(
                       token: await Globals.loginToken,
                       item: controller.items[index],
@@ -69,13 +81,13 @@ class TopSelling extends StatelessWidget {
                     if (response != null &&
                         (response.statusCode == 200 ||
                             response.statusCode == 201)) {
-                      Get.showSnackbar(
-                        const GetSnackBar(
-                          message: "Added to cart",
-                          backgroundColor: Colors.green,
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
+                      // Get.showSnackbar(
+                      //   const GetSnackBar(
+                      //     message: "Added to cart",
+                      //     backgroundColor: Colors.green,
+                      //     duration: Duration(seconds: 1),
+                      //   ),
+                      // );
                     }
                   },
                   constraints: const BoxConstraints(

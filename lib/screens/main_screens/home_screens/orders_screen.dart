@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class OrdersScreen extends StatelessWidget {
   OrdersScreen({super.key});
 
-  final OrdersItemsListController _cartItemsListController = Get.find();
+  final OrdersItemsListController ordersItemsListController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class OrdersScreen extends StatelessWidget {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                itemCount: _cartItemsListController.cartItems.length,
+                itemCount: ordersItemsListController.cartItems.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -40,7 +40,7 @@ class OrdersScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "Order ID: ${_cartItemsListController.cartItems[index].id}"
+                          "Order ID: ${ordersItemsListController.cartItems[index].id}"
                               .extenTextStyle(
                                   fontSize: Appfontsize.medium18,
                                   fontWeight: FontWeight.w700),
@@ -49,7 +49,7 @@ class OrdersScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             title:
-                                "Items: ${_cartItemsListController.cartItems[index].items.length}\nPaid: \$${_cartItemsListController.cartItems[index].amount}\nDelivered to: ${_cartItemsListController.cartItems[index].address}"
+                                "Items: ${ordersItemsListController.cartItems[index].items.length}\nPaid: \$${ordersItemsListController.cartItems[index].amount}\nDelivered to: ${ordersItemsListController.cartItems[index].address}"
                                     .toString()
                                     .extenTextStyle(
                                       fontfamily: Appfonts.appFontFamily,
@@ -62,7 +62,7 @@ class OrdersScreen extends StatelessWidget {
                               width: 100,
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 2),
-                                child: _cartItemsListController
+                                child: ordersItemsListController
                                     .cartItems[index].status
                                     .extenTextStyle(
                                         fontSize: Appfontsize.regular16,

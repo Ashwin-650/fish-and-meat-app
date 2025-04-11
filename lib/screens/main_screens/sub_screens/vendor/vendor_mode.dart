@@ -105,7 +105,7 @@ class VendorMode extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: product.stock > 10 ? Colors.green : Colors.orange,
+                    color: product.stock! > 10 ? Colors.green : Colors.orange,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
