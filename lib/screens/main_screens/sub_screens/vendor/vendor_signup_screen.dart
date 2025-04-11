@@ -5,6 +5,10 @@ import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_approval_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/signup_screen/adhaar_number_field_widget.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/signup_screen/gst_field_widget.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/signup_screen/pan_number_field_widget.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/signup_screen/field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -56,132 +60,30 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
           child: Form(
             key: _formKey,
             child: Column(
+              spacing: 20,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Name Field
-                TextFormField(
-                  controller: _gstController,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white38,
-                    filled: true,
-                    labelText: 'GST Number',
-                    labelStyle: TextStyle(fontFamily: Appfonts.appFontFamily),
-                    prefixIcon: Icon(Icons.numbers),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your GST number';
-                    }
-                    // GST number format validation (15 characters)
-                    if (!RegExp(
-                            r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$')
-                        .hasMatch(value)) {
-                      return 'Please enter a valid GST number';
-                    }
-                    return null;
-                  },
+                // Gst Field
+                GstFieldWidget(
+                  gstController: _gstController,
                 ),
-                const SizedBox(height: 20),
 
                 // PAN Number Field
-                TextFormField(
-                  controller: _panController,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white38,
-                    filled: true,
-                    labelText: 'PAN Number',
-                    labelStyle: TextStyle(fontFamily: Appfonts.appFontFamily),
-                    prefixIcon: Icon(Icons.credit_card),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                  ),
-                  textCapitalization: TextCapitalization.characters,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your PAN number';
-                    }
-                    final panRegex = RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$');
-                    if (!panRegex.hasMatch(value)) {
-                      return 'Please enter a valid PAN number';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
+                PanNumberFieldWidget(panController: _panController),
 
                 // Adhaar Number Field
-                TextFormField(
-                  controller: _adhaarController,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white38,
-                    filled: true,
-                    labelStyle: TextStyle(fontFamily: Appfonts.appFontFamily),
-                    labelText: 'Adhaar Number',
-                    prefixIcon: Icon(Icons.badge),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(12),
-                  ],
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Adhaar number';
-                    }
-                    if (value.length != 12) {
-                      return 'Adhaar number must be 12 digits';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
+                AdhaarNumberFieldWidget(adhaarController: _adhaarController),
 
                 // Shop Name Field
-                TextFormField(
-                  controller: _shopNameController,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white38,
-                    filled: true,
-                    labelText: 'Shop Name',
-                    labelStyle: TextStyle(fontFamily: Appfonts.appFontFamily),
-                    prefixIcon: Icon(Icons.storefront),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your shop name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-
+                FieldWidget(
+                    controller: _shopNameController,
+                    label: 'Shop name',
+                    request: 'Please enter your Shop Name'),
                 // Shop Location Field
-                TextFormField(
-                  controller: _shopLocationController,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white38,
-                    filled: true,
-                    labelText: 'Shop Location',
-                    labelStyle: TextStyle(fontFamily: Appfonts.appFontFamily),
-                    prefixIcon: Icon(Icons.location_on),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your shop location';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 24),
+                FieldWidget(
+                    controller: _shopLocationController,
+                    label: 'Shop Location',
+                    request: 'Please enter your Shop Location'),
 
                 // Submit Button
                 ElevatedButton(
@@ -240,7 +142,6 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
         gstNumber: _gstController.text,
         location: _shopLocationController.text,
       );
-      print('rep : ${response.body}.');
 
       if (response != null &&
           (response.statusCode == 200 || response.statusCode == 201)) {
