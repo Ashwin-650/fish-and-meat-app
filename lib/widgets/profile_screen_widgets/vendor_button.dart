@@ -47,7 +47,7 @@ class VendorButton extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: TextButton(
                         onPressed: () {
-                          Get.to(() => const VendorSignUpScreen());
+                          Get.to(() => VendorSignUpScreen());
                         },
                         style: ButtonStyle(
                             minimumSize:

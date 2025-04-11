@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
-import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
