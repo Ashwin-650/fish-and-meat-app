@@ -3,6 +3,7 @@ import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 class QuantitySelectorWidget extends StatelessWidget {
   const QuantitySelectorWidget(
@@ -11,8 +12,8 @@ class QuantitySelectorWidget extends StatelessWidget {
       required this.incrementTap,
       required this.text});
   final String text;
-  final Function incrementTap;
-  final Function decrementTap;
+  final Callback incrementTap;
+  final Callback decrementTap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,9 +36,7 @@ class QuantitySelectorWidget extends StatelessWidget {
           Row(
             children: [
               InkWell(
-                onTap: () {
-                  decrementTap;
-                },
+                onTap: decrementTap,
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
                   padding: const EdgeInsets.all(8),
@@ -64,9 +63,7 @@ class QuantitySelectorWidget extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  incrementTap;
-                },
+                onTap: incrementTap,
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
                   padding: const EdgeInsets.all(8),
