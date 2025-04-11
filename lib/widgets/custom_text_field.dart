@@ -40,7 +40,7 @@ class CustomTextField extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                isOptional ? "$label*" : label,
+                isOptional ? label : "$label*",
                 style: const TextStyle(
                   fontSize: Appfontsize.small14,
                   fontWeight: FontWeight.bold,

@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 
 class AvailableLocationsController extends GetxController {
-  RxList<String> availableLocations = RxList([]);
+  // Use RxList to make it reactive
+  RxList<String> availableLocations = <String>[].obs;
 
-  addLocation(String newLocation) {
-    availableLocations.add(newLocation);
-  }
-
-  removeLocation(String removeLocation) {
-    availableLocations.remove(removeLocation);
+  // Method to add a pincode to the list
+  void addPincode(String pincode) {
+    if (pincode.isNotEmpty && !availableLocations.contains(pincode)) {
+      availableLocations.add(pincode);
+    }
   }
 }

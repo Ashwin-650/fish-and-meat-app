@@ -10,7 +10,7 @@ class ApprovalReachButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: () => Get.to(() => const VendorApprovalScreen()),
+        onPressed: () => Get.to(() => VendorApprovalScreen()),
         style: ButtonStyle(
             minimumSize: const WidgetStatePropertyAll(Size(200, 50)),
             backgroundColor: WidgetStatePropertyAll(Colors.green.shade400),

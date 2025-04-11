@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/controllers/signup_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -8,23 +9,18 @@ import 'package:fish_and_meat_app/widgets/social_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class SignupPage extends StatelessWidget {
+  SignupPage({super.key});
 
-  @override
-  State<SignupPage> createState() => _SignupPageState();
-}
-
-class _SignupPageState extends State<SignupPage> {
   final _signupFormKey = GlobalKey<FormState>();
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
-  bool? _isConditionsAgreed = false;
+  final SignupController _SignupController = Get.put(SignupController());
 
   void _signupPressed() async {
     if (_signupFormKey.currentState?.validate() ?? false) {
-      if (_isConditionsAgreed!) {
+      if (_SignupController.isConditionsAgreed.value) {
         final response = await ApiService.registerAccount(
           _fullnameController.text,
           _emailController.text,
@@ -35,18 +31,16 @@ class _SignupPageState extends State<SignupPage> {
                 response.statusCode == 201 ||
                 response.statusCode == 202)) {
           Get.to(
-            VerificationScreen(),
+            const VerificationScreen(),
             arguments: _emailController.text,
           );
         } else {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(response.body),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
+          Get.showSnackbar(
+            GetSnackBar(
+              message: response.body,
+              backgroundColor: Colors.red,
+            ),
+          );
         }
       } else {
         Get.showSnackbar(
@@ -135,13 +129,13 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(
                     height: 24,
                     width: 24,
-                    child: Checkbox(
-                      value: _isConditionsAgreed,
-                      onChanged: (value) {
-                        setState(() {
-                          _isConditionsAgreed = value;
-                        });
-                      },
+                    child: Obx(
+                      () => Checkbox(
+                        value: _SignupController.isConditionsAgreed.value,
+                        onChanged: (value) {
+                          _SignupController.isConditionsAgreed.value = value!;
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),

@@ -246,7 +246,7 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
           (response.statusCode == 200 || response.statusCode == 201)) {
         // Call the method to store data in SharedPreferences
         await storeSignUpData();
-        Get.off(() => const VendorApprovalScreen());
+        Get.off(() => VendorApprovalScreen());
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Vendor registration successful')),
         );
