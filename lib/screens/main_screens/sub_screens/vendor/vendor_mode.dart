@@ -5,7 +5,8 @@ import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
-import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/product_price_info.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/no_product_added_widget.dart';
+import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/product_price_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -274,7 +275,7 @@ class _VendorModeState extends State<VendorMode> {
                 const SizedBox(height: 12),
 
                 // Price information
-                ProductPriceInfo(
+                ProductPriceInfoWidget(
                     hasOffer: hasOffer,
                     offerPrice: "₹${product.offerPrice?.toStringAsFixed(2)}",
                     price: "₹${product.price.toStringAsFixed(2)}",
@@ -332,36 +333,7 @@ class _VendorModeState extends State<VendorMode> {
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : products.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.inventory,
-                              size: 80,
-                              color: Colors.grey.shade400,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'No products available',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade600,
-                                fontFamily: Appfonts.appFontFamily,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'Tap + to add your first product',
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontFamily: Appfonts.appFontFamily,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                    ? const Center(child: NoProductAddedWidget())
                     : ListView.builder(
                         padding:
                             const EdgeInsets.only(bottom: 80), // Space for FAB

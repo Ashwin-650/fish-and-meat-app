@@ -126,26 +126,28 @@ class CarouselProduct extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _productImages.asMap().entries.map((entry) {
-            return GestureDetector(
-              onTap: () => _carouselController.animateToPage(entry.key),
-              child: Container(
-                width: 8.0,
-                height: 8.0,
-                margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black)
-                      .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
+        Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _productImages.asMap().entries.map((entry) {
+              return GestureDetector(
+                onTap: () => _carouselController.animateToPage(entry.key),
+                child: Container(
+                  width: 8.0,
+                  height: 8.0,
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black)
+                        .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
-        ),
+              );
+            }).toList(),
+          ),
+        )
       ],
     );
   }
