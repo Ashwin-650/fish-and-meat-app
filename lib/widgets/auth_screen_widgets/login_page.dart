@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/controllers/login_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -10,31 +9,28 @@ import 'package:fish_and_meat_app/widgets/social_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({
-    super.key,
-  });
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
-  bool _isLoginWithNumber = true;
+  final LoginController _loginController = Get.put(LoginController());
 
   void _loginPressed() async {
     if (_loginFormKey.currentState?.validate() ?? false) {
       final response = await ApiService.loginAccount(
-        email: !_isLoginWithNumber ? _emailController.text : "",
-        number: _isLoginWithNumber ? _numberController.text : "",
+        email: !_loginController.isLoginWithNumber.value
+            ? _emailController.text
+            : "",
+        number: _loginController.isLoginWithNumber.value
+            ? _numberController.text
+            : "",
       );
       if (response != null && response.statusCode == 200 ||
           response.statusCode == 201) {
         Get.to(
-          VerificationScreen(),
+          const VerificationScreen(),
           arguments: {
             'email': _emailController.text,
             'number': _numberController.text
@@ -75,62 +71,62 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30),
                 // Email
 
-                Visibility(
-                  visible: _isLoginWithNumber,
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                        label: 'Mobile Number',
-                        hint: 'Enter your mobile number',
-                        textController: _numberController,
-                        isMobileNumber: true,
-                        isNumberField: true,
-                        validator: (value) {
-                          if (value.length > 10 ||
-                              !RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
-                            return 'Please enter a valid mobile number';
-                          }
-                        },
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _isLoginWithNumber = false;
-                          });
-                        },
-                        child: "Login with email?"
-                            .extenTextStyle(color: Colors.teal),
-                      ),
-                    ],
+                Obx(
+                  () => Visibility(
+                    visible: _loginController.isLoginWithNumber.value,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          label: 'Mobile Number',
+                          hint: 'Enter your mobile number',
+                          textController: _numberController,
+                          isMobileNumber: true,
+                          isNumberField: true,
+                          validator: (value) {
+                            if (value.length > 10 ||
+                                !RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
+                              return 'Please enter a valid mobile number';
+                            }
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            _loginController.isLoginWithNumber = false.obs;
+                          },
+                          child: "Login with email?"
+                              .extenTextStyle(color: Colors.teal),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Visibility(
-                  visible: !_isLoginWithNumber,
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                        label: 'Email',
-                        hint: 'Enter your email',
-                        textController: _emailController,
-                        isEmail: true,
-                        validator: (value) {
-                          if (!RegExp(
-                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                              .hasMatch(value)) {
-                            return 'Please enter a valid email address';
-                          }
-                        },
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _isLoginWithNumber = true;
-                          });
-                        },
-                        child: "Login with mobile number?"
-                            .extenTextStyle(color: Colors.teal),
-                      ),
-                    ],
+                Obx(
+                  () => Visibility(
+                    visible: !_loginController.isLoginWithNumber.value,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          label: 'Email',
+                          hint: 'Enter your email',
+                          textController: _emailController,
+                          isEmail: true,
+                          validator: (value) {
+                            if (!RegExp(
+                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                .hasMatch(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            _loginController.isLoginWithNumber = true.obs;
+                          },
+                          child: "Login with mobile number?"
+                              .extenTextStyle(color: Colors.teal),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
