@@ -39,7 +39,7 @@ class VendorApprovalScreen extends StatelessWidget {
             _venderApprovalScreen.isLoading = false.obs;
 
             Future.delayed(const Duration(seconds: 1), () {
-              Get.off(() => const VendorMode());
+              Get.off(() => VendorMode());
             });
           } else if (responseData["status"] == "pending") {
             _venderApprovalScreen.isApproved = false.obs;
