@@ -226,8 +226,8 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
           await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
       if (token == null || token.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Authentication token not found')),
+        Get.showSnackbar(
+          const GetSnackBar(message: 'Authentication token not found'),
         );
         return;
       }
@@ -240,21 +240,20 @@ class _VendorSignUpScreen extends State<VendorSignUpScreen> {
         gstNumber: _gstController.text,
         location: _shopLocationController.text,
       );
-      print('rep : ${response.body}.');
 
       if (response != null &&
           (response.statusCode == 200 || response.statusCode == 201)) {
         // Call the method to store data in SharedPreferences
         await storeSignUpData();
         Get.off(() => VendorApprovalScreen());
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Vendor registration successful')),
+        Get.showSnackbar(
+          const GetSnackBar(message: 'Vendor registration successful'),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'Failed to register vendor: ${response.body ?? 'Unknown error'}')),
+        Get.showSnackbar(
+          GetSnackBar(
+              message:
+                  'Failed to register vendor: ${response.body ?? 'Unknown error'}'),
         );
       }
     }
