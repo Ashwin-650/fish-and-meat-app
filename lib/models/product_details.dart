@@ -10,7 +10,7 @@ class ProductDetails {
   final List<Reviews> reviews;
   final List<int> availability;
   final String category;
-  final int stock;
+  final int? stock;
   final int? quantity;
   final double? offerPrice;
 
@@ -24,7 +24,7 @@ class ProductDetails {
     required this.reviews,
     required this.availability,
     required this.category,
-    required this.stock,
+    this.stock,
     this.quantity,
     this.offerPrice,
   });
