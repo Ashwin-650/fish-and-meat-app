@@ -44,3 +44,7 @@ flutter:
     - family: helveticaBold
       fonts:
         - asset: assets/fonts/HelveticaNeueBold.otf
+
+    - family: opensans
+      fonts:
+        - asset: assets/fonts/OpenSans-VariableFont_wdth,wght.ttf

@@ -57,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                       fontSize: Appfontsize.headerFontSize,
                       fontfamily: Appfonts.appFontFamily,
                       textAlign: TextAlign.left,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -90,9 +91,11 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Fish Categories'.extenTextStyle(
-                              fontSize: Appfontsize.headerFontSize,
-                              textAlign: TextAlign.left,
-                              fontfamily: Appfonts.appFontFamily),
+                            fontSize: Appfontsize.headerFontSize,
+                            textAlign: TextAlign.left,
+                            fontfamily: Appfonts.appFontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
                           TextButton(
                             style: const ButtonStyle(
                                 foregroundColor:
@@ -116,9 +119,11 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Meat Categories'.extenTextStyle(
-                              fontSize: Appfontsize.headerFontSize,
-                              textAlign: TextAlign.left,
-                              fontfamily: Appfonts.appFontFamily),
+                            fontSize: Appfontsize.headerFontSize,
+                            textAlign: TextAlign.left,
+                            fontfamily: Appfonts.appFontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
                           TextButton(
                             style: const ButtonStyle(
                                 foregroundColor:
