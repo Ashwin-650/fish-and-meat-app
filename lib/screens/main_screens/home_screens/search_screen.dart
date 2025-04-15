@@ -50,7 +50,7 @@ class SearchScreen extends StatelessWidget {
                           } else {
                             _searchPageController.pageIndex.value = 1;
                           }
-                          getSearchProducts();
+                          getSearchProducts(storeContinuationToken: false);
                         },
                         controller: _searchEditingController,
                         style: const TextStyle(

@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
-  final Function(GlobalKey) runAddToCartAnimation;
-  HomeScreen({super.key, required this.runAddToCartAnimation});
+  HomeScreen({super.key});
 
   final ScrollController _scrollController = Get.put(ScrollController());
 
@@ -76,7 +75,6 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return TopSelling(
                               index: index,
-                              runAddToCartAnimation: runAddToCartAnimation,
                             );
                           },
                         ),
