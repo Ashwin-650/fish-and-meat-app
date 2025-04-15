@@ -47,7 +47,10 @@ class ProfileScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: 30),
                   child: Text(
                     'John',
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 30),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 30,
+                        color: Appcolor.primaryColor),
                   ),
                 ),
                 Padding(

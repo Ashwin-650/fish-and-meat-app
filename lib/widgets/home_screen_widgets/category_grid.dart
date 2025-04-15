@@ -42,9 +42,12 @@ class CategoryGrid extends StatelessWidget {
                       .categoryText[index]
                       .toString()
                       .extenTextStyle(
-                          color: Colors.white,
-                          fontSize: Appfontsize.gridTextSize,
-                          fontfamily: Appfonts.appFontFamily),
+                        color: Colors.white,
+                        fontSize: Appfontsize.gridTextSize,
+                        fontfamily: Appfonts.appFontFamily,
+                        fontWeight: FontWeight.bold,
+                        shadow: true,
+                      ),
                 ),
               ),
             ),

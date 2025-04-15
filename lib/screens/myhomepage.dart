@@ -16,6 +16,7 @@ import 'package:fish_and_meat_app/screens/main_screens/home_screens/orders_scree
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/profile_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/search_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -75,8 +76,8 @@ class Myhomepage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(25),
                       child: BottomNavigationBar(
                         backgroundColor: Appcolor.bottomBarColor,
-                        selectedItemColor: Colors.white,
-                        unselectedItemColor: Colors.black,
+                        selectedItemColor: const Color(0xFFB0C4DE),
+                        unselectedItemColor: Colors.white,
                         type: BottomNavigationBarType.fixed,
                         currentIndex:
                             _homePageIndexController.selectedPageIndex.value,
@@ -115,20 +116,44 @@ class Myhomepage extends StatelessWidget {
                             }
                           }
                         },
-                        items: const [
+                        items: [
                           BottomNavigationBarItem(
-                              icon: Icon(Icons.home_outlined), label: 'Home'),
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      0
+                                  ? FluentIcons.home_24_filled
+                                  : FluentIcons.home_24_regular),
+                              label: 'Home'),
                           BottomNavigationBarItem(
-                              icon: Icon(Icons.search), label: 'Search'),
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      1
+                                  ? FluentIcons.search_24_filled
+                                  : FluentIcons.search_24_regular),
+                              label: 'Search'),
                           BottomNavigationBarItem(
-                            icon: Icon(Icons.shopping_cart_outlined),
+                            icon: Icon(_homePageIndexController
+                                        .selectedPageIndex.value ==
+                                    2
+                                ? FluentIcons.cart_24_filled
+                                : FluentIcons.cart_24_regular),
                             label: 'Cart',
                           ),
                           BottomNavigationBarItem(
-                              icon: Icon(Icons.local_shipping_outlined),
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      3
+                                  ? FluentIcons.vehicle_truck_profile_24_filled
+                                  : FluentIcons
+                                      .vehicle_truck_profile_24_regular),
                               label: 'Orders'),
                           BottomNavigationBarItem(
-                              icon: Icon(Icons.person), label: 'Profile'),
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      4
+                                  ? FluentIcons.person_24_filled
+                                  : FluentIcons.person_24_regular),
+                              label: 'Profile'),
                         ],
                       ),
                     ),

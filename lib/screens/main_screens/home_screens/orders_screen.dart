@@ -18,8 +18,10 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
           backgroundColor: Appcolor.appbargroundColor,
           title: 'Orders'.extenTextStyle(
+            color: Appcolor.primaryColor,
             fontfamily: Appfonts.appFontFamily,
             fontSize: Appfontsize.appBarHeadSize,
+            fontWeight: FontWeight.bold,
           )),
       body: Column(
         children: [

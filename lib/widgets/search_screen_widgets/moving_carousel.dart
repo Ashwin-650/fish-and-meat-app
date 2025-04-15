@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,10 @@ class MovingCarousel extends StatelessWidget {
           child: Text(
             hints[index1],
             style: const TextStyle(
+              color: Appcolor.secondaryColor,
               fontSize: Appfontsize.medium18,
               fontFamily: Appfonts.appFontFamily,
+              fontWeight: FontWeight.bold,
             ),
           ),
         );

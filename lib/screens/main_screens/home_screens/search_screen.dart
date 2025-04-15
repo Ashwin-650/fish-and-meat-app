@@ -1,4 +1,5 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/search_page_controller.dart';
@@ -96,7 +97,8 @@ class SearchScreen extends StatelessWidget {
                           child: Text(
                             "Suggested",
                             style: TextStyle(
-                              fontSize: Appfontsize.medium18,
+                              fontSize: Appfontsize.headerFontSize,
+                              fontFamily: Appfonts.appFontFamily,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -108,7 +110,8 @@ class SearchScreen extends StatelessWidget {
                           child: Text(
                             "Recent Searches",
                             style: TextStyle(
-                              fontSize: Appfontsize.medium18,
+                              fontSize: Appfontsize.headerFontSize,
+                              fontFamily: Appfonts.appFontFamily,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
