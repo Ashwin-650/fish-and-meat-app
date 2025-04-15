@@ -45,89 +45,98 @@ class Myhomepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => IndexedStack(
-            index: _homePageIndexController.selectedPageIndex.value,
-            children: _pages,
-          )),
-      floatingActionButton: Obx(
-        () => AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: _navBarController.isVisible.value
-              ? Container(
-                  padding: const EdgeInsets.only(left: 30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(100),
-                        blurRadius: 10,
-                        offset: const Offset(20, 10),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: BottomNavigationBar(
-                      elevation: 0,
-                      type: BottomNavigationBarType.fixed,
-                      backgroundColor: Appcolor.bottomBarColor,
-                      selectedItemColor: Colors.white,
-                      unselectedItemColor: Colors.black,
-                      currentIndex:
-                          _homePageIndexController.selectedPageIndex.value,
-                      onTap: (value) async {
-                        _homePageIndexController.switchIndex(value);
-                        if (value == 2) {
-                          getItemFromCart(
-                              cartItemsListController: _cartItemsListController,
-                              checkoutPriceController:
-                                  _checkoutPriceController);
-                        } else if (value == 3) {
-                          final response = await ApiService.getOrders(
-                              token: await Globals.loginToken);
-                          if (response != null && response.statusCode == 200) {
-                            ordersItemsListController.setItems(
-                                (json.decode(response.body)["data"] as List)
-                                    .map((productJson) =>
-                                        OrderDetails.fromJson(productJson))
-                                    .toList());
-                          }
-                        } else if (value == 4) {
-                          final response = await ApiService.getUserInfo(
-                              token: await Globals.loginToken);
-                          if (response != null && response.statusCode == 200) {
-                            final responseData =
-                                jsonDecode(response.body)["data"];
-                            if (responseData["vendor"] == "pending" ||
-                                responseData["vendor"] == "true") {
-                              _visibilityButtonController.displayVendor();
-                            } else {
-                              _visibilityButtonController.displayUser();
-                            }
-                          }
-                        }
-                      },
-                      items: const [
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.home_outlined), label: 'Home'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.search), label: 'Search'),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.shopping_cart_outlined),
-                          label: 'Cart',
-                        ),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.local_shipping_outlined),
-                            label: 'Orders'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.person), label: 'Profile'),
+      body: Obx(() => Stack(
+            children: [
+              IndexedStack(
+                index: _homePageIndexController.selectedPageIndex.value,
+                children: _pages,
+              ),
+              Positioned(
+                left: 20,
+                right: 20,
+                bottom: 20,
+                child: AnimatedSlide(
+                  offset: _navBarController.isVisible.value
+                      ? const Offset(0, 0)
+                      : const Offset(0, 2),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 12,
+                            offset: Offset(0, 6)),
                       ],
                     ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: BottomNavigationBar(
+                        backgroundColor: Appcolor.bottomBarColor,
+                        selectedItemColor: Colors.white,
+                        unselectedItemColor: Colors.black,
+                        type: BottomNavigationBarType.fixed,
+                        currentIndex:
+                            _homePageIndexController.selectedPageIndex.value,
+                        onTap: (value) async {
+                          _homePageIndexController.switchIndex(value);
+                          if (value == 2) {
+                            getItemFromCart(
+                                cartItemsListController:
+                                    _cartItemsListController,
+                                checkoutPriceController:
+                                    _checkoutPriceController);
+                          } else if (value == 3) {
+                            final response = await ApiService.getOrders(
+                                token: await Globals.loginToken);
+                            if (response != null &&
+                                response.statusCode == 200) {
+                              ordersItemsListController.setItems(
+                                  (json.decode(response.body)["data"] as List)
+                                      .map((productJson) =>
+                                          OrderDetails.fromJson(productJson))
+                                      .toList());
+                            }
+                          } else if (value == 4) {
+                            final response = await ApiService.getUserInfo(
+                                token: await Globals.loginToken);
+                            if (response != null &&
+                                response.statusCode == 200) {
+                              final responseData =
+                                  jsonDecode(response.body)["data"];
+                              if (responseData["vendor"] == "pending" ||
+                                  responseData["vendor"] == "true") {
+                                _visibilityButtonController.displayVendor();
+                              } else {
+                                _visibilityButtonController.displayUser();
+                              }
+                            }
+                          }
+                        },
+                        items: const [
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.home_outlined), label: 'Home'),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.search), label: 'Search'),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            label: 'Cart',
+                          ),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.local_shipping_outlined),
+                              label: 'Orders'),
+                          BottomNavigationBarItem(
+                              icon: Icon(Icons.person), label: 'Profile'),
+                        ],
+                      ),
+                    ),
                   ),
-                )
-              : const SizedBox.shrink(),
-        ),
-      ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
