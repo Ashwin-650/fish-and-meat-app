@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class CommonButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onPress(),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.teal,
+        backgroundColor: Appcolor.primaryColor,
         foregroundColor: Colors.white,
         minimumSize: const Size(double.infinity, 50),
         shape: RoundedRectangleBorder(

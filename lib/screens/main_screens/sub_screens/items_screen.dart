@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
-import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -62,9 +61,13 @@ class ItemsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Appcolor.backgroundColor,
       appBar: AppBar(
-          backgroundColor: Appcolor.appbargroundColor,
-          title: categoryPassed.extenTextStyle(
-              fontfamily: Appfonts.appFontFamily)),
+        backgroundColor: Appcolor.appbargroundColor,
+        title: categoryPassed.extenTextStyle(
+          color: Appcolor.primaryColor,
+          fontfamily: Appfonts.appFontFamily,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       body: FutureBuilder<List<ProductDetails>>(
         future: fetchItems(),
         builder: (context, snapshot) {

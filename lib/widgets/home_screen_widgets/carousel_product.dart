@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -138,10 +139,8 @@ class CarouselProduct extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black)
-                        .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
+                    color: Appcolor.primaryColor.withAlpha(
+                        _currentIndex.value == entry.key ? 255 : 100),
                   ),
                 ),
               );

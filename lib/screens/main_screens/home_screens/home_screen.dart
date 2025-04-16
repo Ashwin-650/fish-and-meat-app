@@ -7,12 +7,13 @@ import 'package:fish_and_meat_app/widgets/home_screen_widgets/carousel_product.d
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/category_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/meat_grid.dart';
 import 'package:fish_and_meat_app/widgets/home_screen_widgets/top_selling.dart';
+import 'package:fish_and_meat_app/widgets/see_all_button.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
-  final Function(GlobalKey) runAddToCartAnimation;
-  HomeScreen({super.key, required this.runAddToCartAnimation});
+  HomeScreen({super.key});
 
   final ScrollController _scrollController = Get.put(ScrollController());
 
@@ -29,14 +30,17 @@ class HomeScreen extends StatelessWidget {
             backgroundColor: Appcolor.appbargroundColor,
             floating: true,
             snap: true,
-            title: 'Hii..John '.extenTextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: Appfontsize.appBarHeadSize,
-                fontfamily: Appfonts.appFontFamily),
+            title: 'Hi.. John'.extenTextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: Appfontsize.appBarHeadSize,
+              fontfamily: Appfonts.appFontFamily,
+              color: Appcolor.primaryColor,
+            ),
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.notifications),
+                icon: const Icon(FluentIcons.alert_12_regular),
+                color: Appcolor.secondaryColor,
               )
             ],
           ),
@@ -58,6 +62,7 @@ class HomeScreen extends StatelessWidget {
                       fontSize: Appfontsize.headerFontSize,
                       fontfamily: Appfonts.appFontFamily,
                       textAlign: TextAlign.left,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -76,7 +81,6 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return TopSelling(
                               index: index,
-                              runAddToCartAnimation: runAddToCartAnimation,
                             );
                           },
                         ),
@@ -92,18 +96,14 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Fish Categories'.extenTextStyle(
-                              fontSize: Appfontsize.headerFontSize,
-                              textAlign: TextAlign.left,
-                              fontfamily: Appfonts.appFontFamily),
-                          TextButton(
-                            style: const ButtonStyle(
-                                foregroundColor:
-                                    WidgetStatePropertyAll(Colors.black)),
+                            fontSize: Appfontsize.headerFontSize,
+                            textAlign: TextAlign.left,
+                            fontfamily: Appfonts.appFontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          SeeAllButton(
                             onPressed: () {},
-                            child: 'See all'.extenTextStyle(
-                                fontSize: Appfontsize.small14,
-                                fontfamily: Appfonts.appFontFamily),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -118,18 +118,14 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           'Meat Categories'.extenTextStyle(
-                              fontSize: Appfontsize.headerFontSize,
-                              textAlign: TextAlign.left,
-                              fontfamily: Appfonts.appFontFamily),
-                          TextButton(
-                            style: const ButtonStyle(
-                                foregroundColor:
-                                    WidgetStatePropertyAll(Colors.black)),
+                            fontSize: Appfontsize.headerFontSize,
+                            textAlign: TextAlign.left,
+                            fontfamily: Appfonts.appFontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          SeeAllButton(
                             onPressed: () {},
-                            child: 'See all'.extenTextStyle(
-                                fontSize: Appfontsize.small14,
-                                fontfamily: Appfonts.appFontFamily),
-                          )
+                          ),
                         ],
                       ),
                     ),

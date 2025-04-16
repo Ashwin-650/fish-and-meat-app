@@ -135,9 +135,10 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Appcolor.appbargroundColor,
         title: 'Cart'.extenTextStyle(
-            color: Colors.black,
+            color: Appcolor.primaryColor,
             fontSize: Appfontsize.appBarHeadSize,
-            fontfamily: Appfonts.appFontFamily),
+            fontfamily: Appfonts.appFontFamily,
+            fontWeight: FontWeight.bold),
         actions: [
           InkWell(
             borderRadius: BorderRadius.circular(20.0),
@@ -148,7 +149,7 @@ class CartScreen extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.location_on,
-                    color: Colors.teal,
+                    color: Appcolor.primaryColor,
                   ),
                   const SizedBox(width: 4),
                   _selectedLocation.value.extenTextStyle(
@@ -165,10 +166,21 @@ class CartScreen extends StatelessWidget {
       body: Obx(
         () => _cartItemsListController.cartItems.isEmpty
             ? Center(
-                child: 'Your cart is empty'.extenTextStyle(
-                  fontSize: Appfontsize.medium18,
-                ),
-              )
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Image.network(
+                      "https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-illustration-download-in-svg-png-gif-file-formats--shopping-ecommerce-simple-error-state-pack-user-interface-illustrations-6024626.png?f=webp",
+                    ),
+                  ),
+                  'Your cart is empty'.extenTextStyle(
+                      color: Appcolor.secondaryColor,
+                      fontSize: Appfontsize.high20,
+                      fontWeight: FontWeight.bold),
+                ],
+              ))
             : SlidingUpPanel(
                 maxHeight: MediaQuery.sizeOf(context).height - 250,
                 minHeight: 190,
