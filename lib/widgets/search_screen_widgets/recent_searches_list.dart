@@ -26,7 +26,7 @@ class RecentSearchesList extends StatelessWidget {
           child: ListTile(
             dense: true,
             contentPadding: const EdgeInsets.only(left: 16.0, right: 10.0),
-            leading: const Icon(
+            leading: Icon(
               Icons.history,
               color: Appcolor.primaryColor,
             ),
@@ -40,7 +40,7 @@ class RecentSearchesList extends StatelessWidget {
               },
               icon: Transform.flip(
                 flipX: true,
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_outward,
                   color: Appcolor.secondaryColor,
                 ),

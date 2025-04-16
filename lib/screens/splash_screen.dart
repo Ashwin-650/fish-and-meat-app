@@ -33,6 +33,12 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future<void> getToCheck() async {
+    final accentHex =
+        await SharedPreferencesServices.getValue("AccentColor", "0xFF8E4585");
+    if (accentHex != "") {
+      Appcolor.primaryColor = Color(int.tryParse(accentHex)!);
+    }
+
     final result = await SharedPreferencesServices.getValue(
         Globals.onboardDisplayed, false);
 

@@ -47,7 +47,7 @@ class SuggestionList extends StatelessWidget {
             bottom: 10.0,
           ),
           decoration: BoxDecoration(
-              color: Colors.blueGrey.withAlpha(100),
+              color: Appcolor.itemBackColor,
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(color: Appcolor.secondaryColor, width: 2)),
           child: Row(

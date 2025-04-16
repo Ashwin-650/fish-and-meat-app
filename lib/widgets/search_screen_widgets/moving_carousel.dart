@@ -22,7 +22,7 @@ class MovingCarousel extends StatelessWidget {
         return Center(
           child: Text(
             hints[index1],
-            style: const TextStyle(
+            style: TextStyle(
               color: Appcolor.secondaryColor,
               fontSize: Appfontsize.medium18,
               fontFamily: Appfonts.appFontFamily,

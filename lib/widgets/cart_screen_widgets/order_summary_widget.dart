@@ -31,7 +31,7 @@ class OrderSummaryWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.receipt_long, color: Colors.teal),
+              Icon(Icons.receipt_long, color: Appcolor.primaryColor),
               const SizedBox(width: 8),
               'Order Summary'.extenTextStyle(
                 fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class OrderSummaryWidget extends StatelessWidget {
               totalCheckOut.extenTextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Colors.teal,
+                color: Appcolor.primaryColor,
               ),
             ],
           ),

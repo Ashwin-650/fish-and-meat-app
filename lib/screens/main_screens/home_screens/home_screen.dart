@@ -16,8 +16,8 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final ScrollController _scrollController = Get.put(ScrollController());
-
   final HomeController controller = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -22,7 +22,7 @@ class SchedulingSectionWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.schedule, color: Colors.teal),
+              Icon(Icons.schedule, color: Appcolor.primaryColor),
               const SizedBox(width: 8),
               'Schedule Your Delivery'.extenTextStyle(
                 fontWeight: FontWeight.bold,
@@ -48,7 +48,11 @@ class SchedulingSectionWidget extends StatelessWidget {
                   Text(
                     DateFormat('MMM dd, yyyy').format(deliveryDate),
                   ),
-                  const Icon(Icons.calendar_today, size: 16),
+                  Icon(
+                    Icons.calendar_today,
+                    size: 16,
+                    color: Appcolor.primaryColor,
+                  ),
                 ],
               ),
             ),
