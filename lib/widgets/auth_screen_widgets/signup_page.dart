@@ -31,7 +31,7 @@ class SignupPage extends StatelessWidget {
                 response.statusCode == 201 ||
                 response.statusCode == 202)) {
           Get.to(
-            const VerificationScreen(),
+            VerificationScreen(),
             arguments: _emailController.text,
           );
         } else {

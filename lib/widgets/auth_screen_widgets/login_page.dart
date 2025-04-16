@@ -19,25 +19,49 @@ class LoginPage extends StatelessWidget {
 
   void _loginPressed() async {
     if (_loginFormKey.currentState?.validate() ?? false) {
-      final response = await ApiService.loginAccount(
-        email: !_loginController.isLoginWithNumber.value
-            ? _emailController.text
-            : "",
-        number: _loginController.isLoginWithNumber.value
-            ? _numberController.text
-            : "",
-      );
-      if (response != null && response.statusCode == 200 ||
-          response.statusCode == 201) {
-        Get.to(
-          const VerificationScreen(),
-          arguments: {
-            'email': _emailController.text,
-            'number': _numberController.text
-          },
+      try {
+        print(
+            "Login attempt with: ${_loginController.isLoginWithNumber.value ? 'number: ${_numberController.text}' : 'email: ${_emailController.text}'}");
+
+        final response = await ApiService.loginAccount(
+          email: !_loginController.isLoginWithNumber.value
+              ? _emailController.text
+              : "",
+          number: _loginController.isLoginWithNumber.value
+              ? _numberController.text
+              : "",
         );
-      } else {}
-    } else {}
+
+        print("API response: $response");
+
+        if (response != null &&
+            (response.statusCode == 200 || response.statusCode == 201)) {
+          print(
+              'Passing to VerificationScreen: email=${_emailController.text}, number=${_numberController.text}');
+
+          Get.to(
+            VerificationScreen(),
+            arguments: {
+              'email': !_loginController.isLoginWithNumber.value
+                  ? _emailController.text
+                  : "",
+              'number': _loginController.isLoginWithNumber.value
+                  ? _numberController.text
+                  : "",
+            },
+          );
+        } else {
+          Get.snackbar(
+              'Login Failed', 'Please check your credentials and try again.',
+              snackPosition: SnackPosition.BOTTOM);
+        }
+      } catch (e, stackTrace) {
+        print("Login error: $e");
+        print("Stack trace: $stackTrace");
+        Get.snackbar('Error', 'An error occurred: ${e.toString()}',
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    }
   }
 
   @override
@@ -91,7 +115,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            _loginController.isLoginWithNumber = false.obs;
+                            _loginController.isLoginWithNumber.value = false;
                           },
                           child: "Login with email?"
                               .extenTextStyle(color: Colors.teal),
@@ -120,7 +144,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            _loginController.isLoginWithNumber = true.obs;
+                            _loginController.isLoginWithNumber.value = true;
                           },
                           child: "Login with mobile number?"
                               .extenTextStyle(color: Colors.teal),

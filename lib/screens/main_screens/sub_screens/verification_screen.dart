@@ -1,147 +1,33 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
+import 'package:fish_and_meat_app/controllers/sub_screen_controllers/verification_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/helpers/update_fcm_token.dart';
-import 'package:fish_and_meat_app/screens/myhomepage.dart';
-import 'package:fish_and_meat_app/utils/api_services.dart';
-import 'package:fish_and_meat_app/utils/firebase_services.dart';
-import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+class VerificationScreen extends StatelessWidget {
+  VerificationScreen({super.key});
 
-  @override
-  State<VerificationScreen> createState() => VerificationScreenState();
-}
-
-class VerificationScreenState extends State<VerificationScreen> {
-  final String email = Get.arguments["email"];
-  final String number = Get.arguments["number"];
-  final List<TextEditingController> _controllers = List.generate(
-    6,
-    (index) => TextEditingController(),
-  );
-
-  // Focus nodes for each input field
-  final List<FocusNode> _focusNodes = List.generate(
-    6,
-    (index) => FocusNode(),
-  );
-
+  final VerificationController controller = Get.put(VerificationController());
   // Timer for resend functionality
-  Timer? _timer;
-  int _secondsRemaining = 300; // 5 minutes = 300 seconds
-  bool _canResend = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
-
-  void _startTimer() {
-    _canResend = false;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_secondsRemaining > 0) {
-          _secondsRemaining--;
-        } else {
-          _canResend = true;
-          _timer?.cancel();
-        }
-      });
-    });
-  }
 
   String get _timerText {
-    int minutes = _secondsRemaining ~/ 60;
-    int seconds = _secondsRemaining % 60;
+    final secs = controller.secondsRemaining.value;
+    int minutes = secs ~/ 60;
+    int seconds = secs % 60;
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
-  void _resendOTP() async {
-    if (_canResend) {
-      final response = await ApiService.resendOTP(email: email, number: number);
-      if (response != null && response.statusCode == 200) {
-        // Reset the timer
-        _startTimer();
-
-        // Show feedback to user
-        if (mounted) {
-          Get.showSnackbar(
-            const GetSnackBar(
-              message: 'OTP has been resent',
-              backgroundColor: Colors.teal,
-            ),
-          );
-        }
-      }
-    }
-  }
-
-  void _verifyOTP() async {
-    String otp = _controllers.map((controller) => controller.text).join();
-
-    if (otp.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter all 6 digits'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    try {
-      var response =
-          await ApiService.verifyOTP(email: email, number: number, otp: otp);
-      if (response != null && response.statusCode == 200) {
-        Map<String, dynamic> jsonData = json.decode(response.body);
-
-        final token = jsonData["data"]["token"];
-
-        await SharedPreferencesServices.setValue("login_token", token);
-
-        FirebaseServices firebaseServices = FirebaseServices();
-        await firebaseServices.initializeFirebase();
-
-        final fcmToken = await firebaseServices.getToken();
-        if (fcmToken != null) {
-          updateFCMToken(token: token, fcmToken: fcmToken);
-        }
-
-        Get.offAll(Myhomepage());
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Verification failed: $error'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    // Dispose controllers and focus nodes
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
-    _timer?.cancel();
-    super.dispose();
-  }
+//
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments ?? {};
+
+    controller.setArguments(
+        emailArg: args['email'] ?? '', numberArg: args['number'] ?? '');
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -177,45 +63,47 @@ class VerificationScreenState extends State<VerificationScreen> {
               const SizedBox(height: 40),
 
               // OTP input fields
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  6,
-                  (index) => SizedBox(
-                    width: 50,
-                    child: TextField(
-                      controller: _controllers[index],
-                      focusNode: _focusNodes[index],
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      maxLength: 1,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: InputDecoration(
-                        counterText: '',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              BorderSide(color: Colors.teal.withAlpha(50)),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    6,
+                    (index) => SizedBox(
+                      width: 50,
+                      child: TextField(
+                        controller: controller.controllers[index],
+                        focusNode: controller.focusNodes[index],
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        maxLength: 1,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration: InputDecoration(
+                          counterText: '',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                BorderSide(color: Colors.teal.withAlpha(50)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(color: Colors.teal, width: 2),
+                          ),
+                          filled: true,
+                          fillColor: Colors.teal.withAlpha(50),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.teal, width: 2),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
-                        filled: true,
-                        fillColor: Colors.teal.withAlpha(50),
+                        onChanged: (value) {
+                          if (value.isNotEmpty && index < 5) {
+                            controller.focusNodes[index + 1].requestFocus();
+                          }
+                        },
                       ),
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      onChanged: (value) {
-                        if (value.isNotEmpty && index < 5) {
-                          _focusNodes[index + 1].requestFocus();
-                        }
-                      },
                     ),
                   ),
                 ),
@@ -231,9 +119,9 @@ class VerificationScreenState extends State<VerificationScreen> {
                     fontSize: Appfontsize.small14,
                     color: Colors.black54,
                   ),
-                  _canResend
+                  controller.canResend.value
                       ? InkWell(
-                          onTap: _resendOTP,
+                          onTap: controller.resendOTP,
                           child: "Resend".extenTextStyle(
                             fontSize: Appfontsize.small14,
                             fontWeight: FontWeight.bold,
@@ -251,7 +139,9 @@ class VerificationScreenState extends State<VerificationScreen> {
               const SizedBox(height: 40),
 
               // Verify button
-              CommonButton(onPress: _verifyOTP, buttonText: "Verify")
+              CommonButton(
+                  onPress: () => controller.verifyOTP(context),
+                  buttonText: "Verify")
             ],
           ),
         ),
