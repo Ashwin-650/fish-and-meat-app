@@ -22,7 +22,9 @@ class SeeAllButton extends StatelessWidget {
             }
             return Appcolor.primaryColor;
           }),
-          foregroundColor: const WidgetStatePropertyAll(Colors.black)),
+          foregroundColor: const WidgetStatePropertyAll(Colors.black),
+          shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
       onPressed: onPressed,
       child: 'See all'.extenTextStyle(
           color: Colors.white,

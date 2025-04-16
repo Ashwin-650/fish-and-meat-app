@@ -13,6 +13,7 @@ class ProductDetails {
   final int? stock;
   final int? quantity;
   final double? offerPrice;
+  final String? productId;
 
   ProductDetails({
     required this.id,
@@ -27,6 +28,7 @@ class ProductDetails {
     this.stock,
     this.quantity,
     this.offerPrice,
+    this.productId,
   });
 
   // Factory method to create a ProductDetails from a JSON map
@@ -49,6 +51,7 @@ class ProductDetails {
       quantity: json['quantity'],
       offerPrice: json['offerPrice'],
       stock: json['stock'],
+      productId: json['productId'],
     );
   }
 
@@ -67,6 +70,7 @@ class ProductDetails {
       'quantity': quantity,
       'offerPrice': offerPrice,
       'stock': stock,
+      'productId': productId,
     };
   }
 }
