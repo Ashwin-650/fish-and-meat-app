@@ -147,7 +147,7 @@ class CartScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.location_on,
                     color: Appcolor.primaryColor,
                   ),
@@ -182,7 +182,7 @@ class CartScreen extends StatelessWidget {
                 ],
               ))
             : SlidingUpPanel(
-                maxHeight: MediaQuery.sizeOf(context).height - 250,
+                maxHeight: MediaQuery.sizeOf(context).height - 200,
                 minHeight: 190,
                 borderRadius: BorderRadius.circular(20),
                 body: // Items List
@@ -269,7 +269,7 @@ class CartScreen extends StatelessWidget {
                       ),
                       // Place Order Button
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 70),
+                        padding: const EdgeInsets.only(bottom: 75),
                         child: PlaceorderButtonWidget(onTap: _placeOrder),
                       ),
                     ],

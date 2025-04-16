@@ -22,7 +22,7 @@ class CouponSectionWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.local_offer_outlined, color: Colors.teal),
+          Icon(Icons.local_offer_outlined, color: Appcolor.primaryColor),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
@@ -43,6 +43,15 @@ class CouponSectionWidget extends StatelessWidget {
               backgroundColor: Appcolor.bottomBarColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
+              ),
+            ).copyWith(
+              overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return Appcolor.secondaryColor; // Custom pressed color
+                  }
+                  return null; // Default behavior
+                },
               ),
             ),
             child: 'Apply'.extenTextStyle(color: Colors.white),

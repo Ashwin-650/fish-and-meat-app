@@ -5,12 +5,14 @@ import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart'
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/auth_screen.dart';
+import 'package:fish_and_meat_app/screens/settings_screen.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/approval_reach_button.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/vendor_button.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_2.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_3.dart';
 import 'package:fish_and_meat_app/widgets/profile_screen_widgets/profile_container_widget.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,25 +35,47 @@ class ProfileScreen extends StatelessWidget {
             controller: _scrollController,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Center(
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: Text(
-                    'John',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30,
-                        color: Appcolor.primaryColor),
-                  ),
+                Stack(
+                  children: [
+                    Center(
+                      child: Column(
+                        children: [
+                          const CircleAvatar(
+                            radius: 80,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: NetworkImage(
+                                'https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              'John',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30,
+                                  color: Appcolor.primaryColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.to(() => SettingsScreen());
+                        },
+                        icon: Icon(
+                          FluentIcons.settings_48_regular,
+                          color: Appcolor.secondaryColor,
+                          size: 30,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 Padding(
                   padding:

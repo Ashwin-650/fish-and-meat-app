@@ -2,9 +2,12 @@ import 'package:add_to_cart_animated_button/add_to_cart.dart';
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_screen_controller.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/controllers/home_page_controllers/home_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +19,8 @@ class TopSelling extends StatelessWidget {
     required this.index,
   });
 
+  final CartItemsListController _cartItemsListController = Get.find();
+  final CheckoutPriceController _checkoutPriceController = Get.find();
   final HomeController controller = Get.find();
   final CartScreenController _cartScreenController =
       Get.put(CartScreenController());
@@ -60,56 +65,63 @@ class TopSelling extends StatelessWidget {
             Positioned(
               top: 20,
               right: 10,
-              child: Obx(
-                () => AddToCart(
-                    width: 80,
-                    height: 40,
-                    counterBoxDecoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 233, 105, 96),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    initialBoxDecoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 233, 105, 96),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    value: _cartScreenController.singleCartItemCount.value,
-                    onIncrement: (newValue) async {
-                      _cartScreenController.increment();
-                      final response = await ApiService.addToCart(
-                        token: await Globals.loginToken,
-                        item: controller.items[index],
-                      );
-                      if (response != null &&
-                          (response.statusCode == 200 ||
-                              response.statusCode == 201)) {
-                        Get.showSnackbar(
-                          const GetSnackBar(
-                            message: "Added to cart",
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      }
-                    },
-                    onDecrement: (newValue) async {
-                      _cartScreenController.decreament();
-                      final response = await ApiService.removeFromCart(
-                          token: await Globals.loginToken,
-                          id: controller.items[index].id);
-                      if (response != null &&
-                          (response.statusCode == 200 ||
-                              response.statusCode == 201)) {
-                        Get.showSnackbar(
-                          const GetSnackBar(
-                            message: "Added to cart",
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      }
-                    },
-                    maxValue: controller.items[index].stock!),
-              ),
+              child: Obx(() {
+                final item = controller.items[index];
+
+                return AddToCart(
+                  width: 80,
+                  height: 40,
+                  counterBoxDecoration: BoxDecoration(
+                    color: Appcolor.secondaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  initialBoxDecoration: BoxDecoration(
+                    color: Appcolor.primaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  value: index >= _cartItemsListController.cartItems.length
+                      ? 0
+                      : _cartItemsListController.cartItems[index].quantity ?? 0,
+                  onIncrement: (newValue) async {
+                    _cartScreenController.increment(item.id);
+                    final response = await ApiService.addToCart(
+                      token: await Globals.loginToken,
+                      item: item,
+                    );
+                    if (response != null &&
+                        (response.statusCode == 200 ||
+                            response.statusCode == 201)) {
+                      getItemFromCart(
+                          cartItemsListController: _cartItemsListController,
+                          checkoutPriceController: _checkoutPriceController);
+                      Get.showSnackbar(const GetSnackBar(
+                        message: "Added to cart",
+                        backgroundColor: Colors.green,
+                        duration: Duration(seconds: 1),
+                      ));
+                    }
+                  },
+                  onDecrement: (newValue) async {
+                    final response = await ApiService.removeFromCart(
+                      token: await Globals.loginToken,
+                      id: _cartItemsListController.cartItems[index].id,
+                    );
+                    if (response != null &&
+                        (response.statusCode == 200 ||
+                            response.statusCode == 201)) {
+                      getItemFromCart(
+                          cartItemsListController: _cartItemsListController,
+                          checkoutPriceController: _checkoutPriceController);
+                      Get.showSnackbar(const GetSnackBar(
+                        message: "Removed from cart",
+                        backgroundColor: Colors.red,
+                        duration: Duration(seconds: 1),
+                      ));
+                    }
+                  },
+                  maxValue: item.stock!,
+                );
+              }),
             ),
           ],
         ),
