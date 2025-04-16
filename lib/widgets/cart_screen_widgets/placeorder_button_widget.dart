@@ -1,6 +1,4 @@
-import 'package:fish_and_meat_app/constants/appfonts.dart';
-import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:flutter/material.dart';
 
 class PlaceorderButtonWidget extends StatelessWidget {
@@ -10,21 +8,9 @@ class PlaceorderButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(10, 16, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: 'Place Order'.extenTextStyle(
-            fontSize: Appfontsize.medium18, fontfamily: Appfonts.appFontFamily),
-      ),
+      child: CommonButton(onPress: onTap, buttonText: "Place Order"),
     );
   }
 }
