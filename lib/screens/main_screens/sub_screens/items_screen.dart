@@ -61,9 +61,13 @@ class ItemsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Appcolor.backgroundColor,
       appBar: AppBar(
-          backgroundColor: Appcolor.appbargroundColor,
-          title: categoryPassed.extenTextStyle(
-              fontfamily: Appfonts.appFontFamily)),
+        backgroundColor: Appcolor.appbargroundColor,
+        title: categoryPassed.extenTextStyle(
+          color: Appcolor.primaryColor,
+          fontfamily: Appfonts.appFontFamily,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       body: FutureBuilder<List<ProductDetails>>(
         future: fetchItems(),
         builder: (context, snapshot) {

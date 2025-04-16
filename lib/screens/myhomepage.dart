@@ -16,16 +16,12 @@ import 'package:fish_and_meat_app/screens/main_screens/home_screens/orders_scree
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/profile_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/search_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:add_to_cart_animation/add_to_cart_animation.dart';
-
 class Myhomepage extends StatelessWidget {
   Myhomepage({super.key});
-
-  final GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
-  late final Function(GlobalKey) runAddToCartAnimation;
 
   final CartItemsListController _cartItemsListController =
       Get.put(CartItemsListController());
@@ -39,53 +35,50 @@ class Myhomepage extends StatelessWidget {
   final HomePageIndexController _homePageIndexController =
       Get.put(HomePageIndexController());
 
-  List<Widget> get _pages => [
-        HomeScreen(runAddToCartAnimation: runAddToCartAnimation),
-        SearchScreen(),
-        CartScreen(),
-        OrdersScreen(),
-        ProfileScreen()
-      ];
+  final List<Widget> _pages = [
+    HomeScreen(),
+    SearchScreen(),
+    CartScreen(),
+    OrdersScreen(),
+    ProfileScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return AddToCartAnimation(
-      cartKey: cartKey,
-      height: 30,
-      width: 30,
-      opacity: 0.85,
-      createAddToCartAnimation: (animationMethod) {
-        runAddToCartAnimation = animationMethod;
-      },
-      child: Scaffold(
-        body: Obx(() => IndexedStack(
-              index: _homePageIndexController.selectedPageIndex.value,
-              children: _pages,
-            )),
-        floatingActionButton: Obx(
-          () => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: _navBarController.isVisible.value
-                ? Container(
-                    padding: const EdgeInsets.only(left: 30),
+    return Scaffold(
+      body: Obx(() => Stack(
+            children: [
+              IndexedStack(
+                index: _homePageIndexController.selectedPageIndex.value,
+                children: _pages,
+              ),
+              Positioned(
+                left: 20,
+                right: 20,
+                bottom: 20,
+                child: AnimatedSlide(
+                  offset: _navBarController.isVisible.value
+                      ? const Offset(0, 0)
+                      : const Offset(0, 2),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
-                          color: Colors.black.withAlpha(100),
-                          blurRadius: 10,
-                          offset: const Offset(20, 10),
-                        ),
+                            color: Colors.black,
+                            blurRadius: 12,
+                            offset: Offset(0, 6)),
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(25),
                       child: BottomNavigationBar(
-                        elevation: 0,
-                        type: BottomNavigationBarType.fixed,
                         backgroundColor: Appcolor.bottomBarColor,
-                        selectedItemColor: Colors.white,
-                        unselectedItemColor: Colors.black,
+                        selectedItemColor: const Color(0xFFB0C4DE),
+                        unselectedItemColor: Colors.white,
+                        type: BottomNavigationBarType.fixed,
                         currentIndex:
                             _homePageIndexController.selectedPageIndex.value,
                         onTap: (value) async {
@@ -124,34 +117,51 @@ class Myhomepage extends StatelessWidget {
                           }
                         },
                         items: [
-                          const BottomNavigationBarItem(
-                              icon: Icon(Icons.home_outlined), label: 'Home'),
-                          const BottomNavigationBarItem(
-                              icon: Icon(Icons.search), label: 'Search'),
                           BottomNavigationBarItem(
-                            icon: AddToCartIcon(
-                              key: cartKey,
-                              icon: const Icon(Icons.shopping_cart_outlined),
-                              badgeOptions: const BadgeOptions(
-                                active: false,
-                                backgroundColor: Colors.red,
-                              ),
-                            ),
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      0
+                                  ? FluentIcons.home_24_filled
+                                  : FluentIcons.home_24_regular),
+                              label: 'Home'),
+                          BottomNavigationBarItem(
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      1
+                                  ? FluentIcons.search_24_filled
+                                  : FluentIcons.search_24_regular),
+                              label: 'Search'),
+                          BottomNavigationBarItem(
+                            icon: Icon(_homePageIndexController
+                                        .selectedPageIndex.value ==
+                                    2
+                                ? FluentIcons.cart_24_filled
+                                : FluentIcons.cart_24_regular),
                             label: 'Cart',
                           ),
-                          const BottomNavigationBarItem(
-                              icon: Icon(Icons.local_shipping_outlined),
+                          BottomNavigationBarItem(
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      3
+                                  ? FluentIcons.vehicle_truck_profile_24_filled
+                                  : FluentIcons
+                                      .vehicle_truck_profile_24_regular),
                               label: 'Orders'),
-                          const BottomNavigationBarItem(
-                              icon: Icon(Icons.person), label: 'Profile'),
+                          BottomNavigationBarItem(
+                              icon: Icon(_homePageIndexController
+                                          .selectedPageIndex.value ==
+                                      4
+                                  ? FluentIcons.person_24_filled
+                                  : FluentIcons.person_24_regular),
+                              label: 'Profile'),
                         ],
                       ),
                     ),
-                  )
-                : const SizedBox.shrink(),
-          ),
-        ),
-      ),
+                  ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

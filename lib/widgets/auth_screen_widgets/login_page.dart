@@ -1,5 +1,5 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/controllers/login_controller.dart';
+import 'package:fish_and_meat_app/controllers/login_screen_controller/login_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/verification_screen.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
@@ -20,9 +20,6 @@ class LoginPage extends StatelessWidget {
   void _loginPressed() async {
     if (_loginFormKey.currentState?.validate() ?? false) {
       try {
-        print(
-            "Login attempt with: ${_loginController.isLoginWithNumber.value ? 'number: ${_numberController.text}' : 'email: ${_emailController.text}'}");
-
         final response = await ApiService.loginAccount(
           email: !_loginController.isLoginWithNumber.value
               ? _emailController.text
@@ -32,13 +29,8 @@ class LoginPage extends StatelessWidget {
               : "",
         );
 
-        print("API response: $response");
-
         if (response != null &&
             (response.statusCode == 200 || response.statusCode == 201)) {
-          print(
-              'Passing to VerificationScreen: email=${_emailController.text}, number=${_numberController.text}');
-
           Get.to(
             VerificationScreen(),
             arguments: {
@@ -55,9 +47,7 @@ class LoginPage extends StatelessWidget {
               'Login Failed', 'Please check your credentials and try again.',
               snackPosition: SnackPosition.BOTTOM);
         }
-      } catch (e, stackTrace) {
-        print("Login error: $e");
-        print("Stack trace: $stackTrace");
+      } catch (e) {
         Get.snackbar('Error', 'An error occurred: ${e.toString()}',
             snackPosition: SnackPosition.BOTTOM);
       }

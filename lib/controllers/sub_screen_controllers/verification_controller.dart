@@ -41,7 +41,6 @@ class VerificationController extends GetxController {
   void setArguments({required String emailArg, required String numberArg}) {
     email.value = emailArg;
     number.value = numberArg;
-    print("✅ Arguments set: email = $emailArg, number = $numberArg");
   }
 
   void _startTimer() {
@@ -78,13 +77,8 @@ class VerificationController extends GetxController {
 
   void verifyOTP(BuildContext context) async {
     String otp = controllers.map((controller) => controller.text).join();
-    print("Entered OTP: $otp"); // ✅ ADD THIS
 
     if (otp.length != 6) {
-      print("OTP not complete"); // ✅
-      print("Sending verify request with:");
-      print("Email: ${email.value}, Number: ${number.value}, OTP: $otp");
-
       return;
     }
 

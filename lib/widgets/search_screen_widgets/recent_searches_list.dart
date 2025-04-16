@@ -26,17 +26,24 @@ class RecentSearchesList extends StatelessWidget {
           child: ListTile(
             dense: true,
             contentPadding: const EdgeInsets.only(left: 16.0, right: 10.0),
-            leading: const Icon(Icons.history),
+            leading: const Icon(
+              Icons.history,
+              color: Appcolor.primaryColor,
+            ),
             title: "Item $index".extenTextStyle(
-                fontSize: Appfontsize.medium18,
-                fontfamily: Appfonts.appFontFamily),
+              fontSize: Appfontsize.medium18,
+              fontfamily: Appfonts.appFontFamily,
+            ),
             trailing: IconButton(
               onPressed: () {
                 _searchEditingController.text = "item $index";
               },
               icon: Transform.flip(
                 flipX: true,
-                child: const Icon(Icons.arrow_outward),
+                child: const Icon(
+                  Icons.arrow_outward,
+                  color: Appcolor.secondaryColor,
+                ),
               ),
             ),
           ),

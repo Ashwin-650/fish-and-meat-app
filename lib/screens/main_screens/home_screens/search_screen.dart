@@ -1,7 +1,8 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/search_page_controller.dart';
+import 'package:fish_and_meat_app/controllers/search_screen_controller/search_page_controller.dart';
 import 'package:fish_and_meat_app/helpers/get_search_products.dart';
 import 'package:fish_and_meat_app/helpers/scroll_listener.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/search_results.dart';
@@ -50,7 +51,7 @@ class SearchScreen extends StatelessWidget {
                           } else {
                             _searchPageController.pageIndex.value = 1;
                           }
-                          getSearchProducts();
+                          getSearchProducts(storeContinuationToken: false);
                         },
                         controller: _searchEditingController,
                         style: const TextStyle(
@@ -96,7 +97,8 @@ class SearchScreen extends StatelessWidget {
                           child: Text(
                             "Suggested",
                             style: TextStyle(
-                              fontSize: Appfontsize.medium18,
+                              fontSize: Appfontsize.headerFontSize,
+                              fontFamily: Appfonts.appFontFamily,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -108,7 +110,8 @@ class SearchScreen extends StatelessWidget {
                           child: Text(
                             "Recent Searches",
                             style: TextStyle(
-                              fontSize: Appfontsize.medium18,
+                              fontSize: Appfontsize.headerFontSize,
+                              fontFamily: Appfonts.appFontFamily,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

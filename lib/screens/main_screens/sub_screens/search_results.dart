@@ -1,4 +1,4 @@
-import 'package:fish_and_meat_app/controllers/search_page_controller.dart';
+import 'package:fish_and_meat_app/controllers/search_screen_controller/search_page_controller.dart';
 import 'package:fish_and_meat_app/helpers/get_search_products.dart';
 import 'package:fish_and_meat_app/widgets/list_item_widget.dart';
 import 'package:flutter/material.dart';

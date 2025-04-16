@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Appcolor {
-  static Color backgroundColor = Colors.white;
+  static const Color primaryColor = Color(0xFF8E4585);
+  static const Color secondaryColor = Color(0xFFB0C4DE);
 
-  static Color appbargroundColor = Colors.white;
-
-  static Color bottomBarColor = Colors.blueGrey.shade400;
-
-  static Color itemBackColor = Colors.green.shade50;
+  static const Color backgroundColor = Colors.white;
+  static const Color appbargroundColor = Colors.white;
+  static const Color bottomBarColor = primaryColor;
+  static Color itemBackColor = secondaryColor;
 }

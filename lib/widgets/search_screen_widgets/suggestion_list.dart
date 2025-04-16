@@ -47,24 +47,15 @@ class SuggestionList extends StatelessWidget {
             bottom: 10.0,
           ),
           decoration: BoxDecoration(
-              color: Appcolor.appbargroundColor,
+              color: Colors.blueGrey.withAlpha(100),
               borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(color: Colors.grey[300]!)),
+              border: Border.all(color: Appcolor.secondaryColor, width: 2)),
           child: Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor.withAlpha(50),
-                    width: 2,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.network(
-                    sampleItems[index]["image"] ?? "",
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.network(
+                  sampleItems[index]["image"] ?? "",
                 ),
               ),
               Expanded(
