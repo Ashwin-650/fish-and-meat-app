@@ -54,7 +54,7 @@ class ProductDetailPage extends StatelessWidget {
         body: Obx(
           () => (controller.productDetails.value ==
                   null) // Null check for productDetails
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               // Show a loading indicator while waiting
               : Column(
                   children: [
@@ -190,7 +190,7 @@ class ProductDetailPage extends StatelessWidget {
                                         ),
                                         child: Text(
                                           "₹${controller.productDetails.value!.price}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold,
                                             color: Appcolor.bottomBarColor,
@@ -249,7 +249,7 @@ class ProductDetailPage extends StatelessWidget {
                                                         .value
                                                     ? "Collapse"
                                                     : "Read more",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: Appfontsize.small14,
                                                   color:
                                                       Appcolor.bottomBarColor,
@@ -337,7 +337,7 @@ class ProductDetailPage extends StatelessWidget {
                               ),
                               Text(
                                 "₹${((controller.productDetails.value!.price) * (controller.quantity.value)).toStringAsFixed(2)}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: Appcolor.bottomBarColor,

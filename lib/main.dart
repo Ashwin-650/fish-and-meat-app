@@ -50,6 +50,5 @@ class MyApp extends StatelessWidget {
 
 // Handle background message
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Background message received: ${message.notification?.title}');
   // You can perform background work here like updating your app's local database, etc.
 }
