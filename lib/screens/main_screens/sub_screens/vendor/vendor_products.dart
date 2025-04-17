@@ -1,6 +1,6 @@
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/controllers/vendor_mode_controllers/vendor_mode_items_controller.dart';
+import 'package:fish_and_meat_app/controllers/vendor_mode_controllers/vendor_products_items_controller.dart';
 import 'package:fish_and_meat_app/helpers/vendor_profile/delete_confirm_helper.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
@@ -9,11 +9,11 @@ import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/product_price_in
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VendorMode extends StatelessWidget {
-  VendorMode({super.key});
+class VendorProducts extends StatelessWidget {
+  VendorProducts({super.key});
 
-  final VendorModeItemsController controller =
-      Get.put(VendorModeItemsController());
+  final VendorProductsItemsController controller =
+      Get.put(VendorProductsItemsController());
 
   final GlobalKey<RefreshIndicatorState> _refreshKey = GlobalKey();
 

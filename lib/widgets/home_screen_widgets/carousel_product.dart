@@ -139,7 +139,7 @@ class CarouselProduct extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Appcolor.primaryColor.withAlpha(
+                    color: Appcolor.primaryColor.value.withAlpha(
                         _currentIndex.value == entry.key ? 255 : 100),
                   ),
                 ),

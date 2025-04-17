@@ -1,7 +1,6 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
-import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,6 @@ class OrderSummaryWidget extends StatelessWidget {
       required this.totalAmount,
       required this.roundOff});
   final CartItemsListController _cartItemsListController = Get.find();
-  final CheckoutPriceController _checkoutPriceController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class OrderSummaryWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.receipt_long, color: Appcolor.primaryColor),
+              Icon(Icons.receipt_long, color: Appcolor.primaryColor.value),
               const SizedBox(width: 8),
               'Order Summary'.extenTextStyle(
                 fontWeight: FontWeight.bold,
@@ -49,7 +47,7 @@ class OrderSummaryWidget extends StatelessWidget {
             children: [
               Text('items x ${_cartItemsListController.cartItems.length}'),
               Text(
-                "\$${_checkoutPriceController.totalCheckoutPrice.value}",
+                "\$${_cartItemsListController.totalCheckoutPrice.value}",
               ),
             ],
           ),
@@ -103,7 +101,7 @@ class OrderSummaryWidget extends StatelessWidget {
               "\$$totalCheckOut.00".extenTextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Appcolor.primaryColor,
+                color: Appcolor.primaryColor.value,
               ),
             ],
           ),

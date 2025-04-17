@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +34,8 @@ class CustomTextField extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             color: Colors.teal.withAlpha(50),
-            borderRadius: BorderRadius.circular(20.0),
-            border: Border.all(color: Colors.grey[800]!),
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(color: Colors.grey[300]!),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +45,7 @@ class CustomTextField extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: Appfontsize.small14,
                   fontWeight: FontWeight.bold,
+                  fontFamily: Appfonts.appFontFamily,
                 ),
               ),
               const SizedBox(height: 8),
@@ -71,7 +73,10 @@ class CustomTextField extends StatelessWidget {
                   prefixIcon: isMobileNumber
                       ? const Text(
                           "  +91 ",
-                          style: TextStyle(fontSize: Appfontsize.regular16),
+                          style: TextStyle(
+                            fontSize: Appfontsize.regular16,
+                            fontFamily: Appfonts.appFontFamily,
+                          ),
                         )
                       : null,
                   prefixIconConstraints:

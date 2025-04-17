@@ -4,10 +4,10 @@ import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class SchedulingSectionWidget extends StatelessWidget {
-  const SchedulingSectionWidget(
+class CustomDateFieldWidget extends StatelessWidget {
+  const CustomDateFieldWidget(
       {super.key, required this.ontap, required this.deliveryDate});
-  final GestureTapCallback ontap;
+  final Function() ontap;
   final DateTime deliveryDate;
   @override
   Widget build(BuildContext context) {
@@ -15,14 +15,14 @@ class SchedulingSectionWidget extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Appcolor.itemBackColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.grey[300]!),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(Icons.schedule, color: Appcolor.primaryColor),
+              Icon(Icons.schedule, color: Appcolor.primaryColor.value),
               const SizedBox(width: 8),
               'Schedule Your Delivery'.extenTextStyle(
                 fontWeight: FontWeight.bold,
@@ -51,7 +51,7 @@ class SchedulingSectionWidget extends StatelessWidget {
                   Icon(
                     Icons.calendar_today,
                     size: 16,
-                    color: Appcolor.primaryColor,
+                    color: Appcolor.primaryColor.value,
                   ),
                 ],
               ),

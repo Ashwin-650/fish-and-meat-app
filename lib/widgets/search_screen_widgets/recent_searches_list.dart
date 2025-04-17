@@ -28,7 +28,7 @@ class RecentSearchesList extends StatelessWidget {
             contentPadding: const EdgeInsets.only(left: 16.0, right: 10.0),
             leading: Icon(
               Icons.history,
-              color: Appcolor.primaryColor,
+              color: Appcolor.primaryColor.value,
             ),
             title: "Item $index".extenTextStyle(
               fontSize: Appfontsize.medium18,

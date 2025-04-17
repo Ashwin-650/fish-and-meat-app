@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
     final accentHex =
         await SharedPreferencesServices.getValue("AccentColor", "0xFF8E4585");
     if (accentHex != "") {
-      Appcolor.primaryColor = Color(int.tryParse(accentHex)!);
+      Appcolor.primaryColor.value = Color(int.tryParse(accentHex)!);
     }
 
     final result = await SharedPreferencesServices.getValue(

@@ -13,7 +13,7 @@ class CommonButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPress, // <-- remove the arrow function
       style: ElevatedButton.styleFrom(
-        backgroundColor: Appcolor.primaryColor,
+        backgroundColor: Appcolor.primaryColor.value,
         foregroundColor: Colors.white,
         minimumSize: const Size(double.infinity, 50),
         shape: RoundedRectangleBorder(

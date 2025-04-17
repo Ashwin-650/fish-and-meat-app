@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/vender_approval_screen.dart';
-import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_mode.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_home.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +39,7 @@ class VendorApprovalScreen extends StatelessWidget {
             _venderApprovalScreen.isLoading = false.obs;
 
             Future.delayed(const Duration(seconds: 1), () {
-              Get.off(() => VendorMode());
+              Get.off(() => VendorHome());
             });
           } else if (responseData["status"] == "pending") {
             _venderApprovalScreen.isApproved = false.obs;
