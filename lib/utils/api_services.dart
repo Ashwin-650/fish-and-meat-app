@@ -418,6 +418,23 @@ class ApiService {
     }
   }
 
+  static Future<dynamic> deleteCartItem(
+      {required String token, required String id}) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${Globals.baseUrl}/carts/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static Future<dynamic> verifyPromoCode({
     required String token,
     required String code,

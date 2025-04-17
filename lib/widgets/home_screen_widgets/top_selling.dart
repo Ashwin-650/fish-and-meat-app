@@ -131,13 +131,6 @@ class TopSelling extends StatelessWidget {
       getItemFromCart(
           checkoutPriceController: _checkoutPriceController,
           cartItemsListController: _cartItemsListController);
-      Get.showSnackbar(
-        const GetSnackBar(
-          message: "Added to cart",
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 1),
-        ),
-      );
     }
   }
 
@@ -151,13 +144,6 @@ class TopSelling extends StatelessWidget {
       getItemFromCart(
           checkoutPriceController: _checkoutPriceController,
           cartItemsListController: _cartItemsListController);
-      Get.showSnackbar(
-        const GetSnackBar(
-          message: "Removed from cart",
-          backgroundColor: Colors.yellow,
-          duration: Duration(seconds: 1),
-        ),
-      );
     }
   }
 }

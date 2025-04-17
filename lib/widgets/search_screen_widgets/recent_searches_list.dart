@@ -40,7 +40,7 @@ class RecentSearchesList extends StatelessWidget {
               },
               icon: Transform.flip(
                 flipX: true,
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_outward,
                   color: Appcolor.secondaryColor,
                 ),

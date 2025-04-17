@@ -8,6 +8,7 @@ import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_address_bottom_sheet.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_location_bottom_sheet.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_mobile_edit_bottom_sheet.dart';
+import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/razorpay_services.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/address_section_widget.dart';
@@ -207,8 +208,24 @@ class CartScreen extends StatelessWidget {
                             item: item,
                             onDelete: () async {
                               //add api for remove from cart
-                              await ApiService.removeFromCart(
+                              final response = await ApiService.deleteCartItem(
                                   token: await Globals.loginToken, id: item.id);
+                              if (response != null &&
+                                  (response.statusCode == 200 ||
+                                      response.statusCode == 201)) {
+                                _cartItemsListController.cartItems.removeWhere(
+                                    (element) => element.id == item.id);
+                                _cartItemsListController.update();
+                                getItemFromCart(
+                                    cartItemsListController:
+                                        _cartItemsListController,
+                                    checkoutPriceController:
+                                        _checkoutPriceController);
+                                Get.showSnackbar(const GetSnackBar(
+                                  message: 'removed successfull',
+                                  duration: Duration(seconds: 3),
+                                ));
+                              }
                             },
                           );
                         },

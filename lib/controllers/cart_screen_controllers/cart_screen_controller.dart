@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 class CartScreenController extends GetxController {
   // Now uses String keys instead of int
+
   var itemCounts = <String, RxInt>{}.obs;
 
   void increment(String itemId) {
@@ -23,9 +24,4 @@ class CartScreenController extends GetxController {
     itemCounts.putIfAbsent(itemId, () => 0.obs);
     return itemCounts[itemId]!;
   }
-
-//   void removeItem(CartItemModel item) {
-//   cartItems.remove(item);
-//   update(); // or cartItems.refresh() if it's an RxList
-// }
 }

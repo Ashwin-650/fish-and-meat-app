@@ -12,7 +12,7 @@ class SpecialOfferWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Appcolor.primaryColor, Color(0xFF5D8AA8)],
+          colors: [Appcolor.primaryColor, const Color(0xFF5D8AA8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),

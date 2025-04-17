@@ -68,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
                         onPressed: () {
                           Get.to(() => SettingsScreen());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           FluentIcons.settings_48_regular,
                           color: Appcolor.secondaryColor,
                           size: 30,
