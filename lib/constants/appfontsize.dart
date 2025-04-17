@@ -1,4 +1,5 @@
 class Appfontsize {
+  static const double xsmall12 = 12;
   static const double small14 = 14;
   static const double regular16 = 16;
   static const double medium18 = 18;

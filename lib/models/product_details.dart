@@ -5,7 +5,7 @@ class ProductDetails {
   final String userId;
   final String title;
   final String description;
-  final int price;
+  final double price;
   final String image;
   final List<Reviews> reviews;
   final List<int> availability;
@@ -38,7 +38,7 @@ class ProductDetails {
       userId: json['userId'],
       title: json['title'],
       description: json['description'],
-      price: json['price'],
+      price: json['price'].toDouble(),
       image: json['image'],
       reviews: (json['reviews'] as List?)
               ?.map((reviewJson) => Reviews.fromJson(reviewJson))

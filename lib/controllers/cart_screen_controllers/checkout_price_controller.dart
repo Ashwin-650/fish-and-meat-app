@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 
 class CheckoutPriceController extends GetxController {
-  RxInt totalCheckoutPrice = RxInt(0);
+  var totalCheckoutPrice = 0.0.obs;
 
-  addPrice(int price) {
+  addPrice(double price) {
     totalCheckoutPrice.value += price;
   }
 
   resetPrice() {
-    totalCheckoutPrice.value = 0;
+    totalCheckoutPrice.value = 0.0;
   }
 }

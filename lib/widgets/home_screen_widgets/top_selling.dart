@@ -60,8 +60,8 @@ class TopSelling extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 20,
-              right: 10,
+              top: 30,
+              right: 5,
               child: Obx(() {
                 // final buttonText = _cartItemsListController.cartItems.any(
                 //         (item) => item.productId == controller.items[index].id)
@@ -131,13 +131,13 @@ class TopSelling extends StatelessWidget {
       getItemFromCart(
           checkoutPriceController: _checkoutPriceController,
           cartItemsListController: _cartItemsListController);
-      Get.showSnackbar(
-        const GetSnackBar(
-          message: "Added to cart",
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 1),
-        ),
-      );
+      // Get.showSnackbar(
+      //   const GetSnackBar(
+      //     message: "Added to cart",
+      //     backgroundColor: Colors.green,
+      //     duration: Duration(seconds: 1),
+      //   ),
+      // );
     }
   }
 
@@ -151,13 +151,13 @@ class TopSelling extends StatelessWidget {
       getItemFromCart(
           checkoutPriceController: _checkoutPriceController,
           cartItemsListController: _cartItemsListController);
-      Get.showSnackbar(
-        const GetSnackBar(
-          message: "Removed from cart",
-          backgroundColor: Colors.yellow,
-          duration: Duration(seconds: 1),
-        ),
-      );
+      // Get.showSnackbar(
+      //   const GetSnackBar(
+      //     message: "Removed from cart",
+      //     backgroundColor: Colors.yellow,
+      //     duration: Duration(seconds: 1),
+      //   ),
+      // );
     }
   }
 }
