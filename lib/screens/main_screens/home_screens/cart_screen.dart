@@ -205,6 +205,11 @@ class CartScreen extends StatelessWidget {
                               _cartItemsListController.cartItems[index];
                           return CartItemWidget(
                             item: item,
+                            onDelete: () async {
+                              //add api for remove from cart
+                              await ApiService.removeFromCart(
+                                  token: await Globals.loginToken, id: item.id);
+                            },
                           );
                         },
                       ),

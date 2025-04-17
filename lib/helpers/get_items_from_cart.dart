@@ -15,7 +15,6 @@ void getItemFromCart(
     final responseBody = jsonDecode(response.body);
 
     final responseData = responseBody["data"];
-    print(responseData);
     final items = ((responseData) as List)
         .map((productJson) => ProductDetails.fromJson(productJson))
         .toList();

@@ -1,6 +1,7 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/product_detailpage_controller/product_detailpage_controller.dart';
+import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/product_detailpage_widgets/quantity_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -201,7 +202,15 @@ class ProductDetailPage extends StatelessWidget {
                                   ),
 
                                   const SizedBox(height: 20),
+                                  // Quantity Selector
 
+                                  QuantitySelectorWidget(
+                                    decrementTap: () =>
+                                        controller.decrementQuantity(),
+                                    incrementTap: () =>
+                                        controller.incrementQuantity(),
+                                    text: controller.quantity.toString(),
+                                  ),
                                   // Expandable Description Section
                                   Container(
                                     decoration: BoxDecoration(
@@ -286,16 +295,6 @@ class ProductDetailPage extends StatelessWidget {
 
                                   const SizedBox(height: 25),
 
-                                  // Quantity Selector
-
-                                  QuantitySelectorWidget(
-                                    decrementTap: () =>
-                                        controller.decrementQuantity(),
-                                    incrementTap: () =>
-                                        controller.incrementQuantity(),
-                                    text: controller.quantity.toString(),
-                                  ),
-
                                   const SizedBox(height: 25),
                                 ],
                               ),
@@ -350,6 +349,12 @@ class ProductDetailPage extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 20),
                               child: ElevatedButton(
                                 onPressed: () async {
+                                  // final response = await ApiService.addToCart(
+                                  //     token: await Globals.loginToken,
+                                  //     item: controller.productDetails.value!);
+                                  // if (response != null &&
+                                  //     (response.statusCode == 200 ||
+                                  //         response.statusCode == 201)) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: const Text('Added to cart!'),
@@ -360,6 +365,7 @@ class ProductDetailPage extends StatelessWidget {
                                               BorderRadius.circular(10)),
                                     ),
                                   );
+                                  // }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Appcolor.bottomBarColor,

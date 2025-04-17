@@ -23,4 +23,9 @@ class CartScreenController extends GetxController {
     itemCounts.putIfAbsent(itemId, () => 0.obs);
     return itemCounts[itemId]!;
   }
+
+//   void removeItem(CartItemModel item) {
+//   cartItems.remove(item);
+//   update(); // or cartItems.refresh() if it's an RxList
+// }
 }
