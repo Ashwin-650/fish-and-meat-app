@@ -4,10 +4,10 @@ class CartScreenController extends GetxController {
   // Now uses String keys instead of int
 
   var itemCounts = <String, RxInt>{}.obs;
+  var discountPercent = 0.obs;
 
-  void increment(String itemId) {
-    itemCounts.putIfAbsent(itemId, () => 0.obs);
-    itemCounts[itemId]!.value++;
+  void changeDiscount(int value) {
+    discountPercent = value.obs;
   }
 
   void decrement(String itemId) {

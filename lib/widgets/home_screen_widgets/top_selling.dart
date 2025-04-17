@@ -60,8 +60,8 @@ class TopSelling extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 20,
-              right: 10,
+              top: 30,
+              right: 5,
               child: Obx(() {
                 // final buttonText = _cartItemsListController.cartItems.any(
                 //         (item) => item.productId == controller.items[index].id)

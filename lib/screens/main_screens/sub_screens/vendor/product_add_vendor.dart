@@ -1,17 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/available_locations_controller.dart';
-import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/image_picker_controller.dart';
-import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/selected_category_controller.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/product_add_vendor_controller.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:fish_and_meat_app/widgets/custom_combo_box.dart';
 import 'package:fish_and_meat_app/widgets/custom_text_field.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:fish_and_meat_app/constants/globals.dart';
-import 'package:fish_and_meat_app/utils/api_services.dart';
-import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -26,12 +20,8 @@ class ProductAddVendor extends StatelessWidget {
   final _stockController = TextEditingController();
   final _pincodeController = TextEditingController();
 
-  final SelectedCategoryController _selectedCategoryController =
-      Get.put(SelectedCategoryController());
-  final AvailableLocationsController _availableLocationsController =
-      Get.put(AvailableLocationsController());
-  final ImagePickerController _imagePickerController =
-      Get.put(ImagePickerController());
+  final ProductAddVendorController controller =
+      Get.put(ProductAddVendorController());
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -39,22 +29,20 @@ class ProductAddVendor extends StatelessWidget {
         await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      _imagePickerController.setImage(File(pickedFile.path));
+      controller.setImage(File(pickedFile.path));
     }
   }
 
   void _addPincode() {
     if (_pincodeController.text.isNotEmpty &&
-        !_availableLocationsController.availableLocations
-            .contains(_pincodeController.text)) {
-      _availableLocationsController.availableLocations
-          .add(_pincodeController.text);
+        !controller.availableLocations.contains(_pincodeController.text)) {
+      controller.availableLocations.add(_pincodeController.text);
       _pincodeController.clear();
     }
   }
 
   void _removeLocation(String location) {
-    _availableLocationsController.availableLocations.remove(location);
+    controller.availableLocations.remove(location);
   }
 
   @override
@@ -83,7 +71,7 @@ class ProductAddVendor extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Obx(() {
-                        final image = _imagePickerController.pickedImage.value;
+                        final image = controller.pickedImage.value;
                         return image != null
                             ? Image.file(image, fit: BoxFit.cover)
                             : const Column(
@@ -147,7 +135,7 @@ class ProductAddVendor extends StatelessWidget {
                 // Category Dropdown
                 CustomComboBox(
                   label: "Category*",
-                  selectedCategoryController: _selectedCategoryController,
+                  selectedCategoryController: controller,
                 ),
 
                 const SizedBox(height: 24),
@@ -182,8 +170,7 @@ class ProductAddVendor extends StatelessWidget {
                 Wrap(
                   spacing: 8.0,
                   runSpacing: 8.0,
-                  children: _availableLocationsController.availableLocations
-                      .map((location) {
+                  children: controller.availableLocations.map((location) {
                     return Chip(
                       label: Text(location),
                       deleteIcon: const Icon(Icons.close, size: 16),
@@ -191,7 +178,7 @@ class ProductAddVendor extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-                if (_availableLocationsController.availableLocations.isEmpty)
+                if (controller.availableLocations.isEmpty)
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
@@ -206,7 +193,16 @@ class ProductAddVendor extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                   child: CommonButton(
-                      onPress: () => _onPressed(context),
+                      onPress: () {
+                        controller.addProduct(
+                            context: context,
+                            formKey: _formKey,
+                            titleController: _titleController,
+                            descriptionController: _descriptionController,
+                            priceController: _priceController,
+                            offerPriceController: _offerPriceController,
+                            stockController: _stockController);
+                      },
                       buttonText: "Add Product"),
                 ),
               ],
@@ -215,86 +211,5 @@ class ProductAddVendor extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _onPressed(context) async {
-    if (_formKey.currentState!.validate()) {
-      if (_imagePickerController.pickedImage.value == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select an image')),
-        );
-        return;
-      }
-
-      if (_availableLocationsController.availableLocations.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please add at least one location')),
-        );
-        return;
-      }
-
-      // Fetch API Token
-      String? token =
-          await SharedPreferencesServices.getValue(Globals.apiToken, '');
-
-      if (token == null || token.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Authentication error. Please login again.')),
-        );
-        return;
-      }
-
-      try {
-        final http.Response response = await ApiService.vendorProductAdd(
-          token: token,
-          title: _titleController.text,
-          description: _descriptionController.text,
-          price: _priceController.text,
-          availability:
-              _availableLocationsController.availableLocations.join(','),
-          category: _selectedCategoryController.selectedCategory.value,
-          offerPrice: _offerPriceController.text,
-          stock: _stockController.text,
-          image: _imagePickerController.pickedImage.value!,
-        );
-
-        try {
-          final decodedResponse = jsonDecode(response.body);
-
-          if (decodedResponse == null ||
-              !decodedResponse.containsKey('message')) {
-            throw Exception("Invalid API response: Missing 'message' field.");
-          }
-
-          if ((response.statusCode == 200 || response.statusCode == 201) &&
-              decodedResponse['message'].toString().trim().toLowerCase() ==
-                  'product added') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Product added successfully!')),
-            );
-
-            Future.delayed(const Duration(milliseconds: 500), () {
-              Navigator.pop(context, true);
-            });
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(
-                      decodedResponse['message'] ?? 'Failed to add product')),
-            );
-          }
-        } catch (decodeError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Failed to parse response from server')),
-          );
-        }
-      } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $error')),
-        );
-      }
-    }
   }
 }

@@ -153,16 +153,18 @@ class VendorMode extends StatelessWidget {
 
                 // Price information
                 ProductPriceInfoWidget(
-                    hasOffer: hasOffer,
-                    offerPrice: "₹${product.offerPrice?.toStringAsFixed(2)}",
-                    price: "₹${product.price.toStringAsFixed(2)}",
-                    onTap: () {
-                      deleteConfirmationHelepr(
-                          context: context,
-                          productId: product.id,
-                          productName: product.title,
-                          deleteConfirm: controller.deleteProduct);
-                    })
+                  hasOffer: hasOffer,
+                  offerPrice: "₹${product.offerPrice?.toStringAsFixed(2)}",
+                  price: "₹${product.price.toStringAsFixed(2)}",
+                  onTap: () {
+                    deleteConfirmationHelepr(
+                        context: context,
+                        productId: product.id,
+                        productName: product.title,
+                        deleteConfirm: controller.deleteProduct);
+                  },
+                  product: product,
+                )
               ],
             ),
           ),
