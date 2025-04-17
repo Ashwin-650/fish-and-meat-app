@@ -73,7 +73,7 @@ class Myhomepage extends StatelessWidget {
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(20),
                       child: BottomNavigationBar(
                         backgroundColor: Appcolor.bottomBarColor,
                         selectedItemColor: const Color(0xFFB0C4DE),

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   RxList<ProductDetails> items = RxList([]);
+  var isAddButtonClickedList = <bool>[].obs;
   final ScrollController _scrollController = Get.find();
 
   @override
@@ -30,6 +31,7 @@ class HomeController extends GetxController {
       items.value = productList
           .map((productJson) => ProductDetails.fromJson(productJson))
           .toList();
+      isAddButtonClickedList.value = List.generate(items.length, (_) => false);
     }
   }
 }
