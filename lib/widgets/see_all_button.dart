@@ -20,7 +20,7 @@ class SeeAllButton extends StatelessWidget {
             if (states.contains(WidgetState.pressed)) {
               return Appcolor.secondaryColor;
             }
-            return Appcolor.primaryColor;
+            return Appcolor.primaryColor.value;
           }),
           foregroundColor: const WidgetStatePropertyAll(Colors.black),
           shape: WidgetStatePropertyAll(

@@ -418,6 +418,33 @@ class ApiService {
     }
   }
 
+  static Future<dynamic> createPromoCode(
+      {required String token,
+      required String discountPercent,
+      required String minimumAmount,
+      required String expiryDate}) async {
+    try {
+      Map<String, dynamic> body = {
+        'discount': discountPercent,
+        'minAmount': minimumAmount,
+        'expiry': expiryDate,
+      };
+
+      final response = await http.post(
+        Uri.parse('${Globals.baseUrl}/promocodes'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token $token'
+        },
+        body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static Future<dynamic> verifyPromoCode({
     required String token,
     required String code,

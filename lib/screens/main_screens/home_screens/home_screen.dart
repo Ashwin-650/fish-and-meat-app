@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: Appfontsize.appBarHeadSize,
                       fontfamily: Appfonts.appFontFamily,
-                      color: Appcolor.primaryColor,
+                      color: Appcolor.primaryColor.value,
                     ),
                     'What would you like today?'.extenTextStyle(
                       fontSize: 14,
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.trending_up,
-                                  color: Appcolor.primaryColor),
+                                  color: Appcolor.primaryColor.value),
                               const SizedBox(width: 8),
                               'Top Selling Items'.extenTextStyle(
                                 fontSize: Appfontsize.headerFontSize,
@@ -168,7 +168,7 @@ class HomeScreen extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.set_meal,
-                                  color: Appcolor.primaryColor),
+                                  color: Appcolor.primaryColor.value),
                               const SizedBox(width: 8),
                               'Fish Categories'.extenTextStyle(
                                 fontSize: Appfontsize.headerFontSize,
@@ -199,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.restaurant_menu,
-                                  color: Appcolor.primaryColor),
+                                  color: Appcolor.primaryColor.value),
                               const SizedBox(width: 8),
                               'Meat Categories'.extenTextStyle(
                                 fontSize: Appfontsize.headerFontSize,

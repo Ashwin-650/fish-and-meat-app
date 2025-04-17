@@ -63,7 +63,7 @@ class ItemsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Appcolor.appbargroundColor,
         title: categoryPassed.extenTextStyle(
-          color: Appcolor.primaryColor,
+          color: Appcolor.primaryColor.value,
           fontfamily: Appfonts.appFontFamily,
           fontWeight: FontWeight.bold,
         ),

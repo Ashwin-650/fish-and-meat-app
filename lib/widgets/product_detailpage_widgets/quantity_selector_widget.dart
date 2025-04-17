@@ -28,7 +28,7 @@ class QuantitySelectorWidget extends StatelessWidget {
           const Text(
             'Quantity',
             style: TextStyle(
-              fontSize: Appfontsize.regular16,
+              fontSize: Appfontsize.medium18,
               fontWeight: FontWeight.bold,
               fontFamily: Appfonts.appFontFamily,
             ),

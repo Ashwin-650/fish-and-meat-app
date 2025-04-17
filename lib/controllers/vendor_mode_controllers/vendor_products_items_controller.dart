@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart ' as https;
 
-class VendorModeItemsController extends GetxController {
+class VendorProductsItemsController extends GetxController {
   RxList<ProductDetails> products = RxList([]);
   RxBool isLoading = true.obs;
   RxBool isDeleting = false.obs;
@@ -20,23 +20,17 @@ class VendorModeItemsController extends GetxController {
   }
 
   Future<void> fetchProducts() async {
-    print("FETCHING PRODUCTS...");
     String? token =
         await SharedPreferencesServices.getValue(Globals.apiToken, '');
 
     if (token == null) {
       isLoading.value = false;
-      print("No token found");
       return;
     }
 
     try {
-      print("Sending API request to getFromVendor...");
       final https.Response response =
           await ApiService.getFromVendor(token: token);
-      print("API response received");
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);

@@ -22,7 +22,7 @@ class CouponSectionWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.local_offer_outlined, color: Appcolor.primaryColor),
+          Icon(Icons.local_offer_outlined, color: Appcolor.primaryColor.value),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(

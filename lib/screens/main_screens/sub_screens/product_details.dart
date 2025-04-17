@@ -211,6 +211,9 @@ class ProductDetailPage extends StatelessWidget {
                                         controller.incrementQuantity(),
                                     text: controller.quantity.toString(),
                                   ),
+
+                                  const SizedBox(height: 25),
+
                                   // Expandable Description Section
                                   Container(
                                     decoration: BoxDecoration(
@@ -292,8 +295,6 @@ class ProductDetailPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-
-                                  const SizedBox(height: 25),
 
                                   const SizedBox(height: 25),
                                 ],
