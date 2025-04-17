@@ -8,7 +8,7 @@ class CouponSectionWidget extends StatelessWidget {
       required this.onTap,
       required this.onChanged,
       required this.textEditingController});
-  final Function onTap;
+  final Function() onTap;
   final Function onChanged;
   final TextEditingController textEditingController;
   @override
@@ -38,7 +38,7 @@ class CouponSectionWidget extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: () => onTap,
+            onPressed: onTap,
             style: ElevatedButton.styleFrom(
               backgroundColor: Appcolor.bottomBarColor,
               shape: RoundedRectangleBorder(

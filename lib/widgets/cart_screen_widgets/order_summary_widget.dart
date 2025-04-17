@@ -7,14 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderSummaryWidget extends StatelessWidget {
-  final String discount;
-  final String totalCheckOut;
+  final double discount;
+  final double totalAmount;
+  final int totalCheckOut;
+  final double roundOff;
   final bool couponApplied;
   OrderSummaryWidget(
       {super.key,
       required this.discount,
       required this.totalCheckOut,
-      required this.couponApplied});
+      required this.couponApplied,
+      required this.totalAmount,
+      required this.roundOff});
   final CartItemsListController _cartItemsListController = Get.find();
   final CheckoutPriceController _checkoutPriceController = Get.find();
 
@@ -39,7 +43,7 @@ class OrderSummaryWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -47,20 +51,6 @@ class OrderSummaryWidget extends StatelessWidget {
               Text(
                 "\$${_checkoutPriceController.totalCheckoutPrice.value}",
               ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //......error  _deliveryFee
-              //Text('Delivery Fee'),
-              // _deliveryFee > 0
-              //     ? Text(
-              //         '\$${_deliveryFee.toStringAsFixed(2)}')
-              //     : const Text('FREE',
-              //         style:
-              //             TextStyle(color: Colors.green)),
             ],
           ),
           const SizedBox(height: 8),
@@ -85,8 +75,20 @@ class OrderSummaryWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                'Discount'.extenTextStyle(color: Colors.green),
-                discount.extenTextStyle(color: Colors.green),
+                'Discount'.extenTextStyle(),
+                "-\$${discount.toStringAsFixed(2)}"
+                    .extenTextStyle(color: Colors.green),
+              ],
+            ),
+          ],
+          const SizedBox(height: 8),
+          if (roundOff > 0) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                'Round off'.extenTextStyle(),
+                "-\$${roundOff.toStringAsFixed(2)}"
+                    .extenTextStyle(color: Colors.green),
               ],
             ),
           ],
@@ -98,7 +100,7 @@ class OrderSummaryWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: Appfontsize.medium18,
               ),
-              totalCheckOut.extenTextStyle(
+              "\$$totalCheckOut.00".extenTextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: Appcolor.primaryColor,

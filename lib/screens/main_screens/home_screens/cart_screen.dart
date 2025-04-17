@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
+import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_screen_controller.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_address_bottom_sheet.dart';
@@ -27,13 +30,14 @@ class CartScreen extends StatelessWidget {
   final TextEditingController _textEditingController =
       (TextEditingController());
   final CheckoutPriceController _checkoutPriceController = Get.find();
+  final CartScreenController _cartScreenController =
+      Get.put(CartScreenController());
 
   final RxString _selectedLocation = 'Home'.obs;
   final RxString _selectedAddress =
       '123 Main St, Apt 4B, New York, NY 10001'.obs;
   final RxString _mobileNumber = '+1 (555) 123-4567'.obs;
   final RxBool _couponApplied = false.obs;
-  final RxDouble _discount = 0.0.obs;
   final Rx<DateTime> _deliveryDate =
       DateTime.now().add(const Duration(days: 1)).obs;
 
@@ -100,20 +104,24 @@ class CartScreen extends StatelessWidget {
       Get.snackbar(
         "Success",
         "Coupon applied successfully!",
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.black,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
+      final data = jsonDecode(response.body)["data"];
+      final discountPercent = data["discountPercentage"];
+      _cartScreenController.changeDiscount(discountPercent);
     } else {
+      _couponApplied.value = false;
+      final error = jsonDecode(response.body)["message"];
       Get.snackbar(
-        "Error",
-        "Invalid coupon code",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
+        "Failed",
+        error,
+        colorText: Colors.black,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
+      _cartScreenController.changeDiscount(0);
     }
   }
 
@@ -265,10 +273,48 @@ class CartScreen extends StatelessWidget {
 
                             // Order Summary
                             OrderSummaryWidget(
-                                discount: '-\$${_discount.toStringAsFixed(2)}',
-                                totalCheckOut:
-                                    "\$${_checkoutPriceController.totalCheckoutPrice.value}",
-                                couponApplied: _couponApplied.value),
+                              discount:
+                                  (_cartScreenController.discountPercent.value /
+                                          100) *
+                                      _checkoutPriceController
+                                          .totalCheckoutPrice.value,
+                              totalAmount: _checkoutPriceController
+                                  .totalCheckoutPrice.value,
+                              couponApplied: _couponApplied.value,
+                              totalCheckOut:
+                                  (_cartScreenController.discountPercent.value /
+                                                  100) *
+                                              _checkoutPriceController
+                                                  .totalCheckoutPrice.value >
+                                          0
+                                      ? (_checkoutPriceController
+                                                  .totalCheckoutPrice.value -
+                                              (_cartScreenController
+                                                          .discountPercent
+                                                          .value /
+                                                      100) *
+                                                  _checkoutPriceController
+                                                      .totalCheckoutPrice.value)
+                                          .truncate()
+                                      : _checkoutPriceController
+                                          .totalCheckoutPrice.value
+                                          .truncate(),
+                              roundOff: ((_checkoutPriceController
+                                          .totalCheckoutPrice.value -
+                                      (_cartScreenController
+                                                  .discountPercent.value /
+                                              100) *
+                                          _checkoutPriceController
+                                              .totalCheckoutPrice.value)) -
+                                  ((_checkoutPriceController
+                                              .totalCheckoutPrice.value -
+                                          (_cartScreenController
+                                                      .discountPercent.value /
+                                                  100) *
+                                              _checkoutPriceController
+                                                  .totalCheckoutPrice.value))
+                                      .truncateToDouble(),
+                            ),
                           ],
                         ),
                       ),

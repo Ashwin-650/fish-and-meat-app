@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fish_and_meat_app/constants/appcolor.dart';
+import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
@@ -8,6 +9,7 @@ import 'package:fish_and_meat_app/controllers/my_home_page_controllers/home_page
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/orderscreen_controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
+import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/order_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
@@ -76,7 +78,7 @@ class Myhomepage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       child: BottomNavigationBar(
                         backgroundColor: Appcolor.bottomBarColor,
-                        selectedItemColor: const Color(0xFFB0C4DE),
+                        selectedItemColor: Appcolor.secondaryColor,
                         unselectedItemColor: Colors.white,
                         type: BottomNavigationBarType.fixed,
                         currentIndex:
@@ -132,11 +134,41 @@ class Myhomepage extends StatelessWidget {
                                   : FluentIcons.search_24_regular),
                               label: 'Search'),
                           BottomNavigationBarItem(
-                            icon: Icon(_homePageIndexController
-                                        .selectedPageIndex.value ==
-                                    2
-                                ? FluentIcons.cart_24_filled
-                                : FluentIcons.cart_24_regular),
+                            icon: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Icon(
+                                  _homePageIndexController
+                                              .selectedPageIndex.value ==
+                                          2
+                                      ? FluentIcons.cart_24_filled
+                                      : FluentIcons.cart_24_regular,
+                                ),
+                                _cartItemsListController.cartItems.isNotEmpty
+                                    ? Positioned(
+                                        top: -4,
+                                        right: -6,
+                                        child: Container(
+                                          width: 20,
+                                          height: 20,
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xFFFA8072),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Center(
+                                            child:
+                                                "${_cartItemsListController.cartItems.length}"
+                                                    .extenTextStyle(
+                                              fontSize: Appfontsize.xsmall12,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            ),
                             label: 'Cart',
                           ),
                           BottomNavigationBarItem(
