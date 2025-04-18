@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/shared_preferences_services.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,7 @@ class ProductAddVendorController extends GetxController {
   Rxn<File> pickedImage = Rxn<File>();
 // Use RxList to make it reactive
   RxList<String> availableLocations = <String>[].obs;
-  RxBool isEditing = false.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  Rxn<ProductDetails> seletedProduct = Rxn<ProductDetails>();
 
   // Method to add a pincode to the list
   void addPincode(String pincode) {

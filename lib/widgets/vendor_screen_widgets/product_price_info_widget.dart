@@ -1,24 +1,27 @@
 import 'package:fish_and_meat_app/constants/appfonts.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/product_add_vendor_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
-import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 
 class ProductPriceInfoWidget extends StatelessWidget {
-  const ProductPriceInfoWidget(
-      {super.key,
-      required this.hasOffer,
-      required this.offerPrice,
-      required this.price,
-      required this.onTap,
-      required this.product});
+  ProductPriceInfoWidget({
+    super.key,
+    required this.hasOffer,
+    required this.offerPrice,
+    required this.price,
+    required this.onTap,
+    this.product,
+  });
   final bool hasOffer;
   final String offerPrice;
   final String price;
   final Function onTap;
-  final ProductDetails product;
+  final ProductDetails? product;
+  final ProductAddVendorController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -45,9 +48,13 @@ class ProductPriceInfoWidget extends StatelessWidget {
           ),
         const Spacer(),
         IconButton(
-          icon: const Icon(Icons.edit, color: Colors.blue),
-          onPressed: () => Get.to(ProductAddVendor(), arguments: product),
-        ),
+            icon: const Icon(Icons.edit, color: Colors.blue),
+            onPressed: () {
+              controller.seletedProduct.value = product;
+              Get.to(
+                ProductAddVendor(),
+              );
+            }),
         IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () => onTap()),

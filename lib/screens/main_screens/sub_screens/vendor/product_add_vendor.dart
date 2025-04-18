@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/product_add_vendor_controller.dart';
-import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:fish_and_meat_app/widgets/custom_combo_box.dart';
 import 'package:fish_and_meat_app/widgets/custom_text_field.dart';
@@ -11,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductAddVendor extends StatelessWidget {
-  ProductAddVendor({super.key, this.product});
-
-  final ProductDetails? product;
+  ProductAddVendor({
+    super.key,
+  });
 
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
@@ -50,6 +49,16 @@ class ProductAddVendor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedPro = controller.seletedProduct.value;
+    if (selectedPro != null) {
+      _titleController.text = selectedPro.title;
+      _descriptionController.text = selectedPro.description;
+      _priceController.text = selectedPro.price.toString();
+      _offerPriceController.text = selectedPro.offerPrice.toString();
+      _stockController.text = selectedPro.stock.toString();
+      controller.availableLocations.value =
+          selectedPro.availability.map((e) => e.toString()).toList();
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Product'),
