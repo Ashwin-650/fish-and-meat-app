@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:fish_and_meat_app/constants/globals.dart';
+
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:http_parser/http_parser.dart';
+
+Map<String, String> baseJsonHeader(String token) =>
+    {'Content-Type': 'application/json', 'Authorization': 'token $token'};
 
 class ApiService {
   ApiService();
@@ -111,10 +115,7 @@ class ApiService {
 
       final response = await http.put(
         Uri.parse('${Globals.baseUrl}/users'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
         body: json.encode(body),
       );
 
@@ -128,13 +129,8 @@ class ApiService {
     required String token,
   }) async {
     try {
-      final response = await http.get(
-        Uri.parse('${Globals.baseUrl}/users'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
-      );
+      final response = await http.get(Uri.parse('${Globals.baseUrl}/users'),
+          headers: baseJsonHeader(token));
 
       return response;
     } catch (error) {
@@ -152,13 +148,9 @@ class ApiService {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse(
-            '${Globals.baseUrl}/products?search=$query&price=$price&category=$category&limit=$limit&cursor=$cursor'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
-      );
+          Uri.parse(
+              '${Globals.baseUrl}/products?search=$query&price=$price&category=$category&limit=$limit&cursor=$cursor'),
+          headers: baseJsonHeader(token));
 
       return response;
     } catch (error) {
@@ -185,10 +177,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/carts'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
         body: json.encode(body),
       );
 
@@ -205,10 +194,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/carts/$id/increase'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -223,10 +209,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/carts'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -242,10 +225,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/carts/$id/decrease'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -274,10 +254,7 @@ class ApiService {
 
       final response = http.post(
         Uri.parse('${Globals.baseUrl}/vendor/apply'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
         body: json.encode(body),
       );
 
@@ -294,10 +271,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/vendor/status'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -350,10 +324,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/products/user'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -372,10 +343,7 @@ class ApiService {
       final response = await http.get(
         Uri.parse(
             '${Globals.baseUrl}/products?category=$category&limit=$limit&cursor=$cursor'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -389,10 +357,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/products/$id'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -406,10 +371,21 @@ class ApiService {
     try {
       final response = await http.delete(
         Uri.parse('${Globals.baseUrl}/products/$id'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> deleteCartItem(
+      {required String token, required String id}) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${Globals.baseUrl}/carts/$id'),
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -456,10 +432,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/promocodes/verify'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
         body: json.encode(body),
       );
 
@@ -473,10 +446,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/orders'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
       );
 
       return response;
@@ -502,10 +472,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/checkout'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: baseJsonHeader(token),
         body: json.encode(body),
       );
 

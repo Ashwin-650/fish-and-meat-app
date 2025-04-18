@@ -1,10 +1,12 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/selected_category_controller.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/product_add_vendor_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomComboBox extends StatelessWidget {
+  final ProductAddVendorController controller = Get.find();
   final String label;
-  final SelectedCategoryController selectedCategoryController;
+  final ProductAddVendorController selectedCategoryController;
   CustomComboBox({
     super.key,
     required this.label,

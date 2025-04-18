@@ -1,6 +1,10 @@
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/product_add_vendor.dart';
+import 'package:fish_and_meat_app/screens/main_screens/sub_screens/vendor/vendor_signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class ProductPriceInfoWidget extends StatelessWidget {
   const ProductPriceInfoWidget(
@@ -8,11 +12,13 @@ class ProductPriceInfoWidget extends StatelessWidget {
       required this.hasOffer,
       required this.offerPrice,
       required this.price,
-      required this.onTap});
+      required this.onTap,
+      required this.product});
   final bool hasOffer;
   final String offerPrice;
   final String price;
   final Function onTap;
+  final ProductDetails product;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -40,7 +46,7 @@ class ProductPriceInfoWidget extends StatelessWidget {
         const Spacer(),
         IconButton(
           icon: const Icon(Icons.edit, color: Colors.blue),
-          onPressed: () {},
+          onPressed: () => Get.to(ProductAddVendor(), arguments: product),
         ),
         IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),

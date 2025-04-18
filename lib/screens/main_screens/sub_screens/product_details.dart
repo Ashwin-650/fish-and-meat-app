@@ -1,7 +1,6 @@
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/product_detailpage_controller/product_detailpage_controller.dart';
-import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/widgets/product_detailpage_widgets/quantity_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

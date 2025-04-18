@@ -9,8 +9,8 @@ import 'package:fish_and_meat_app/widgets/vendor_screen_widgets/product_price_in
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VendorProducts extends StatelessWidget {
-  VendorProducts({super.key});
+class VendorMode extends StatelessWidget {
+  VendorMode({super.key});
 
   final VendorProductsItemsController controller =
       Get.put(VendorProductsItemsController());

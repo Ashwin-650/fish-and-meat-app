@@ -12,8 +12,8 @@ class SettingsScreen extends StatelessWidget {
   final List<Color> colors = [
     const Color(0xFF8E4585),
     Colors.teal,
-    Colors.amber,
-    Colors.indigo,
+    Colors.brown.shade300,
+    Colors.indigo.shade300,
   ];
 
   @override
