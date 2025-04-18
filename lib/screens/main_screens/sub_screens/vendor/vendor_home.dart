@@ -45,7 +45,7 @@ class VendorHome extends StatelessWidget {
                     case 'My Products':
                       Get.to(() => VendorProducts());
                     case 'Promo Codes':
-                      Get.to(() => const VendorPromoCodes());
+                      Get.to(() => VendorPromoCodes());
                       break;
                   }
                 },

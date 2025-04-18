@@ -1,3 +1,4 @@
+import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/vendor_mode_controllers/vendor_products_items_controller.dart';
@@ -24,6 +25,7 @@ class VendorProducts extends StatelessWidget {
         : 0.0;
 
     return Card(
+      color: Appcolor.primaryColor.value.withAlpha(75),
       elevation: 5,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
