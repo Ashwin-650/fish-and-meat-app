@@ -1,18 +1,24 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
-import 'package:fish_and_meat_app/constants/appfontsize.dart';
-import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CustomDateFieldWidget extends StatelessWidget {
-  const CustomDateFieldWidget(
-      {super.key, required this.ontap, required this.deliveryDate});
+  const CustomDateFieldWidget({
+    super.key,
+    required this.ontap,
+    required this.initialDate,
+    required this.text,
+    this.icon,
+  });
   final Function() ontap;
-  final DateTime deliveryDate;
+  final DateTime? initialDate;
+  final Widget text;
+  final Icon? icon;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Appcolor.itemBackColor,
         borderRadius: BorderRadius.circular(15),
@@ -22,31 +28,30 @@ class CustomDateFieldWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.schedule, color: Appcolor.primaryColor.value),
+              if (icon != null) icon!,
               const SizedBox(width: 8),
-              'Schedule Your Delivery'.extenTextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: Appfontsize.regular16,
-              ),
+              text,
             ],
           ),
           const SizedBox(height: 12),
           InkWell(
+            borderRadius: BorderRadius.circular(20),
             onTap: ontap,
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 12,
-                vertical: 8,
+                vertical: 12,
               ),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[400]!),
-                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[300]!),
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    DateFormat('MMM dd, yyyy').format(deliveryDate),
+                    DateFormat('MMM dd, yyyy').format(initialDate!),
                   ),
                   Icon(
                     Icons.calendar_today,

@@ -16,11 +16,11 @@ class SignupPage extends StatelessWidget {
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
-  final SignupController _SignupController = Get.put(SignupController());
+  final SignupController _signupController = Get.put(SignupController());
 
   void _signupPressed() async {
     if (_signupFormKey.currentState?.validate() ?? false) {
-      if (_SignupController.isConditionsAgreed.value) {
+      if (_signupController.isConditionsAgreed.value) {
         final response = await ApiService.registerAccount(
           _fullnameController.text,
           _emailController.text,
@@ -131,9 +131,9 @@ class SignupPage extends StatelessWidget {
                     width: 24,
                     child: Obx(
                       () => Checkbox(
-                        value: _SignupController.isConditionsAgreed.value,
+                        value: _signupController.isConditionsAgreed.value,
                         onChanged: (value) {
-                          _SignupController.isConditionsAgreed.value = value!;
+                          _signupController.isConditionsAgreed.value = value!;
                         },
                       ),
                     ),
