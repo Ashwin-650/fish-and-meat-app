@@ -22,103 +22,98 @@ class TopSelling extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Get.to(() => ProductDetailPage());
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Appcolor.backgroundColor,
-          ),
-          width: 150,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Container(
-                      height: 130,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: Colors.grey),
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            "${Globals.imagePath}\\${controller.items[index].image}",
-                          ),
-                          fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Appcolor.backgroundColor,
+        ),
+        width: 150,
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    height: 130,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          "${Globals.imagePath}\\${controller.items[index].image}",
                         ),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                  controller.items[index].title.extenTextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: Appfontsize.medium18,
-                      textAlign: TextAlign.center)
-                ],
-              ),
-              Positioned(
-                top: 30,
-                right: 5,
-                child: Obx(() {
-                  // final buttonText = _cartItemsListController.cartItems.any(
-                  //         (item) => item.productId == controller.items[index].id)
-                  //     ? "Added"
-                  //     : "Add";
-                  // final color = _cartItemsListController.cartItems.any(
-                  //         (item) => item.productId == controller.items[index].id)
-                  //     ? Appcolor.secondaryColor
-                  //     : Appcolor.primaryColor;
-                  // return ElevatedButton(
-                  //   onPressed: _cartItemsListController.cartItems.any((item) =>
-                  //           item.productId == controller.items[index].id)
-                  //       ? null
-                  //       : _addToCart,
-                  //   style: ButtonStyle(
-                  //     backgroundColor: WidgetStatePropertyAll(color),
-                  //     foregroundColor: const WidgetStatePropertyAll(Colors.white),
-                  //   ),
-                  //   child: buttonText.extenTextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: Appfontsize.medium18,
-                  //     fontWeight: FontWeight.bold,
-                  //     fontfamily: Appfonts.appFontFamily,
-                  //   ),
-                  // );
-                  final cartItemIndex = _cartItemsListController.cartItems
-                      .indexWhere((item) =>
-                          item.productId == controller.items[index].id);
-                  return AddToCart(
-                    value: cartItemIndex >= 0
-                        ? _cartItemsListController
-                                .cartItems[cartItemIndex].quantity ??
-                            0
-                        : 0,
-                    onIncrement: (newValue) async {
-                      await _addToCart();
-                    },
-                    onDecrement: (newValue) async {
-                      await _removeFromCart(
-                          _cartItemsListController.cartItems[cartItemIndex].id);
-                    },
-                    maxValue: controller.items[index].stock!,
-                    width: 80,
-                    height: 40,
-                    initialBoxDecoration: BoxDecoration(
-                        color: Appcolor.primaryColor.value,
-                        borderRadius: BorderRadius.circular(15)),
-                    counterBoxDecoration: BoxDecoration(
-                        color: Appcolor.secondaryColor,
-                        borderRadius: BorderRadius.circular(15)),
-                  );
-                }),
-              ),
-            ],
-          ),
+                ),
+                controller.items[index].title.extenTextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: Appfontsize.medium18,
+                    textAlign: TextAlign.center)
+              ],
+            ),
+            Positioned(
+              top: 30,
+              right: 5,
+              child: Obx(() {
+                // final buttonText = _cartItemsListController.cartItems.any(
+                //         (item) => item.productId == controller.items[index].id)
+                //     ? "Added"
+                //     : "Add";
+                // final color = _cartItemsListController.cartItems.any(
+                //         (item) => item.productId == controller.items[index].id)
+                //     ? Appcolor.secondaryColor
+                //     : Appcolor.primaryColor;
+                // return ElevatedButton(
+                //   onPressed: _cartItemsListController.cartItems.any((item) =>
+                //           item.productId == controller.items[index].id)
+                //       ? null
+                //       : _addToCart,
+                //   style: ButtonStyle(
+                //     backgroundColor: WidgetStatePropertyAll(color),
+                //     foregroundColor: const WidgetStatePropertyAll(Colors.white),
+                //   ),
+                //   child: buttonText.extenTextStyle(
+                //     color: Colors.white,
+                //     fontSize: Appfontsize.medium18,
+                //     fontWeight: FontWeight.bold,
+                //     fontfamily: Appfonts.appFontFamily,
+                //   ),
+                // );
+                final cartItemIndex = _cartItemsListController.cartItems
+                    .indexWhere(
+                        (item) => item.productId == controller.items[index].id);
+                return AddToCart(
+                  value: cartItemIndex >= 0
+                      ? _cartItemsListController
+                              .cartItems[cartItemIndex].quantity ??
+                          0
+                      : 0,
+                  onIncrement: (newValue) async {
+                    await _addToCart();
+                  },
+                  onDecrement: (newValue) async {
+                    await _removeFromCart(
+                        _cartItemsListController.cartItems[cartItemIndex].id);
+                  },
+                  maxValue: controller.items[index].stock!,
+                  width: 80,
+                  height: 40,
+                  initialBoxDecoration: BoxDecoration(
+                      color: Appcolor.primaryColor.value,
+                      borderRadius: BorderRadius.circular(15)),
+                  counterBoxDecoration: BoxDecoration(
+                      color: Appcolor.secondaryColor,
+                      borderRadius: BorderRadius.circular(15)),
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );

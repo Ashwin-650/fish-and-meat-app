@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:http_parser/http_parser.dart';
 
-Map<String, String> baseJsonHeader(String token) =>
-    {'Content-Type': 'application/json', 'Authorization': 'token $token'};
-
 class ApiService {
-  ApiService();
+  static const header = {
+    'Content-Type': 'application/json',
+  };
+  static Map<String, String> headerWithToken(String token) =>
+      {'Content-Type': 'application/json', 'Authorization': 'token $token'};
 
   static Future<dynamic> registerAccount(
       String fullname, String email, String number) async {
@@ -23,9 +24,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/auth/register'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: header,
         body: json.encode(body),
       );
 
@@ -45,9 +44,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/auth/login'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: header,
         body: json.encode(body),
       );
 
@@ -70,9 +67,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/auth/verify'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: header,
         body: json.encode(body),
       );
 
@@ -92,9 +87,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/auth/resend'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: header,
         body: json.encode(body),
       );
 
@@ -115,7 +108,7 @@ class ApiService {
 
       final response = await http.put(
         Uri.parse('${Globals.baseUrl}/users'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
         body: json.encode(body),
       );
 
@@ -130,7 +123,7 @@ class ApiService {
   }) async {
     try {
       final response = await http.get(Uri.parse('${Globals.baseUrl}/users'),
-          headers: baseJsonHeader(token));
+          headers: headerWithToken(token));
 
       return response;
     } catch (error) {
@@ -150,7 +143,7 @@ class ApiService {
       final response = await http.get(
           Uri.parse(
               '${Globals.baseUrl}/products?search=$query&price=$price&category=$category&limit=$limit&cursor=$cursor'),
-          headers: baseJsonHeader(token));
+          headers: headerWithToken(token));
 
       return response;
     } catch (error) {
@@ -177,7 +170,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/carts'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
         body: json.encode(body),
       );
 
@@ -194,7 +187,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/carts/$id/increase'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -209,7 +202,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/carts'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -225,7 +218,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/carts/$id/decrease'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -254,7 +247,7 @@ class ApiService {
 
       final response = http.post(
         Uri.parse('${Globals.baseUrl}/vendor/apply'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
         body: json.encode(body),
       );
 
@@ -271,7 +264,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/vendor/status'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -324,7 +317,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/products/user'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -343,7 +336,7 @@ class ApiService {
       final response = await http.get(
         Uri.parse(
             '${Globals.baseUrl}/products?category=$category&limit=$limit&cursor=$cursor'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -357,7 +350,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/products/$id'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -371,7 +364,7 @@ class ApiService {
     try {
       final response = await http.delete(
         Uri.parse('${Globals.baseUrl}/products/$id'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -385,7 +378,7 @@ class ApiService {
     try {
       final response = await http.delete(
         Uri.parse('${Globals.baseUrl}/carts/$id'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -408,11 +401,49 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/promocodes'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'token $token'
-        },
+        headers: headerWithToken(token),
         body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> updatePromoCode(
+      {required String token,
+      required String promoId,
+      required String discountPercent,
+      required String minimumAmount,
+      required String expiryDate}) async {
+    try {
+      Map<String, dynamic> body = {
+        'discount': discountPercent,
+        'minAmount': minimumAmount,
+        'expiry': expiryDate,
+      };
+
+      final response = await http.put(
+        Uri.parse('${Globals.baseUrl}/promocodes/$promoId'),
+        headers: headerWithToken(token),
+        body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> deletePromoCode({
+    required String token,
+    required String promoId,
+  }) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${Globals.baseUrl}/promocodes/$promoId'),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -432,8 +463,21 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/promocodes/verify'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
         body: json.encode(body),
+      );
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static Future<dynamic> getPromoCodes({required String token}) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${Globals.baseUrl}/promocodes'),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -446,7 +490,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse('${Globals.baseUrl}/orders'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
       );
 
       return response;
@@ -472,7 +516,7 @@ class ApiService {
 
       final response = await http.post(
         Uri.parse('${Globals.baseUrl}/checkout'),
-        headers: baseJsonHeader(token),
+        headers: headerWithToken(token),
         body: json.encode(body),
       );
 

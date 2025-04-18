@@ -273,8 +273,15 @@ class CartScreen extends StatelessWidget {
 
                             // Scheduling Section
                             CustomDateFieldWidget(
-                                ontap: () => _showDatePickerDialog(context),
-                                deliveryDate: _deliveryDate.value),
+                              ontap: () => _showDatePickerDialog(context),
+                              initialDate: _deliveryDate.value,
+                              text: 'Schedule Your Delivery'.extenTextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Appfontsize.regular16,
+                              ),
+                              icon: Icon(Icons.schedule,
+                                  color: Appcolor.primaryColor.value),
+                            ),
                             const SizedBox(height: 16),
 
                             // Address Section
