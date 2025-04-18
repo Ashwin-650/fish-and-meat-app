@@ -12,6 +12,12 @@ class ProductAddVendorController extends GetxController {
   Rxn<File> pickedImage = Rxn<File>();
 // Use RxList to make it reactive
   RxList<String> availableLocations = <String>[].obs;
+  RxBool isEditing = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   // Method to add a pincode to the list
   void addPincode(String pincode) {

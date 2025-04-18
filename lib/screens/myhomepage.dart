@@ -4,13 +4,11 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
-import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/controllers/my_home_page_controllers/home_page_index_controller.dart';
 import 'package:fish_and_meat_app/controllers/nav_bar_controller.dart';
 import 'package:fish_and_meat_app/controllers/orderscreen_controllers/orders_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/visibility_button_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
-import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/order_details.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/cart_screen.dart';
 import 'package:fish_and_meat_app/screens/main_screens/home_screens/home_screen.dart';
@@ -32,8 +30,6 @@ class Myhomepage extends StatelessWidget {
   final NavBarController _navBarController = Get.put(NavBarController());
   final VisibilityButtonController _visibilityButtonController =
       Get.put(VisibilityButtonController());
-  final CheckoutPriceController _checkoutPriceController =
-      Get.put(CheckoutPriceController());
   final HomePageIndexController _homePageIndexController =
       Get.put(HomePageIndexController());
 
@@ -86,11 +82,7 @@ class Myhomepage extends StatelessWidget {
                         onTap: (value) async {
                           _homePageIndexController.switchIndex(value);
                           if (value == 2) {
-                            getItemFromCart(
-                                cartItemsListController:
-                                    _cartItemsListController,
-                                checkoutPriceController:
-                                    _checkoutPriceController);
+                            _cartItemsListController.getItemFromCart();
                           } else if (value == 3) {
                             final response = await ApiService.getOrders(
                                 token: await Globals.loginToken);

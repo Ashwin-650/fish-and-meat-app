@@ -6,12 +6,11 @@ import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_screen_controller.dart';
-import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
 import 'package:fish_and_meat_app/extentions/text_extention.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_address_bottom_sheet.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_location_bottom_sheet.dart';
 import 'package:fish_and_meat_app/helpers/carts/show_mobile_edit_bottom_sheet.dart';
-import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
+
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:fish_and_meat_app/utils/razorpay_services.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/address_section_widget.dart';
@@ -19,7 +18,7 @@ import 'package:fish_and_meat_app/widgets/cart_screen_widgets/cart_item_widget.d
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/coupon_section_widget.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/order_summary_widget.dart';
 import 'package:fish_and_meat_app/widgets/cart_screen_widgets/placeorder_button_widget.dart';
-import 'package:fish_and_meat_app/widgets/cart_screen_widgets/scheduling_section_widget.dart';
+import 'package:fish_and_meat_app/widgets/custom_date_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -30,7 +29,6 @@ class CartScreen extends StatelessWidget {
   final CartItemsListController _cartItemsListController = Get.find();
   final TextEditingController _textEditingController =
       (TextEditingController());
-  final CheckoutPriceController _checkoutPriceController = Get.find();
   final CartScreenController _cartScreenController =
       Get.put(CartScreenController());
 
@@ -129,7 +127,7 @@ class CartScreen extends StatelessWidget {
   void _placeOrder() async {
     ApiService.checkoutCart(
         token: await Globals.loginToken,
-        amount: _checkoutPriceController.totalCheckoutPrice.value.toString(),
+        amount: _cartItemsListController.totalCheckoutPrice.value.toString(),
         address: "address",
         pincode: 673003,
         preOrder: "preOrder");
@@ -144,7 +142,7 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Appcolor.appbargroundColor,
         title: 'Cart'.extenTextStyle(
-            color: Appcolor.primaryColor,
+            color: Appcolor.primaryColor.value,
             fontSize: Appfontsize.appBarHeadSize,
             fontfamily: Appfonts.appFontFamily,
             fontWeight: FontWeight.bold),
@@ -158,7 +156,7 @@ class CartScreen extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.location_on,
-                    color: Appcolor.primaryColor,
+                    color: Appcolor.primaryColor.value,
                   ),
                   const SizedBox(width: 4),
                   _selectedLocation.value.extenTextStyle(
@@ -172,8 +170,13 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Obx(
-        () => _cartItemsListController.cartItems.isEmpty
+      body: Obx(() {
+        final price = _cartItemsListController.totalCheckoutPrice.value;
+        final discount =
+            (_cartScreenController.discountPercent.value / 100) * price;
+        final finalPrice = price - discount;
+
+        return _cartItemsListController.cartItems.isEmpty
             ? Center(
                 child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -224,11 +227,7 @@ class CartScreen extends StatelessWidget {
                                 _cartItemsListController.cartItems.removeWhere(
                                     (element) => element.id == item.id);
                                 _cartItemsListController.update();
-                                getItemFromCart(
-                                    cartItemsListController:
-                                        _cartItemsListController,
-                                    checkoutPriceController:
-                                        _checkoutPriceController);
+                                _cartItemsListController.getItemFromCart();
                                 Get.showSnackbar(const GetSnackBar(
                                   message: 'removed successfull',
                                   duration: Duration(seconds: 3),
@@ -273,7 +272,7 @@ class CartScreen extends StatelessWidget {
                             const SizedBox(height: 16),
 
                             // Scheduling Section
-                            SchedulingSectionWidget(
+                            CustomDateFieldWidget(
                                 ontap: () => _showDatePickerDialog(context),
                                 deliveryDate: _deliveryDate.value),
                             const SizedBox(height: 16),
@@ -290,47 +289,12 @@ class CartScreen extends StatelessWidget {
 
                             // Order Summary
                             OrderSummaryWidget(
-                              discount:
-                                  (_cartScreenController.discountPercent.value /
-                                          100) *
-                                      _checkoutPriceController
-                                          .totalCheckoutPrice.value,
-                              totalAmount: _checkoutPriceController
-                                  .totalCheckoutPrice.value,
+                              discount: discount,
+                              totalAmount: price,
                               couponApplied: _couponApplied.value,
-                              totalCheckOut:
-                                  (_cartScreenController.discountPercent.value /
-                                                  100) *
-                                              _checkoutPriceController
-                                                  .totalCheckoutPrice.value >
-                                          0
-                                      ? (_checkoutPriceController
-                                                  .totalCheckoutPrice.value -
-                                              (_cartScreenController
-                                                          .discountPercent
-                                                          .value /
-                                                      100) *
-                                                  _checkoutPriceController
-                                                      .totalCheckoutPrice.value)
-                                          .truncate()
-                                      : _checkoutPriceController
-                                          .totalCheckoutPrice.value
-                                          .truncate(),
-                              roundOff: ((_checkoutPriceController
-                                          .totalCheckoutPrice.value -
-                                      (_cartScreenController
-                                                  .discountPercent.value /
-                                              100) *
-                                          _checkoutPriceController
-                                              .totalCheckoutPrice.value)) -
-                                  ((_checkoutPriceController
-                                              .totalCheckoutPrice.value -
-                                          (_cartScreenController
-                                                      .discountPercent.value /
-                                                  100) *
-                                              _checkoutPriceController
-                                                  .totalCheckoutPrice.value))
-                                      .truncateToDouble(),
+                              totalCheckOut: finalPrice.truncate(),
+                              roundOff:
+                                  finalPrice - finalPrice.truncateToDouble(),
                             ),
                           ],
                         ),
@@ -343,8 +307,8 @@ class CartScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-      ),
+              );
+      }),
     );
   }
 }

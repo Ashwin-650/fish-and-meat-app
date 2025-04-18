@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/product_add_vendor_controller.dart';
+import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/widgets/common_button.dart';
 import 'package:fish_and_meat_app/widgets/custom_combo_box.dart';
 import 'package:fish_and_meat_app/widgets/custom_text_field.dart';
@@ -10,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductAddVendor extends StatelessWidget {
-  ProductAddVendor({super.key});
+  ProductAddVendor({super.key, this.product});
+
+  final ProductDetails? product;
 
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();

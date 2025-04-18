@@ -31,7 +31,7 @@ class AddressSectionWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.location_on, color: Appcolor.primaryColor),
+                  Icon(Icons.location_on, color: Appcolor.primaryColor.value),
                   const SizedBox(width: 8),
                   'Delivery Address'.extenTextStyle(
                     fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class AddressSectionWidget extends StatelessWidget {
                 // _showAddressEditBottomSheet
                 ,
                 child: 'Change'.extenTextStyle(
-                  color: Appcolor.primaryColor,
+                  color: Appcolor.primaryColor.value,
                 ),
               ),
             ],
@@ -62,7 +62,7 @@ class AddressSectionWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.phone, color: Appcolor.primaryColor),
+                  Icon(Icons.phone, color: Appcolor.primaryColor.value),
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +82,7 @@ class AddressSectionWidget extends StatelessWidget {
               TextButton(
                 onPressed: onTapMobile,
                 child: 'Change'.extenTextStyle(
-                  color: Appcolor.primaryColor,
+                  color: Appcolor.primaryColor.value,
                 ),
               )
             ],

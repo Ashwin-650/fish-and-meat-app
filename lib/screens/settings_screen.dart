@@ -21,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: "Settings".extenTextStyle(
-          color: Appcolor.primaryColor,
+          color: Appcolor.primaryColor.value,
           fontfamily: Appfonts.appFontFamily,
           fontWeight: FontWeight.bold,
         ),
@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () async {
                         await SharedPreferencesServices.setValue(
                             "AccentColor", color.colorHexString());
-                        Appcolor.primaryColor = color;
+                        Appcolor.primaryColor.value = color;
                       },
                       child: Container(
                         width: 50,

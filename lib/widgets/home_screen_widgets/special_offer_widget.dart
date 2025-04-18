@@ -12,7 +12,7 @@ class SpecialOfferWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Appcolor.primaryColor, const Color(0xFF5D8AA8)],
+          colors: [Appcolor.primaryColor.value, const Color(0xFF5D8AA8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -45,7 +45,7 @@ class SpecialOfferWidget extends StatelessWidget {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: Appcolor.primaryColor,
+                    foregroundColor: Appcolor.primaryColor.value,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

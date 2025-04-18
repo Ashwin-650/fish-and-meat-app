@@ -2,8 +2,6 @@ import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfontsize.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
 import 'package:fish_and_meat_app/controllers/cart_screen_controllers/cart_items_list_controller.dart';
-import 'package:fish_and_meat_app/controllers/cart_screen_controllers/checkout_price_controller.dart';
-import 'package:fish_and_meat_app/helpers/get_items_from_cart.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
 import 'package:fish_and_meat_app/utils/api_services.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,6 @@ class CartItemWidget extends StatelessWidget {
   final ProductDetails item;
   final VoidCallback? onDelete;
   CartItemWidget({super.key, required this.item, required this.onDelete});
-  final CheckoutPriceController _checkoutPriceController = Get.find();
   final CartItemsListController _cartItemsListController = Get.find();
 
   @override
@@ -118,11 +115,7 @@ class CartItemWidget extends StatelessWidget {
                                   token: token, id: item.id);
                               if (response != null &&
                                   response.statusCode == 200) {
-                                getItemFromCart(
-                                    cartItemsListController:
-                                        _cartItemsListController,
-                                    checkoutPriceController:
-                                        _checkoutPriceController);
+                                _cartItemsListController.getItemFromCart();
                               }
                             }),
                         Text(
@@ -143,16 +136,12 @@ class CartItemWidget extends StatelessWidget {
                                   token: token, id: item.id);
                               if (response != null &&
                                   response.statusCode == 200) {
-                                getItemFromCart(
-                                    cartItemsListController:
-                                        _cartItemsListController,
-                                    checkoutPriceController:
-                                        _checkoutPriceController);
+                                _cartItemsListController.getItemFromCart();
                               }
                             }),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
