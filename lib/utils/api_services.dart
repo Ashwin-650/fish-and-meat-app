@@ -273,6 +273,7 @@ class ApiService {
     }
   }
 
+// vendor product add
   static Future<dynamic> vendorProductAdd({
     required String token,
     required String title,
@@ -308,6 +309,87 @@ class ApiService {
       return responseData;
     } catch (error) {
       throw Exception('Failed to upload product: $error');
+    }
+  }
+
+  //vendor product edit
+  static Future<dynamic> vendorProductUpdate({
+    required String token,
+    required String productId, // New for update
+    required String title,
+    required String description,
+    required String price,
+    required String availability,
+    required String? category,
+    required String offerPrice,
+    required String stock,
+    required File image,
+  }) async {
+    final url = Uri.parse('${Globals.baseUrl}/products/$productId');
+
+    final request = http.MultipartRequest('PUT', url)
+      ..headers['Authorization'] = 'token $token'
+      ..fields['title'] = title
+      ..fields['description'] = description
+      ..fields['price'] = price
+      ..fields['availability'] = availability
+      ..fields['category'] = category!
+      ..fields['offerprice'] = offerPrice
+      ..fields['stock'] = stock;
+
+    try {
+      final file = await http.MultipartFile.fromPath(
+        'image',
+        image.path,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(file);
+
+      final response = await request.send();
+
+      final responseData = await http.Response.fromStream(response);
+
+      return responseData;
+    } catch (error) {
+      throw Exception('Failed to update product: $error');
+    }
+  }
+
+//vendor product edit no image
+  static Future<dynamic> vendorProductUpdateWithoutImage({
+    required String token,
+    required String productId,
+    required String title,
+    required String description,
+    required String price,
+    required String availability,
+    required String? category,
+    required String offerPrice,
+    required String stock,
+  }) async {
+    final url = Uri.parse('${Globals.baseUrl}/products/$productId');
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Authorization': 'token $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'title': title,
+          'description': description,
+          'price': price,
+          'availability': availability,
+          'category': category,
+          'offerprice': offerPrice,
+          'stock': stock,
+        }),
+      );
+
+      return response;
+    } catch (error) {
+      throw Exception('Failed to update product: $error');
     }
   }
 

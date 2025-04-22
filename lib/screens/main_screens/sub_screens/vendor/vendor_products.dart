@@ -1,6 +1,7 @@
 import 'package:fish_and_meat_app/constants/appcolor.dart';
 import 'package:fish_and_meat_app/constants/appfonts.dart';
 import 'package:fish_and_meat_app/constants/globals.dart';
+import 'package:fish_and_meat_app/controllers/product_details_screen_controllers/product_add_vendor_controller.dart';
 import 'package:fish_and_meat_app/controllers/vendor_mode_controllers/vendor_products_items_controller.dart';
 import 'package:fish_and_meat_app/helpers/vendor_profile/delete_confirm_helper.dart';
 import 'package:fish_and_meat_app/models/product_details.dart';
@@ -13,8 +14,10 @@ import 'package:get/get.dart';
 class VendorProducts extends StatelessWidget {
   VendorProducts({super.key});
 
-  final VendorProductsItemsController controller =
+  final VendorProductsItemsController vendorProductsItemsController =
       Get.put(VendorProductsItemsController());
+  final ProductAddVendorController controller =
+      Get.put(ProductAddVendorController());
 
   final GlobalKey<RefreshIndicatorState> _refreshKey = GlobalKey();
 
@@ -25,7 +28,7 @@ class VendorProducts extends StatelessWidget {
         : 0.0;
 
     return Card(
-      color: Appcolor.primaryColor.value.withAlpha(75),
+      color: Colors.white,
       elevation: 5,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -163,7 +166,8 @@ class VendorProducts extends StatelessWidget {
                         context: context,
                         productId: product.id,
                         productName: product.title,
-                        deleteConfirm: controller.deleteProduct);
+                        deleteConfirm:
+                            vendorProductsItemsController.deleteProduct);
                   },
                   product: product,
                 )
@@ -192,8 +196,8 @@ class VendorProducts extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              controller.isLoading.value = true;
-              controller.fetchProducts();
+              vendorProductsItemsController.isLoading.value = true;
+              vendorProductsItemsController.fetchProducts();
             },
           ),
           IconButton(
@@ -201,7 +205,7 @@ class VendorProducts extends StatelessWidget {
             onPressed: () async {
               final result = await Get.to(() => ProductAddVendor());
               if (result == true) {
-                controller.fetchProducts();
+                vendorProductsItemsController.fetchProducts();
               }
             },
           ),
@@ -212,20 +216,22 @@ class VendorProducts extends StatelessWidget {
           children: [
             RefreshIndicator(
               key: _refreshKey,
-              onRefresh: controller.fetchProducts,
-              child: controller.isLoading.value
+              onRefresh: vendorProductsItemsController.fetchProducts,
+              child: vendorProductsItemsController.isLoading.value
                   ? const Center(child: CircularProgressIndicator())
-                  : controller.products.isEmpty
+                  : vendorProductsItemsController.products.isEmpty
                       ? const Center(child: NoProductAddedWidget())
                       : ListView.builder(
                           padding: const EdgeInsets.only(
                               bottom: 80), // Space for FAB
-                          itemCount: controller.products.length,
+                          itemCount:
+                              vendorProductsItemsController.products.length,
                           itemBuilder: (context, index) => _buildProductCard(
-                              context, controller.products[index]),
+                              context,
+                              vendorProductsItemsController.products[index]),
                         ),
             ),
-            if (controller.isDeleting.value)
+            if (vendorProductsItemsController.isDeleting.value)
               Container(
                 color: Colors.black.withOpacity(0.3),
                 child: const Center(
