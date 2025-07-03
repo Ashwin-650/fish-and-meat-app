@@ -6,20 +6,23 @@ Features
 
 -> User Registration & Authentication
 
-Register, login, and manage user profiles with ease.
+    Register, login, and manage user profiles with ease.
+    
 -> Product Browsing
 
-Browse through a wide variety of fresh fish and meat items with detailed descriptions and images.
+    Browse through a wide variety of fresh fish and meat items with detailed descriptions and images.
+    
 -> Cart Management
 
-Add, remove, and update items in your shopping cart.
+    Add, remove, and update items in your shopping cart.
 -> Checkout Process
 
-Seamless checkout experience with multiple payment options.
+    Seamless checkout experience with multiple payment options.
+    
 -> Vendor Page
 
-Vendors can add thier products and manage inventory.
-
+    Vendors can add thier products and manage inventory.
+    
 Tech Stack
 - Frontend: Flutter
 - State Management: GetX
